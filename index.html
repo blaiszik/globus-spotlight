@@ -2,36 +2,19 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible"
-              content="IE=edge">
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1.0">
-        <meta name="description"
-              content="">
-        <meta name="author"
-              content=""><!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet"
-              href="./assets/bootstrap/css/bootstrap.css"><!-- Optional theme -->
-        <!-- Latest compiled and minified JavaScript -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content=""><!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css"><!-- Optional theme -->
 
-        <script src="./assets/bootstrap//js/bootstrap.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="./assets/ejs/ejs_production.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
-        <style>
-          #selectable .ui-selecting { background: #FECA40; }
-          #selectable .ui-selected { background: #F39814; color: white; }
-          #selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-          #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
-        </style>
+        <script src="./assets/bootstrap/js/bootstrap.min.js"></script> 
+        <script src="./assets/bootstrap/js/holder.js"></script>
         
-        
-        <title>
-            Globus Spotlight
-        </title>
+        <title> Globus Spotlight </title>
         
         <script type="text/javascript">
            $( document ).ready(function() {
@@ -87,7 +70,7 @@
 
                 
                 $.ajax({
-                   url: 'localhost:9200/endpoint_index/type/q='+$('#input-search').val(),
+                   url: 'http://localhost:9200/twitter/tweet/1',
                    success: function(data) {
                        console.log(data);
                    }
@@ -199,11 +182,6 @@
                             <label class="btn btn-default btn-radio">
                                 <input type="radio" name="options" id="option1"> Analyze
                             </label>
-                           <!--
- <a id="btn-transfer" class="btn btn-primary active">Transfer</a>
-                            <a href="" id="btn-tag" class="btn btn-default">Tag</a>
-                            <a href="" id="btn-analyze" class="btn btn-default">Analyze</a>
--->
                         </div>
                         
                         <div id="transfer-detail-block" class="well well-sm" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
@@ -241,14 +219,6 @@
                 <div id="ejs-search-result" class="row">
                     
                 </div>
-                
-        <!-- /container -->
-        <!-- Bootstrap core JavaScript
-    ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        
-</script> <script src="./assets/bootstrap/js/bootstrap.min.js">
-</script> <script src="./assets/bootstrap/js/holder.js">
-</script>
+
     </body>
 </html>
