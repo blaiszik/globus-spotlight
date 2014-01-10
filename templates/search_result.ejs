@@ -1,0 +1,11 @@
+    <div class="list-group" id="selectable">
+        <% for(var i=0; i<search_result.length; i++) {%>
+        <div class="list-group-item ui-widget-content primary">
+            <div class="pull-right"><div><label><%= search_result[i].endpoint %></label></div> <div><label> <%= search_result[i].modified%></label></div></div>
+            <h4><%= search_result[i].filename %> - <%= search_result[i].file_size %>  </h4>
+            <% for(var j=0; j<search_result[i].tag.length; j++) {%>
+                <label class="label label-default"> <%= search_result[i].tag[j] %> </label>&nbsp
+            <% } %>
+        </div>
+        <% } %>
+    </div> 

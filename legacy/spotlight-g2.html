@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible"
+              content="IE=edge">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+        <meta name="description"
+              content="">
+        <meta name="author"
+              content=""><!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet"
+              href="./assets/bootstrap/css/bootstrap.css"><!-- Optional theme -->
+        <!-- Latest compiled and minified JavaScript -->
+
+        <script src="./assets/bootstrap//js/bootstrap.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <title>
+            Globus Spotlight
+        </title>
+        
+        <script type="text/javascript">
+           $( document ).ready(function() {
+                $('#result-block').hide();
+                $('#action-block').hide();
+
+                $('#btn-search').click(function(){
+                   console.log('searching'); 
+                   $('#action-block').show()
+                   $('#result-block').show();
+                });                
+            });
+        
+        </script>
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top dropdown theme-dropdown clearfix">
+            <a id="dropdownMenu1"
+                 href="#"
+                 role="button"
+                 class="sr-only dropdown-toggle"
+                 data-toggle="dropdown">Dropdown</a>
+            <ul class="dropdown-menu"
+                role="menu"
+                aria-labelledby="dropdownMenu1">
+                <li class="active"
+                    role="presentation">
+                    <a role="menuitem"
+                        tabindex="-1"
+                        href="#">Action</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem"
+                        tabindex="-1"
+                        href="#">Another action</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem"
+                        tabindex="-1"
+                        href="#">Something else here</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem"
+                        tabindex="-1"
+                        href="#">Separated link</a>
+                </li>
+            </ul>
+        </div><!-- Fixed navbar -->
+        <div class="navbar navbar-default navbar-fixed-top"
+             role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button"
+                         class="navbar-toggle"
+                         data-toggle="collapse"
+                         data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span></button> <a class="navbar-brand"
+                         href="#">Globus Spotlight</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container theme-showcase">
+            <div class="well"
+                 style="padding-top: 50px; margin-bottom: 10px; font-family:museosans, 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff; background-color:#fff; background-image:linear-gradient(#3560A0 0%, #27518F 42%, #27518F 100%);">
+                <h1 class="text-default">
+                    Find Data
+                </h1>
+                <div class="row">
+                    <div class="col-sm-4"
+                         style="padding-top:50px; padding-bottom:10px;">
+                        Scattering | SNS | Osborn | more
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="center-block"
+                             style="padding-top:10px; padding-bottom:10px;">
+                            <img class="centered"
+                                 src="./assets/logo.png"
+                                 style="margin: 0 auto;">
+                        </div>
+                    </div>
+                    <div class="col-sm-4"
+                         style="padding-top:50px; padding-bottom:10px;">
+                        Search: Endpoints Shared with Me
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-btn"><button class="btn btn-default" id="btn-search"
+                                    type="button"><span class="input-group-btn">Search</span></button></span> <input type="text"
+                                 class="form-control">
+                        </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+                
+                <div id="action-block" class="row" style="padding-left: 0px; padding-bottom: 5px; padding-top: 5px;">
+                    <div class="col-sm-12">
+                        <!-- Split button -->
+                        <div class="btn-group btn-group-justified">
+                            <a href=""class="btn btn-primary">Transfer</a>
+                            <a href="" class="btn btn-default">Tag</a>
+                            <a href="" class="btn btn-default">Analyze</a>
+                        </div>
+                        
+                        <div class="well well-sm"
+                             style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                            <b>Destination: <span class="text-primary">Home(go#ep1/home)</span> | SNS(go#ep2/home/SNS) 
+                            <div>
+                                <a href="" class="btn btn-success btn-xs">New Destination</a>
+                            </div></b>
+                        </div>
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-sm-4">
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
+                                <div class="row">
+                    <div class="col-sm-4">
+                        <a href=""
+                             class="btn btn-default btn-xs">All</a> <a href=""
+                             class="btn btn-default btn-xs">None</a>
+                    </div>
+                    <div class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB </b></div>
+                    <div class="col-sm-2">
+                        <div class="pull-right">
+                            <a href="" class="btn btn-default btn-xs">Next</a>
+                            <a href="" class="btn btn-default btn-xs">Prev</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="list-group">
+                            <a href="#"
+                                 class="list-group-item primary">
+                                    <div class="pull-right" style="color: #000;"><b>(go#ep1)<br>Last Modified: 2013/01/01</b></div>     
+                                    <h4 class="list-group-item-heading">
+                                        AzoDye1.TIF - 10.5 MB
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        <span class="label label-default">SNS</span>
+                                        <span class="label label-default">APS</span>
+                                        <span class="label label-default">Osborn</span>
+                                        <span class="label label-warning">1 more</span>
+                                    </p>
+                            </a> 
+                            
+                            <a href="#"
+                                
+                                class="list-group-item primary">
+                             <div class="pull-right" style="color: #000;"><b>(go#ep1)<br>Last Modified: 2013/01/01</b></div>     
+                            <h4 class="list-group-item-heading">
+                                AzoDye2.TIF - 10.5 MB
+                            </h4>
+                            <p class="list-group-item-text">
+                                <span class="label label-default">SNS</span>
+                                <span class="label label-default">APS</span>
+                                <span class="label label-default">Osborn</span>
+                                <span class="label label-warning">1 more</span>
+                            </p></a> <a href="#"
+                                 class="list-group-item primary">
+                             <div class="pull-right" style="color: #000;"><b>(go#ep2)<br>Last Modified: 2013/01/01</b></div>     
+
+                            <h4 class="list-group-item-heading">
+                                /AzoDye-Run2 - 525 MB
+                            </h4>
+                            <p class="list-group-item-text">
+                                <span class="label label-default">SNS</span>
+                                <span class="label label-default">APS</span>
+                                <span class="label label-default">Osborn</span>
+                                <span class="label label-warning">1 more</span>
+                            </p></a> <a href="#"
+                                 class="list-group-item">
+                             <div class="pull-right" style="color: #000;"><b>(go#ep3)<br>Last Modified: 2013/01/01</b></div>     
+
+                            <h4 class="list-group-item-heading">
+                                File1.TIF - 10.5 MB
+                            </h4>
+                            <p class="list-group-item-text">
+                                <span class="label label-default">SNS</span>
+                                <span class="label label-default">APS</span>
+                            </p></a> <a href="#"
+                                 class="list-group-item">
+                             <div class="pull-right" style="color: #000;"><b>(go#ep4)<br>Last Modified: 2013/01/01</b></div>     
+                            <h4 class="list-group-item-heading">
+                                File2.TIF - 10.5 MB
+                            </h4>
+                            <p class="list-group-item-text">
+                                <span class="label label-default">SNS</span>
+                                <span class="label label-default">APS</span>
+                            </p></a> <a href="#"
+                                 class="list-group-item">
+                            <div class="pull-right" style="color: #000;"><b>(go#ep5)<br>Last Modified: 2013/01/01</b></div>     
+                            <h4 class="list-group-item-heading">
+                                File3.TIF - 10.5 MB
+                            </h4>
+                            <p class="list-group-item-text">
+                                <span class="label label-default">SNS</span>
+                                <span class="label label-default">APS</span>
+                            </p></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.col-lg-6 -->
+        <!-- /.row -->
+        <!-- /container -->
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        
+</script> <script src="./assets/bootstrap/js/bootstrap.min.js">
+</script> <script src="./assets/bootstrap/js/holder.js">
+</script>
+    </body>
+</html>
