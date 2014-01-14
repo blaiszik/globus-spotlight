@@ -14,80 +14,15 @@
     <script src="./assets/ejs/ejs_production.js"></script>
     <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="./assets/bootstrap/js/holder.js"></script>
+    <script src="./spotlight.js"></script>
 
     <title>Globus Spotlight</title>
     <script type="text/javascript">
         $( document ).ready(function() {
             result_size = 20;
-
             reset_panels();
-            $('.btn-radio-group').button();
-            $('#input-search').keyup(function() {
-                perform_search();// get the current value of the input field.
-            });
-
-            //Button click events
-            $('#btn-search').click(function(){
-                perform_search();
-            });     
-            
-            $('#btn-start-transfer').click(function(){ 
-                console.log('transferring...');
-            });       
-            
-            $('.btn-radio').click(function(){
-                $('.btn-radio').removeClass('btn-primary');
-                $('.btn-radio').addClass('btn-default');
-                $(this).addClass('btn-primary');
-            })
-            
-            $('.quick-tag').click(function(){
-                $('#input-search').val('*'+$(this).text()+'*');
-                perform_search();
-            });
-            //End button click events 
+            load_events();
         });
-        
-        function fileSizeSI(a,b,c,d,e){
-         return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2)
-         +' '+(e?'kMGTPEZY'[--e]+'B':'B')
-        //kB,MB,GB,TB,PB,EB,ZB,YB
-        }
-
-        function reset_panels(){
-            $('#result-block').hide();
-            $('#detail-block').hide();
-        }
-        
-        function perform_search(){
-            $('#detail-block').show();
-            $('#result-block').show();
-            requestData = {
-                            "size":result_size,
-                            "query": {
-                                "query_string" : {
-                                    "fields" : ["name^2","endpoint"],
-                                    "query" : $('#input-search').val()?$('#input-search').val():'*'
-                              }
-                            }
-                        };
-            $.ajax({
-               type: 'POST',
-               url: 'http://localhost:9200/globus_public_index/file/_search',
-               data: JSON.stringify(requestData),
-               success: function(data) {
-                   result_set = data.hits.hits;
-                   for(i=0; i<result_set.length; i++){
-                        if(result_set[i]._source.size > 0){
-                            result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
-                        }else{
-                            result_set[i]._source.size = '0 B';
-                        }
-                    }
-                    new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
-               }
-            });
-        }
     </script>
 </head>
 <body>
@@ -174,9 +109,7 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-xs-1"></div>
-
                 <div class="col-sm-4"></div>
             </div>
         </div>
@@ -186,13 +119,11 @@
         <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
             <div class="row">
                 <div class="col-sm-4">
-                    <a href="" class="btn btn-default btn-xs">All</a> <a href=
-                    "" class="btn btn-default btn-xs">None</a>
+                    <a href="" class="btn btn-default btn-xs">All</a>
+                    <a href="" class="btn btn-default btn-xs">None</a>
                 </div>
 
-                <div class="col-sm-6">
-                    <b>Current Selection | Files: 52 | 546 MB</b>
-                </div>
+                <div class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB</b></div>
 
                 <div class="col-sm-2">
                     <div class="pull-right">
