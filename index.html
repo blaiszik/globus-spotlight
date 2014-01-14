@@ -9,11 +9,12 @@
         <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css"><!-- Optional theme -->
 
         <!-- Latest compiled and minified JavaScript -->
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="./assets/ejs/ejs_production.js"></script>
         <script src="./assets/bootstrap/js/bootstrap.min.js"></script> 
         <script src="./assets/bootstrap/js/holder.js"></script>
-        
+
         <title> Globus Spotlight </title>
         
         <script type="text/javascript">
@@ -21,6 +22,10 @@
                 reset_panels();
                 //$( "#selectable" ).selectable();
                 $('.btn-radio-group').button()
+
+                $('#input-search').keyup(function() {
+                    perform_search();// get the current value of the input field.
+                });
 
                 //Button click events
                 $('#btn-search').click(function(){
@@ -39,13 +44,19 @@
                 })
                 
                 $('.quick-tag').click(function(){
-                    $('#input-search').val($(this).text());
+                    $('#input-search').val('*'+$(this).text()+'*');
                     perform_search();
                 });
                 //End button click events
                     
             });
             
+           function fileSizeSI(a,b,c,d,e){
+             return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2)
+             +' '+(e?'kMGTPEZY'[--e]+'B':'B')
+            }
+            //kB,MB,GB,TB,PB,EB,ZB,YB
+
             function reset_panels(){
                 $('#result-block').hide();
                 $('#detail-block').hide();
@@ -56,23 +67,53 @@
                 $('#result-block').show()
                 console.log('searching...');
                 
-                the_json = {"search_result":[
-                            {"filename":"AzoDye1.TIF", "endpoint":"go#ep1", "file_size":"10.5 MB", "modified":"2012-01-01", "tag":["SNS","Osborn"]},
-                            {"filename":"AzoDye2.TIF", "endpoint":"go#ep2", "file_size":"10.5 MB", "modified":"2012-01-02", "tag":["SNS","APS"]},
-                            {"filename":"/AzoDye-Run2", "endpoint":"go#ep3", "file_size":"525 MB", "modified":"2012-01-03", "tag":["SNS"]},
-                            {"filename":"Results.txt", "endpoint":"go#ep4", "file_size":"0.5 MB", "modified":"2012-01-02", "tag":["SNS","APS"]},
-                            {"filename":"Analysis.xlsx", "endpoint":"go#ep5", "file_size":"2.2 MB", "modified":"2012-01-03", "tag":["SNS"]}
-                ]};
-                new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',the_json);
+                // the_json = {"search_result":[
+                //             {"filename":"AzoDye1.TIF", "endpoint":"go#ep1", "file_size":"10.5 MB", "modified":"2012-01-01", "tag":["SNS","Osborn"]},
+                //             {"filename":"AzoDye2.TIF", "endpoint":"go#ep2", "file_size":"10.5 MB", "modified":"2012-01-02", "tag":["SNS","APS"]},
+                //             {"filename":"/AzoDye-Run2","endpoint":"go#ep3", "file_size":"525 MB", "modified":"2012-01-03", "tag":["SNS"]},
+                //             {"filename":"Results.txt", "endpoint":"go#ep4", "file_size":"0.5 MB", "modified":"2012-01-02", "tag":["SNS","APS"]},
+                //             {"filename":"Analysis.xlsx", "endpoint":"go#ep5", "file_size":"2.2 MB", "modified":"2012-01-03", "tag":["SNS"]}
+                // ]};
+                // EJS.config({cache: false});
+                // new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',the_json);
+
                 //html = new EJS({url: './templates/search_result.ejs'}).render(the_json);
                 //console.log(html);
                 //$('#ejs-search-result').append(html);
 
-                
+                // requestData = {
+                //                 "size":10,
+                //                     "query" : {
+                //                         "match_all" : {}
+                //                     }
+                //                 };
+
+                requestData = {
+                                "size":10,
+                                "query": {
+                                  "query_string" : {
+                                      "fields" : ["name^2","endpoint"],
+                                      "query" : $('#input-search').val()?$('#input-search').val():'*'
+                                  }
+                                }
+                            };
+
                 $.ajax({
-                   url: 'http://localhost:9200/twitter/tweet/1',
+                   type: 'POST',
+                   url: 'http://localhost:9200/globus_public_index/file/_search',
+                   data: JSON.stringify(requestData),
                    success: function(data) {
-                       console.log(data);
+                       //console.log(data);
+                       for(i=0; i<data.hits.hits.length; i++){
+                            if(data.hits.hits[i]._source.size > 0){
+                                data.hits.hits[i]._source.size = fileSizeSI(data.hits.hits[i]._source.size);
+                            }else{
+                                data.hits.hits[i]._source.size = '0 B';
+                            }
+                       }
+                       //EJS.config({cache: false});
+                        new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
+
                    }
                 });
             }
@@ -139,14 +180,14 @@
         </div>
         <div class="container theme-showcase">
             <div class="well"
-                 style="padding-top: 50px; margin-bottom: 10px; font-family:museosans, 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff; background-color:#fff; background-image:linear-gradient(#3560A0 0%, #27518F 42%, #27518F 100%);">
-                <h1 class="text-default">
+                 style="padding-top: 50px; margin-bottom: 5px; font-family:museosans, 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff; background-color:#fff; background-image:linear-gradient(#3560A0 0%, #27518F 42%, #27518F 100%);">
+                <h2 class="text-default">
                     Find Data
-                </h1>
+                </h2>
                 <div class="row">
                     <div class="col-sm-4"
                          style="padding-top:50px; padding-bottom:10px;">
-                        <label class='quick-tag font-white' style="color: #fff">Scattering</label> | <label class='quick-tag font-white'>SNS</label> | <label class='quick-tag font-white'>Osborn </label> | <label class='quick-tag font-white'>APS</label> | <label class='quick-tag font-white'> more </label>
+                        <label class='quick-tag font-white' style="color: #fff">Scattering</label> | <label class='quick-tag font-white' style="color: #fff">Azo</label> | <label class='quick-tag font-white'>SNS</label> | <label class='quick-tag font-white'>Osborn</label> | <label class='quick-tag font-white'>APS</label> | <label class='quick-tag font-white'> more </label>
                     </div>
                     <div class="col-sm-4">
                         <div class="center-block"
@@ -161,11 +202,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="input-group">
-                            <span class="input-group-btn"><button class="btn btn-default" id="btn-search"
-                                    type="button"><span class="input-group-btn">Search</span></button></span> <input id='input-search' type="text"
-                                 class="form-control">
-                        </div><!-- /input-group -->
+                        <input id='input-search' type="text" class="form-control input-lg" placeholder="Start your search here">
                     </div><!-- /.col-lg-6 -->
                 </div><!-- /.row -->
                 
@@ -173,15 +210,15 @@
                     <div class="col-sm-12">
                         <!-- Split button -->
                         <div class="btn-group btn-radio-group btn-group-justified" data-toggle="buttons">
-                            <label class="btn btn-primary btn-radio">
+                            <div class="btn btn-primary btn-radio">
                                 <input type="radio" name="options" id="option1"> Transfer
-                            </label>
-                            <label class="btn btn-default btn-radio">
+                            </div>
+                            <div class="btn btn-default btn-radio">
                                 <input type="radio" name="options" id="option1"> Tag
-                            </label>
-                            <label class="btn btn-default btn-radio">
+                            </div>
+                            <div class="btn btn-default btn-radio">
                                 <input type="radio" name="options" id="option1"> Analyze
-                            </label>
+                            </div>
                         </div>
                         
                         <div id="transfer-detail-block" class="well well-sm" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
@@ -202,11 +239,10 @@
             </div>
             
             <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
-                                <div class="row">
+                <div class="row">
                     <div class="col-sm-4">
-                        <a href=""
-                             class="btn btn-default btn-xs">All</a> <a href=""
-                             class="btn btn-default btn-xs">None</a>
+                        <a href="" class="btn btn-default btn-xs">All</a>
+                        <a href="" class="btn btn-default btn-xs">None</a>
                     </div>
                     <div class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB </b></div>
                     <div class="col-sm-2">
@@ -219,6 +255,9 @@
                 <div id="ejs-search-result" class="row">
                     
                 </div>
+            </div>
+
+
 
     </body>
 </html>
