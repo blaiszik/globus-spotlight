@@ -73,40 +73,66 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <input id='input-search' type="text" class=
-                    "form-control input-lg" placeholder=
-                    "Start your search here">
+                    <input id='input-search' type="text" class="form-control input-lg" placeholder="Start your search here">
                 </div><!-- /.col-lg-6 -->
             </div><!-- /.row -->
 
             <div id="detail-block" class="row" style="padding-left: 0px; padding-bottom: 5px; padding-top: 5px;">
                 <div class="col-sm-12">
-                    <!-- Split button -->
-                    <div class="btn-group btn-radio-group btn-group-justified" data-toggle="buttons">
-                        <div class="btn btn-primary btn-radio">
-                            <input type="radio" name="options" id="option1">Transfer
-                        </div>
 
-                        <div class="btn btn-default btn-radio">
-                            <input type="radio" name="options" id="option1">Tag
-                        </div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-justified">
+                      <li class='font-white active'> <a href="#transfer-pane" data-toggle="tab">Transfer</a></li>
+                      <li><a href="#tag-pane" data-toggle="tab">Tag</a></li>
+                      <li><a href="#analyze-pane" data-toggle="tab">Analyze</a></li>
+                    </ul>
 
-                        <div class="btn btn-default btn-radio">
-                            <input type="radio" name="options" id="option1">Analyze
-                        </div>
-                    </div>
-
-                    <div id="transfer-detail-block" class="well well-sm" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
-                    <div class="col-sm-2">
-                            <div id="action-block">
-                                <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left">
-                                    Start
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                          <div class="tab-pane active well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                          <div class="row">
+                                <div class="col-sm-2">
+                                    <div id="action-block">
+                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left">Start</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                <b>Destination: <span class="text-primary">Home(go#ep1/home)</span> | SNS(go#ep2/home/SNS)</b>
+                                <b><a href="" class="btn btn-primary btn-xs">New Destination</a></b>
                                 </div>
                             </div>
-                        </div><b>Destination: <span class="text-primary">Home(go#ep1/home)</span> | SNS(go#ep2/home/SNS)</b>
-                        <div>
-                            <b><a href="" class="btn btn-primary btn-xs">New Destination</a></b>
                         </div>
+                      <div class="tab-pane" id="tag-pane">
+                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                               <div class="row">
+                                    <div class="col-sm-2">
+                                        <div id="action-block">
+                                            <div id="btn-add-tag" class="btn btn-primary btn-lg pull-left">Add Tag</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input id='input-search' type="text" class="form-control input-lg" placeholder="Add tags separated by commas">
+                                    </div>
+                                </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="analyze-pane">
+                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                          <div class="row">
+                                    <div class="col-sm-2">
+                                        <div id="action-block">
+                                            <div id="btn-add-tag" class="btn btn-primary btn-lg pull-left">Analyze</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input id='input-search' type="text" class="form-control input-lg" placeholder="Find Analysis Resources">
+                                    </div>
+                                </div>
+
+
+
+                        </div>
+                      </div>
                     </div>
                 </div>
                 <div class="col-xs-1"></div>
@@ -119,11 +145,12 @@
         <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
             <div class="row">
                 <div class="col-sm-4">
-                    <a href="" class="btn btn-default btn-xs">All</a>
-                    <a href="" class="btn btn-default btn-xs">None</a>
+                    <a id='btn-select-all' class="btn btn-default btn-xs">All</a>
+                    <a id='btn-select-none' class="btn btn-default btn-xs">None</a>
+                    <a id='btn-select-inverse' class="btn btn-default btn-xs">Inverse</a>
                 </div>
 
-                <div class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB</b></div>
+                <div id='result-file-size' class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB</b></div>
 
                 <div class="col-sm-2">
                     <div class="pull-right">

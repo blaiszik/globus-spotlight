@@ -2,7 +2,7 @@
 
   <div class="list-group" id="selectable">
         <% for(var i=0; i<hits.hits.length; i++) {%>
-        <div class="list-group-item ui-widget-content primary">
+        <div id="result-set-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary">
             <div class="pull-right"><div><label><%= hits.hits[i]._source.endpoint %></label></div> <div><label> <%= hits.hits[i]._source.last_modified%></label></div></div>
             <h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %>  </h4>
         </div>

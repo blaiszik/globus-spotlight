@@ -24,6 +24,28 @@ function load_events(){
         $('#input-search').val('*'+$(this).text()+'*');
         perform_search();
     });
+
+    $('.result-set-item').click(function(){
+      $(this).toggleClass('result-set-item-selected');
+      console.log('clicked result');
+    });
+
+    $('#btn-select-all').click(function(){
+      $('.result-set-item').addClass('result-set-item-selected');
+    });
+
+    $('#btn-select-none').click(function(){
+      $('.result-set-item').removeClass('result-set-item-selected');
+      console.log('clicked');
+    });
+
+    $('#btn-select-inverse').click(function(){
+      console.log('clicked');
+      console.log($('.result-set-item'));
+      $('.result-set-item').toggleClass('result-set-item-selected');
+    });
+
+
     //End button click events 
 }
 
@@ -56,14 +78,23 @@ function perform_search(){
      data: JSON.stringify(requestData),
      success: function(data) {
          result_set = data.hits.hits;
+         result_file_size = 0;
+
          for(i=0; i<result_set.length; i++){
+              result_file_size = result_file_size + result_set[i]._source.size;
               if(result_set[i]._source.size > 0){
                   result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
               }else{
                   result_set[i]._source.size = '0 B';
               }
           }
+
           new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
+          load_events();
+          result_file_size_html = "<b>"+data.hits.total+' results found | '+fileSizeSI(result_file_size)+"</b>";
+          $('#result-file-size').html(result_file_size_html);
+
+
      }
   });
 }
