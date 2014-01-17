@@ -4,7 +4,8 @@
         <% for(var i=0; i<hits.hits.length; i++) {%>
         <div id="result-set-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary">
             <div class="pull-right"><div><label><%= hits.hits[i]._source.endpoint %></label></div> <div><label> <%= hits.hits[i]._source.last_modified%></label></div></div>
-            <h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %>  </h4>
+            <div><h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %>  </h4></div>
+            <div id="result-set-tag-<%= hits.hits[i]._id %>"><label class="label label-primary">test</div>
         </div>
         <% } %>
     </div> 

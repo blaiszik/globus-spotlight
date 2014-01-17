@@ -1,6 +1,7 @@
            
 
 function load_events(){
+  console.log('Loading events');
     $('.btn-radio-group').button();
     $('#input-search').keyup(function() {
         perform_search();// get the current value of the input field.
@@ -25,28 +26,41 @@ function load_events(){
         perform_search();
     });
 
-    $('.result-set-item').click(function(){
-      $(this).toggleClass('result-set-item-selected');
-      console.log('clicked result');
-    });
-
-    $('#btn-select-all').click(function(){
+    $('#btn-select-all').on("click",function(){
       $('.result-set-item').addClass('result-set-item-selected');
     });
 
     $('#btn-select-none').click(function(){
       $('.result-set-item').removeClass('result-set-item-selected');
-      console.log('clicked');
     });
 
     $('#btn-select-inverse').click(function(){
-      console.log('clicked');
       console.log($('.result-set-item'));
       $('.result-set-item').toggleClass('result-set-item-selected');
     });
 
+    $('#btn-add-tag').click(function(){
+      tag_array = $('#input-add-tag').val().trim().split(',');
+      
+      tag_html = "<label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label>";
+      console.log(tag_html);
 
+      console.log(tag_array);
+      $('.result-set-item-selected').each(function(index){
+        this_id = $( this ).attr('id').split('-').slice(2).join('-');
+        console.log(this_id);
+        console.log( "Adding tags to the following records: " + this_id);
+        $('#result-set-tag-'+this_id).html(tag_html);
+      });
+    });
     //End button click events 
+}
+
+function load_live_events(){
+  $('.result-set-item').click(function(){
+        $(this).toggleClass('result-set-item-selected');
+        console.log('clicked result');
+      });
 }
 
 function fileSizeSI(a,b,c,d,e){
@@ -90,7 +104,7 @@ function perform_search(){
           }
 
           new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
-          load_events();
+          load_live_events();
           result_file_size_html = "<b>"+data.hits.total+' results found | '+fileSizeSI(result_file_size)+"</b>";
           $('#result-file-size').html(result_file_size_html);
 
