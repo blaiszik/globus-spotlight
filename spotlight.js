@@ -40,12 +40,9 @@ function load_events(){
     });
 
     $('#btn-add-tag').click(function(){
-      tag_array = $('#input-add-tag').val().trim().split(',');
-      
+      tag_array = $('#input-add-tag').val().trim().split(',');      
       tag_html = "<label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label>";
-      console.log(tag_html);
 
-      console.log(tag_array);
       $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-').slice(2).join('-');
         console.log(this_id);
