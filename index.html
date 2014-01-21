@@ -8,13 +8,16 @@
     <meta name="author" content="">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/jquery-ui.min.css">
     <!-- Latest compiled and minified JavaScript -->
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="./assets/jquery-2.0.3.min.js"></script>
+    <script src="./assets/jquery-ui.min.js"></script>
     <script src="./assets/ejs/ejs_production.js"></script>
     <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="./assets/bootstrap/js/holder.js"></script>
-    <script src="./spotlight.js"></script>
+    <script src="./assets/spotlight.js"></script>
+    <script src="./assets/typeahead.min.js"></script>
+
 
     <title>Globus Spotlight</title>
     <script type="text/javascript">
@@ -22,6 +25,20 @@
             result_size = 20;
             reset_panels();
             load_events();
+
+             var availableTags = [
+              "AResource",
+              "BResource",
+              "CResrouce",
+              "Tomography - Orthros",
+              "Osborn NXS - Mira ",
+            ];
+
+        $( "#input-analyze" ).autocomplete({
+          source: availableTags
+        });
+
+
         });
     </script>
 </head>
@@ -66,7 +83,7 @@
                 
                 <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
                     <div class="pull-right">
-                        <label>Search: Endpoints Shared with Me</label>
+                        <label>Search: Endpoints Shared with Me</label> <div class='btn btn-xs btn-primary'>Refine</div>
                     </div>
                 </div>
             </div>
@@ -125,7 +142,10 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
-                                        <input id='input-search' type="text" class="form-control input-lg" placeholder="Find Analysis Resources">
+                                        <div class="ui-widget">
+                                            <input id='input-analyze' type="text" class="form-control input-lg" placeholder="Find analysis and compute resources">
+                                        </div>
+
                                     </div>
                                 </div>
 

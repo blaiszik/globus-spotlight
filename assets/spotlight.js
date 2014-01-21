@@ -22,7 +22,7 @@ function load_events(){
     })
 
     $('.quick-tag').click(function(){
-        $('#input-search').val('*'+$(this).text()+'*');
+        $('#input-search').val($(this).text());
         perform_search();
     });
 
@@ -40,14 +40,22 @@ function load_events(){
     });
 
     $('#btn-add-tag').click(function(){
-      tag_array = $('#input-add-tag').val().trim().split(',');      
+      tag_array = $('#input-add-tag').val().trim().split(',');
+      console.log(tag_array);
+      len = tag_array.length;      
+      for (i = 0; i < len; i++){
+          tag_array[i] = tag_array[i].trim();  
+      }
+
       tag_html = "<label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label>";
+
 
       $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-').slice(2).join('-');
         console.log(this_id);
         console.log( "Adding tags to the following records: " + this_id);
         $('#result-set-tag-'+this_id).html(tag_html);
+        perform_update(this_id, tag_array);
       });
     });
     //End button click events 
@@ -70,7 +78,36 @@ function reset_panels(){
   $('#result-block').hide();
   $('#detail-block').hide();
 }
-    
+
+function perform_update(this_id, tag_list){
+
+  requestData = {
+                  "script" : "ctx._source.tags = test"
+              };
+
+  $.ajax({
+     type: 'GET',
+     url: 'http://localhost:9200/globus_public_index/file/'+this_id,
+     data: JSON.stringify(requestData),
+     success: function(data) {
+        console.log(data);
+        the_id = data._id;
+        source = data._source;
+        source.tags = tag_list;
+         $.ajax({
+           type: 'PUT',
+           url: 'http://localhost:9200/globus_public_index/file/'+this_id,
+           data: JSON.stringify(source),
+           success: function(){
+
+           }
+         });
+     }
+   });
+
+
+}
+
 function perform_search(){
   $('#detail-block').show();
   $('#result-block').show();
@@ -78,14 +115,14 @@ function perform_search(){
                   "size":result_size,
                   "query": {
                       "query_string" : {
-                          "fields" : ["name^2","endpoint"],
+                          "fields" : ["tags^3", "name^2", "endpoint"],
                           "query" : $('#input-search').val()?$('#input-search').val():'*'
                     }
                   }
               };
   $.ajax({
      type: 'POST',
-     url: 'http://localhost:9200/globus_public_index/file/_search',
+     url: 'http://localhost:9200/globus_public_index/file,catalog/_search',
      data: JSON.stringify(requestData),
      success: function(data) {
          result_set = data.hits.hits;

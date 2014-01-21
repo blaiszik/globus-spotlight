@@ -5,7 +5,13 @@
         <div id="result-set-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary">
             <div class="pull-right"><div><label><%= hits.hits[i]._source.endpoint %></label></div> <div><label> <%= hits.hits[i]._source.last_modified%></label></div></div>
             <div><h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %>  </h4></div>
-            <div id="result-set-tag-<%= hits.hits[i]._id %>"></div>
+            <div id="result-set-tag-<%= hits.hits[i]._id %>">
+            	<% if(tags = hits.hits[i]._source.tags){%>
+            		<% for(var j=0; j<tags.length; j++) { %>
+            			<label class="label label-primary"> <%= tags[j] %> </label>&nbsp 
+            		<% } %>
+            	<%}%>
+            </div>
         </div>
         <% } %>
     </div> 
