@@ -24,6 +24,15 @@ a.quick-tag:hover{
   background-color: rgba(50, 118, 177, 0.3) !important;
 }
 
+
+
+.result-set-item:hover{
+  background-color: rgba(146, 184, 216, 0.3) !important;
+}
+.result-set-item-selected:hover{
+  background-color: rgba(50, 118, 177, 0.3) !important;
+}
+
 /* BUG FIX OVERLAY */
 
 .twitter-typeahead .tt-hint {

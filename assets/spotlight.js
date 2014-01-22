@@ -22,7 +22,11 @@ function load_events(){
     })
 
     $('.quick-tag').click(function(){
-        $('#input-search').val($(this).text());
+        val = $('#input-search').val()
+        if(val){
+          val = val + ' ' 
+        }
+        $('#input-search').val( val + $(this).text());
         perform_search();
     });
 
@@ -66,6 +70,16 @@ function load_live_events(){
         $(this).toggleClass('result-set-item-selected');
         console.log('clicked result');
       });
+
+  $('.label-last-modified').each(function( index ) {
+      val = $('.label-last-modified')[index].innerText.trim();
+      if(val){
+              var d = new Date(val);
+      }
+      console.log(val);
+      console.log(d);
+      $('.label-last-modified')[index].innerText = d.toString();
+  });
 }
 
 function fileSizeSI(a,b,c,d,e){
@@ -73,6 +87,21 @@ function fileSizeSI(a,b,c,d,e){
      +' '+(e?'kMGTPEZY'[--e]+'B':'B')
     //kB,MB,GB,TB,PB,EB,ZB,YB
     }
+
+function bytesToSize(bytes, precision) {
+      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+      var posttxt = 0;
+      if (bytes == 0) return 'n/a';
+      if (bytes < 1000) {
+          return Number(bytes) + " " + sizes[posttxt];
+      }
+      while( bytes >= 1000 ) {
+          posttxt++;
+          bytes = bytes / 1000;
+      }
+      return bytes.toPrecision(precision) + " " + sizes[posttxt];
+}
+
 
 function reset_panels(){
   $('#result-block').hide();
@@ -129,17 +158,20 @@ function perform_search(){
          result_file_size = 0;
 
          for(i=0; i<result_set.length; i++){
-              result_file_size = result_file_size + result_set[i]._source.size;
+              if(result_set[i]._source.size){
+                result_file_size = result_file_size + result_set[i]._source.size;
+              }
+              
               if(result_set[i]._source.size > 0){
                   result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
               }else{
-                  result_set[i]._source.size = '0 B';
+                  result_set[i]._source.size = '';
               }
           }
 
           new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
           load_live_events();
-          result_file_size_html = "<b>"+data.hits.total+' results found | '+fileSizeSI(result_file_size)+"</b>";
+          result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
           $('#result-file-size').html(result_file_size_html);
 
 
