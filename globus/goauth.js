@@ -1,8 +1,8 @@
 // requires jquery.cookie plugin
 $.ajaxPrefilter(function(options,originalOptions,jqXHR) {
-    token = $.cookie("globusonline-goauth");
+    token = GOAuthToken;//$.cookie("globusonline-goauth");
     if (token) {
-        jqXHR.setRequestHeader("Authorization",
-                               "Globus-Goauthtoken " + token);
+        //jqXHR.setRequestHeader("Authorization",
+          //                     "Globus-Goauthtoken " + token);
     }
 });

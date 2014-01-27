@@ -1,15 +1,14 @@
            
+var GOAuthToken = "un=blaiszik|tokenid=80774510-83ae-11e3-ba6c-1231381a5994|expiry=1421963125|client_id=blaiszik|token_type=Bearer|SigningSubject=https://graph.api.test.globuscs.info/goauth/keys/81598e2a-83ae-11e3-ba6c-1231381a5994|sig=8a765f4eb44dd0417262ab6a96f7d331e6355ef2517702990a87c4456646f98ed09a382b65295cb6007edc1d4469ec533b0d925f974b31e169b64221d410e18886940dc9c2355557bf37f86dc73cea3de26e4528485d230d0d6948969a385ca134af311100793590b82727d09449813578b7ed6d623f45067e4dca64895a3637"
 
 function load_events(){
   console.log('Loading events');
     $('.btn-radio-group').button();
     $('#input-search').keyup(function() {
-        perform_search();// get the current value of the input field.
+          perform_search();// get the current value of the input field.
+        
     });
 
-    $('#btn-search').click(function(){
-        perform_search();
-    });     
 
     $('#btn-start-transfer').click(function(){ 
         console.log('transferring...');
@@ -28,6 +27,14 @@ function load_events(){
         }
         $('#input-search').val( val + $(this).text());
         perform_search();
+    });
+
+    $('#input-search').mousedown(function(event) {
+    switch (event.which) {
+        case 3:
+            $('#input-search').val('');
+            break;
+        }
     });
 
     $('#btn-select-all').on("click",function(){
@@ -76,8 +83,6 @@ function load_live_events(){
       if(val){
               var d = new Date(val);
       }
-      console.log(val);
-      console.log(d);
       $('.label-last-modified')[index].innerText = d.toString();
   });
 }
@@ -136,6 +141,23 @@ function perform_update(this_id, tag_list){
 
 
 }
+
+function list_endpoints(){
+
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:9200/globus_public_index/file,catalog/_search',
+    data: JSON.stringify(requestData),
+    beforeSend: function (request){
+      request.setRequestHeader("Authorization", "Globus-Goauthtoken " + token);
+    },
+    success: function(data) {
+
+    }
+  });
+
+}
+
 
 function perform_search(){
   $('#detail-block').show();
