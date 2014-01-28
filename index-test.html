@@ -14,10 +14,8 @@
     <script src="./assets/jquery-ui.min.js"></script>
     <script src="./assets/ejs/ejs_production.js"></script>
     <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="./assets/bootstrap/js/holder.js"></script>
     <script src="./assets/spotlight-config.js"></script>
     <script src="./assets/spotlight.js"></script>
-    <script src="./assets/typeahead.min.js"></script>
 
     <script src="./globus/jquery.cookie.js"></script>
     <script src="./globus/goauth.js"></script>
@@ -26,7 +24,7 @@
     <title>Globus Spotlight</title>
     <script type="text/javascript">
         $( document ).ready(function() {
-            ds_authenticate('blaiszik','globustest123');
+            console.log(ds_authenticate('blaiszik','globustest123'));
             reset_panels();
             load_events();
                         console.log('test');
