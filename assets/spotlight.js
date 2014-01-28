@@ -1,25 +1,15 @@
-           
-var GOAuthToken = "un=blaiszik|tokenid=80774510-83ae-11e3-ba6c-1231381a5994|expiry=1421963125|client_id=blaiszik|token_type=Bearer|SigningSubject=https://graph.api.test.globuscs.info/goauth/keys/81598e2a-83ae-11e3-ba6c-1231381a5994|sig=8a765f4eb44dd0417262ab6a96f7d331e6355ef2517702990a87c4456646f98ed09a382b65295cb6007edc1d4469ec533b0d925f974b31e169b64221d410e18886940dc9c2355557bf37f86dc73cea3de26e4528485d230d0d6948969a385ca134af311100793590b82727d09449813578b7ed6d623f45067e4dca64895a3637"
-
 function load_events(){
-  console.log('Loading events');
-    $('.btn-radio-group').button();
+  console.log('Loading events');    
     $('#input-search').keyup(function() {
           perform_search();// get the current value of the input field.
-        
     });
-
 
     $('#btn-start-transfer').click(function(){ 
         console.log('transferring...');
+        //Add transfer logic here
     });       
 
-    $('.btn-radio').click(function(){
-        $('.btn-radio').removeClass('btn-primary');
-        $('.btn-radio').addClass('btn-default');
-        $(this).addClass('btn-primary');
-    })
-
+    //When a quick-tag is clicked, add the value to the current search
     $('.quick-tag').click(function(){
         val = $('#input-search').val()
         if(val){
@@ -29,6 +19,7 @@ function load_events(){
         perform_search();
     });
 
+    //Tie the right click event of #input-search to clear the value
     $('#input-search').mousedown(function(event) {
     switch (event.which) {
         case 3:
@@ -59,7 +50,6 @@ function load_events(){
       }
 
       tag_html = "<label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label>";
-
 
       $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-').slice(2).join('-');
@@ -107,22 +97,15 @@ function bytesToSize(bytes, precision) {
       return bytes.toPrecision(precision) + " " + sizes[posttxt];
 }
 
-
 function reset_panels(){
   $('#result-block').hide();
   $('#detail-block').hide();
 }
 
 function perform_update(this_id, tag_list){
-
-  requestData = {
-                  "script" : "ctx._source.tags = test"
-              };
-
   $.ajax({
      type: 'GET',
-     url: 'http://localhost:9200/globus_public_index/file/'+this_id,
-     data: JSON.stringify(requestData),
+     url: es_default_path+this_id,
      success: function(data) {
         console.log(data);
         the_id = data._id;
@@ -130,23 +113,19 @@ function perform_update(this_id, tag_list){
         source.tags = tag_list;
          $.ajax({
            type: 'PUT',
-           url: 'http://localhost:9200/globus_public_index/file/'+this_id,
+           url: es_default_path+this_id,
            data: JSON.stringify(source),
-           success: function(){
-
+           success: function(data){
            }
          });
      }
    });
-
-
 }
 
 function list_endpoints(){
-
   $.ajax({
     type: 'POST',
-    url: 'http://localhost:9200/globus_public_index/file,catalog/_search',
+    url: es_default_path + '_search',
     data: JSON.stringify(requestData),
     beforeSend: function (request){
       request.setRequestHeader("Authorization", "Globus-Goauthtoken " + token);
@@ -155,9 +134,7 @@ function list_endpoints(){
 
     }
   });
-
 }
-
 
 function perform_search(){
   $('#detail-block').show();
@@ -173,7 +150,7 @@ function perform_search(){
               };
   $.ajax({
      type: 'POST',
-     url: 'http://localhost:9200/globus_public_index/file,catalog/_search',
+     url: es_default_path + '_search',
      data: JSON.stringify(requestData),
      success: function(data) {
          result_set = data.hits.hits;
@@ -183,20 +160,16 @@ function perform_search(){
               if(result_set[i]._source.size){
                 result_file_size = result_file_size + result_set[i]._source.size;
               }
-              
               if(result_set[i]._source.size > 0){
                   result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
               }else{
                   result_set[i]._source.size = '';
               }
           }
-
           new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
           load_live_events();
           result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
           $('#result-file-size').html(result_file_size_html);
-
-
      }
   });
 }
