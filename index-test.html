@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/jquery-ui.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="./assets/jquery-2.0.3.min.js"></script>
+    <script src="./assets/jquery-ui.min.js"></script>
+    <script src="./assets/ejs/ejs_production.js"></script>
+    <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./assets/bootstrap/js/holder.js"></script>
+    <script src="./assets/spotlight-config.js"></script>
+    <script src="./assets/spotlight.js"></script>
+    <script src="./assets/typeahead.min.js"></script>
+
+    <script src="./globus/jquery.cookie.js"></script>
+    <script src="./globus/goauth.js"></script>
+    <script src="./globus/datasets.js"></script>
+
+    <title>Globus Spotlight</title>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            reset_panels();
+            load_events();
+
+             var availableTags = [
+              "Decarlo - Tomography - Orthros",
+              "Osborn - NXS - Mira ",
+              "Sharma - HDF5 - Orthros",
+              "Winarski - Tomography - Carbon"
+            ];
+
+        $( "#input-analyze" ).autocomplete({
+          source: availableTags
+        });
+
+
+        });
+    </script>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span></button> <a class="navbar-brand" href="#">Globus Spotlight</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Top Navigation -->
+
+    <!-- Search Container -->
+    <div class="container">
+        <div class="well" style="padding-top: 50px; margin-bottom: 5px; font-family:museosans, 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff; background-color:#fff; background-image:linear-gradient(#3560A0 0%, #27518F 42%, #27518F 100%);">
+        <h2 class="text-default">Find Data</h2>
+            <div class="row">
+                <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
+                    <label class='quick-tag font-white' style="color: #fff">Scattering</label> | <label class='quick-tag font-white' style="color: #fff">Azo</label> |
+                    <label class='quick-tag font-white'>SNS</label> |
+                    <label class='quick-tag font-white'>Osborn</label> |
+                    <label class='quick-tag font-white'>APS</label> |
+                    <label class='quick-tag font-white'>more</label>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="center-block" style=
+                    "padding-top:10px; padding-bottom:10px;"><img style=
+                    "display: block; margin-left: auto; margin-right: auto"
+                    src="./assets/logo.png"></div>
+                </div>
+                
+                <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
+                    <div class="pull-right">
+                        <label>Search: Endpoints Shared with Me</label> <div class='btn btn-xs btn-primary'>Refine</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <input id='input-search' type="text" class="form-control input-lg" placeholder="Start your search here">
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+
+            <div id="detail-block" class="row" style="padding-left: 0px; padding-bottom: 5px; padding-top: 5px;">
+                <div class="col-sm-12">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-justified">
+                      <li class='font-white active'> <a href="#transfer-pane" data-toggle="tab">Transfer</a></li>
+                      <li><a href="#tag-pane" data-toggle="tab">Tag</a></li>
+                      <li><a href="#analyze-pane" data-toggle="tab">Analyze</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                          <div class="tab-pane active well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                          <div class="row">
+                                <div class="col-sm-2">
+                                    <div id="action-block">
+                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left">Start</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                <b>Destination: <span class="text-primary">Home(go#ep1/home)</span> | SNS(go#ep2/home/SNS)</b>
+                                <b><a href="" class="btn btn-primary btn-xs">New Destination</a></b>
+                                </div>
+                            </div>
+                        </div>
+                      <div class="tab-pane" id="tag-pane">
+                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                               <div class="row">
+                                    <div class="col-sm-2">
+                                        <div id="action-block">
+                                            <div id="btn-add-tag" class="btn btn-primary btn-lg pull-left">Add Tag</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input id='input-add-tag' type="text" class="form-control input-lg" placeholder="Add tags separated by commas">
+                                    </div>
+                                </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="analyze-pane">
+                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                          <div class="row">
+                                    <div class="col-sm-2">
+                                        <div id="action-block">
+                                            <div id="btn-add-tag" class="btn btn-primary btn-lg pull-left">Analyze</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="ui-widget">
+                                            <input id='input-analyze' type="text" class="form-control input-lg" placeholder="Find analysis and compute resources">
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-xs-1"></div>
+                <div class="col-sm-4"></div>
+            </div>
+        </div>
+        <!-- END Search Container -->
+
+        <!-- Result Container -->
+        <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a id='btn-select-all' class="btn btn-default btn-xs">All</a>
+                    <a id='btn-select-none' class="btn btn-default btn-xs">None</a>
+                    <a id='btn-select-inverse' class="btn btn-default btn-xs">Inverse</a>
+                </div>
+
+                <div id='result-file-size' class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB</b></div>
+
+                <div class="col-sm-2">
+                    <div class="pull-right">
+                        <a href="" class="btn btn-default btn-xs">Next</a>
+                        <a href="" class="btn btn-default btn-xs">Prev</a>
+                    </div>
+                </div>
+            </div>
+            <div id="ejs-search-result" class="row"></div>
+        </div>
+        <!-- END Result Container -->
+    </div>
+</body>
+</html>
