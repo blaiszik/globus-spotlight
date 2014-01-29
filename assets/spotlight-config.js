@@ -5,7 +5,7 @@ var GOAuthToken = "un=blaiszik|tokenid=80774510-83ae-11e3-ba6c-1231381a5994|expi
 //var es_url = "http://localhost:9200/";
 var es_url = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200/";
 var es_default_index = "globus_public_index/";
-var es_default_type = "file,catalog/";
+var es_default_type = "file/";
 var es_default_action = "_search";
 var es_default_path = es_url + es_default_index + es_default_type;
 
