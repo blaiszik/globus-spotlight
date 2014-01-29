@@ -80,6 +80,7 @@ def get_files(transfer_client, ep, path="/"):
         tags['path'] = path
         tags['endpoint'] = ep
         tags['file_name'] = f['name']
+        tags['type'] = f['type']
         print tags
         # del tags['link_target']
         # del tags['permissions']
@@ -116,7 +117,7 @@ def delete_all(catalog_client, catalog_id):
 
 #Index-related variables
 index_mongo = False              #Set True to send info to Mongo
-index_es = True                 #Set True to send info to Elasticsearch
+index_es = False                 #Set True to send info to Elasticsearch
 index_catalog = False           #Set True to send info to Globus Catalog
 index_fields = "canonical_name" #Which field to gather for the endpoints
 

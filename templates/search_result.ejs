@@ -5,10 +5,19 @@
         <div id="result-set-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary">
 
             <div class="pull-right">
-            <div><label class='label-endpoint'><%= hits.hits[i]._source.endpoint %></label></div> <div><label class='label-last-modified'> <%= hits.hits[i]._source.last_modified%></label></div></div>
-            <div><h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %>
-            
-        	</h4></div>
+	            <div>
+	            	Location: <label class='label-endpoint'><%= hits.hits[i]._source.endpoint %></label>
+	            </div>
+	            <div>
+	            	Path: <label class='label-path'><%= hits.hits[i]._source.path %></label>
+	            </div>
+	            <div>
+	            	<label class='label-last-modified'> <%= hits.hits[i]._source.last_modified%></label>
+	            </div>
+            </div>
+            <div>
+            	<h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %></h4>
+            </div>
             <div id="result-set-tag-<%= hits.hits[i]._id %>">
             <%if(hits.hits[i]._type=='catalog'){%>
         		<label class="glyphicon glyphicon-book">

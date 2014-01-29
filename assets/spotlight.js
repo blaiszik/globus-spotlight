@@ -134,7 +134,7 @@ function perform_search(){
                   "size":result_size,
                   "query": {
                       "query_string" : {
-                          "fields" : ["tags^3", "path^2" "name^2", "endpoint"],
+                          "fields" : ["tags^3", "path^2", "name^2", "endpoint", "DATA_TYPE"],
                           "query" : $('#input-search').val()?$('#input-search').val():'*'
                     }
                   }
