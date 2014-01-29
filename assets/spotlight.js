@@ -1,5 +1,6 @@
 function load_events(){
   console.log('Loading events');    
+    //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     $('#input-search').keyup(function() {
           perform_search();// get the current value of the input field.
     });
@@ -19,7 +20,7 @@ function load_events(){
         perform_search();
     });
 
-    //Tie the right click event of #input-search to clear the value
+    //Bind the right click event of #input-search to clear the value
     $('#input-search').mousedown(function(event) {
     switch (event.which) {
         case 3:
@@ -28,19 +29,9 @@ function load_events(){
         }
     });
 
-    $('#btn-select-all').on("click",function(){
-      $('.result-set-item').addClass('result-set-item-selected');
-    });
-
-    $('#btn-select-none').click(function(){
-      $('.result-set-item').removeClass('result-set-item-selected');
-    });
-
-    $('#btn-select-inverse').click(function(){
-      console.log($('.result-set-item'));
-      $('.result-set-item').toggleClass('result-set-item-selected');
-    });
-
+    //Add a tag to a group of selected result-set-item(s). First, trim the updates of whitespace, and convert the contents to an array
+    //Create the tag HTML and add it to the result-set-item div.  Get the unique Elasticsearch identifier by splitting the div ids
+    //and finally perform the update of the item (need to add update permission checking)
     $('#btn-add-tag').click(function(){
       tag_array = $('#input-add-tag').val().trim().split(',');
       console.log(tag_array);
@@ -59,9 +50,28 @@ function load_events(){
         perform_update(this_id, tag_array);
       });
     });
+
+    ////
+    //JQuery logic to support selection of result-set-item(s). Currently support all, none, inverse selections
+    $('#btn-select-all').on("click",function(){
+      $('.result-set-item').addClass('result-set-item-selected');
+    });
+
+    $('#btn-select-none').click(function(){
+      $('.result-set-item').removeClass('result-set-item-selected');
+    });
+
+    $('#btn-select-inverse').click(function(){
+      console.log($('.result-set-item'));
+      $('.result-set-item').toggleClass('result-set-item-selected');
+    });
+    /////
+
     //End button click events 
 }
 
+//Function to load events for items that may be loaded AFTER the original load_events() is called. 
+//These are generally items created in the templating process which can be dynamic
 function load_live_events(){
   $('.result-set-item').click(function(){
         $(this).toggleClass('result-set-item-selected');
@@ -77,31 +87,12 @@ function load_live_events(){
   });
 }
 
-function fileSizeSI(a,b,c,d,e){
-    return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2)
-     +' '+(e?'kMGTPEZY'[--e]+'B':'B')
-    //kB,MB,GB,TB,PB,EB,ZB,YB
-    }
-
-function bytesToSize(bytes, precision) {
-      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-      var posttxt = 0;
-      if (bytes == 0) return 'n/a';
-      if (bytes < 1000) {
-          return Number(bytes) + " " + sizes[posttxt];
-      }
-      while( bytes >= 1000 ) {
-          posttxt++;
-          bytes = bytes / 1000;
-      }
-      return bytes.toPrecision(precision) + " " + sizes[posttxt];
-}
-
 function reset_panels(){
   $('#result-block').hide();
   $('#detail-block').hide();
 }
 
+//Elasticsearch update -- GET the original content and
 function perform_update(this_id, tag_list){
   $.ajax({
      type: 'GET',
@@ -143,7 +134,7 @@ function perform_search(){
                   "size":result_size,
                   "query": {
                       "query_string" : {
-                          "fields" : ["tags^3", "name^2", "endpoint"],
+                          "fields" : ["tags^3", "path^2" "name^2", "endpoint"],
                           "query" : $('#input-search').val()?$('#input-search').val():'*'
                     }
                   }
@@ -172,4 +163,26 @@ function perform_search(){
           $('#result-file-size').html(result_file_size_html);
      }
   });
+}
+
+
+//Helper functions, mainly for formatting
+function fileSizeSI(a,b,c,d,e){
+    return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2)
+     +' '+(e?'kMGTPEZY'[--e]+'B':'B')
+    //kB,MB,GB,TB,PB,EB,ZB,YB
+    }
+
+function bytesToSize(bytes, precision) {
+      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+      var posttxt = 0;
+      if (bytes == 0) return 'n/a';
+      if (bytes < 1000) {
+          return Number(bytes) + " " + sizes[posttxt];
+      }
+      while( bytes >= 1000 ) {
+          posttxt++;
+          bytes = bytes / 1000;
+      }
+      return bytes.toPrecision(precision) + " " + sizes[posttxt];
 }
