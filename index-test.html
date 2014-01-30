@@ -20,10 +20,12 @@
     <script src="./globus/jquery.cookie.js"></script>
     <script src="./globus/goauth.js"></script>
     <script src="./globus/datasets.js"></script>
+    <script src="./globus/transfer.js"></script>
 
     <title>Globus Spotlight</title>
     <script type="text/javascript">
         $( document ).ready(function() {
+            alert('test'); 		
             console.log(ds_authenticate('blaiszik','globustest123'));
             reset_panels();
             load_events();
