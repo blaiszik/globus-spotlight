@@ -24,7 +24,10 @@ a.quick-tag:hover{
   background-color: rgba(50, 118, 177, 0.3) !important;
 }
 
-
+.resultset-item{
+  margin-top: 5 px;
+  margin-bottom: 5 px;
+}
 
 .result-set-item:hover{
   background-color: rgba(146, 184, 216, 0.3) !important;
@@ -33,47 +36,15 @@ a.quick-tag:hover{
   background-color: rgba(50, 118, 177, 0.3) !important;
 }
 
-/* BUG FIX OVERLAY */
-
-.twitter-typeahead .tt-hint {
-    display: block;
-    height: 34px;
-    padding: 10px 16px 0;
-    font-size: 18px;
-    line-height: 1.428571429;
-    border: 1px solid transparent;
-    border-radius:4px;
-}
-
-.twitter-typeahead .hint-small {
-    height: 30px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    line-height: 1.5;
-}
-
-.twitter-typeahead .hint-large {
-    height: 45px;
-    padding: 10px 16px;
-    font-size: 18px;
-    border-radius: 6px;
-    line-height: 1.33;
-}
-
-/* WIDTH = 100% */
-
-.twitter-typeahead {
-  width: 100%; 
-}
-
-.tt-dropdown-menu {
-  width: 100%;
-}
-
-.tt-hint {
-    width: 100%;
-}
+.colorgraph {
+  height: 5px;
+  border-top: 0;
+  background: #c4e17f;
+  border-radius: 5px;
+  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
 }
 
 
@@ -441,8 +412,8 @@ img {
 }
 
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   border: 0;
   border-top: 1px solid #eeeeee;
 }
@@ -504,12 +475,12 @@ h6 .small,
   line-height: 1;
   color: #999999;
 }
-
+/*Custom*/
 h1,
 h2,
 h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 h1 small,
@@ -524,8 +495,8 @@ h3 .small {
 h4,
 h5,
 h6 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 h4 small,
