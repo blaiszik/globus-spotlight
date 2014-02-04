@@ -52,9 +52,8 @@ function ds_nexus_user_query(query){
 
 function ds_authenticate(username, password){
     token = $.cookie(goauth_cookie);
-    console.log(token);
     if (token)
-        return null;
+        return token;
     
 	var result = {};
 	$.ajax({
