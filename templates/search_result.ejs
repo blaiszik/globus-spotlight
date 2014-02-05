@@ -1,5 +1,4 @@
  <div class="list-group" id="selectable">
-
     <% for(var i=0; i<hits.hits.length; i++) {%>
         <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary">
             <div class="pull-right">
@@ -7,17 +6,15 @@
             </div>
             <h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %></h4>
             <div>
-                    <% if(tags = hits.hits[i]._source.tags){%>
-                            <div id="result-set-tag-<%= hits.hits[i]._id %>"'>
-                                <% for(var j=0; j<tags.length; j++) { %>
-                                        <label class='label label-primary'> <%= tags[j] %>
-                                        </label>&nbsp 
-                                <% } %>
-                            </div>
-                    <%}%>
-                
+                    <div id="result-set-tag-<%= hits.hits[i]._id %>"'>
+                        <% if(tags = hits.hits[i]._source.tags){%>
+                                    <% for(var j=0; j<tags.length; j++) { %>
+                                            <label class='label label-primary'> <%= tags[j] %>
+                                            </label>&nbsp 
+                                    <% } %>
+                        <%}%>
+                    </div>
             </div>
         </div>
     <%}%>
-
 </div>
