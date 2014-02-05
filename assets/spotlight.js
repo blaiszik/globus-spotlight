@@ -1,3 +1,4 @@
+result_set = {};
 function load_events(){
   console.log('Loading events');    
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
@@ -43,10 +44,11 @@ function load_events(){
       tag_html = "<label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label>";
 
       $('.result-set-item-selected').each(function(index){
-        this_id = $( this ).attr('id').split('-').slice(2).join('-');
+        this_id = $( this ).attr('id').split('-').slice(3).join('-');
         console.log(this_id);
         console.log( "Adding tags to the following records: " + this_id);
         $('#result-set-tag-'+this_id).html(tag_html);
+        console.log(tag_html);
         perform_update(this_id, tag_array);
       });
     });
@@ -113,21 +115,11 @@ function perform_update(this_id, tag_list){
    });
 }
 
-function list_endpoints(){
-  $.ajax({
-    type: 'POST',
-    url: es_default_path + '_search',
-    data: JSON.stringify(requestData),
-    beforeSend: function (request){
-      request.setRequestHeader("Authorization", "Globus-Goauthtoken " + token);
-    },
-    success: function(data) {
-
-    }
-  });
-}
-
 function perform_search(){
+  if($('#input-search').val().trim() == ''){
+    return;
+  }
+
   $('#detail-block').show();
   $('#result-block').show();
   requestData = {

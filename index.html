@@ -24,8 +24,6 @@
     <script src="./globus/datasets.js"></script>
     <script src="./globus/transfer.js"></script>
 
-
-
     <title>Globus Spotlight</title>
     <script type="text/javascript">
         $( document ).ready(function() {
@@ -42,6 +40,12 @@
             $( "#input-analyze" ).autocomplete({
               source: available_resources
             });
+
+            $('#btn-refine').click(function(){
+                console.log('refining search endpoints');
+                endpoint_list = go_get_endpoint_names();
+            });
+
         });
     </script>
 </head>
@@ -86,7 +90,7 @@
                 
                 <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
                     <div class="pull-right">
-                        <label>Search: Endpoints Shared with Me</label> <div class='btn btn-xs btn-primary'>Refine</div>
+                        <label>Search: Endpoints Shared with Me</label> <div class='btn btn-xs btn-primary' id='btn-refine'>Refine</div>
                     </div>
                 </div>
             </div>
