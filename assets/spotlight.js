@@ -1,13 +1,14 @@
 result_set = {};
-function load_events(){
+function gs_load_events(){
   console.log('Loading events');    
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     $('#input-search').keyup(function() {
-          perform_search();// get the current value of the input field.
+          gs_perform_search();// get the current value of the input field.
     });
 
     $('#btn-start-transfer').click(function(){ 
         console.log('transferring...');
+        gs_perform_transfer();
         //Add transfer logic here
     });       
 
@@ -18,7 +19,7 @@ function load_events(){
           val = val + ' ' 
         }
         $('#input-search').val( val + $(this).text());
-        perform_search();
+        gs_perform_search();
     });
 
     //Bind the right click event of #input-search to clear the value
@@ -49,7 +50,7 @@ function load_events(){
         console.log( "Adding tags to the following records: " + this_id);
         $('#result-set-tag-'+this_id).html(tag_html);
         console.log(tag_html);
-        perform_update(this_id, tag_array);
+        gs_perform_update(this_id, tag_array);
       });
     });
 
@@ -72,9 +73,9 @@ function load_events(){
     //End button click events 
 }
 
-//Function to load events for items that may be loaded AFTER the original load_events() is called. 
+//Function to load events for items that may be loaded AFTER the original gs_load_events() is called. 
 //These are generally items created in the templating process which can be dynamic
-function load_live_events(){
+function gs_load_live_events(){
   $('.result-set-item').click(function(){
         $(this).toggleClass('result-set-item-selected');
         console.log('clicked result');
@@ -89,13 +90,13 @@ function load_live_events(){
   });
 }
 
-function reset_panels(){
+function gs_reset_panels(){
   $('#result-block').hide();
   $('#detail-block').hide();
 }
 
 //Elasticsearch update -- GET the original content and
-function perform_update(this_id, tag_list){
+function gs_perform_update(this_id, tag_list){
   $.ajax({
      type: 'GET',
      url: es_default_path+this_id,
@@ -115,7 +116,7 @@ function perform_update(this_id, tag_list){
    });
 }
 
-function perform_search(){
+function gs_perform_search(){
   if($('#input-search').val().trim() == ''){
     return;
   }
@@ -155,6 +156,30 @@ function perform_search(){
           $('#result-file-size').html(result_file_size_html);
      }
   });
+}
+
+function gs_perform_transfer(){
+  //Scrape the ids that are selected
+  files_to_transfer = {};
+  $('.result-set-item-selected').each(function(index){
+        this_id = $( this ).attr('id').split('-')[2];
+        console.log(result_set[this_id]._source);
+        if(!files_to_transfer[result_set[this_id]._source.endpoint]){
+          files_to_transfer[result_set[this_id]._source.endpoint] = [];
+        }
+        
+        transfer_object = {};
+        transfer_object.destination_path = 'go#ep1';
+        transfer_object.source_path = result_set[this_id]._source.endpoint;
+        transfer_object.directory = result_set[this_id]._source.type;
+        result_set[this_id]._source.destination_path = 'go#ep1';
+        result_set[this_id]._source.source_path = result_set[this_id]._source.endpoint;
+
+
+        files_to_transfer[result_set[this_id]._source.endpoint].push(result_set[this_id]._source);
+        console.log(files_to_transfer);
+  });
+  console.log(go_create_transfer(files_to_transfer['go#ep2']));
 }
 
 
