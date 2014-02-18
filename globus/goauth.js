@@ -8,7 +8,5 @@ $.ajaxPrefilter(function(options,originalOptions,jqXHR) {
     	console.log('adding headers');
         jqXHR.setRequestHeader("Authorization",
                                "Globus-Goauthtoken " + token);
-    }else{
-    	console.log('not adding headers');
     }
 });
