@@ -153,17 +153,19 @@ function gs_perform_search(){
 }
 
 function gs_perform_transfer(){
-  //Scrape the ids that are selected
   files_to_transfer = {};
   destination_path = '';
   source_path = '';
 
+  //Scrape the ids of selected search result items
   $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-')[2];        
+        //Create transfer arrays
         if(!files_to_transfer[result_set[this_id]._source.endpoint]){
           files_to_transfer[result_set[this_id]._source.endpoint] = [];
         }
         
+        //Break down transfers into files and directories
         if(result_set[this_id]._source.type == 'file'){
           destination_path = default_destination_path+'/'+result_set[this_id]._source.file_name
           source_path = result_set[this_id]._source.endpoint+result_set[this_id]._source.path+'/'+result_set[this_id]._source.file_name;
@@ -173,6 +175,7 @@ function gs_perform_transfer(){
 
         }
 
+        //Create the transfer object
         transfer_object = {
                             "destination_path":destination_path,
                             "destination_endpoint":default_destination_endpoint,
@@ -181,10 +184,16 @@ function gs_perform_transfer(){
                             "type":result_set[this_id]._source.type
         };
 
+        //Make sure the transfer isn't from-to the same path. If not, add to the files_to_transfer array
         if(!(transfer_object.destination_path == transfer_object.source_path)){
           files_to_transfer[result_set[this_id]._source.endpoint].push(transfer_object);
         }
   });
+
+  for(i=0; i<files_to_transfer.length; i++){
+    console.log(files_to_transfer[i]);
+  }
+  //go_transfer_file(ep1, ep2, files, label, callback);
   console.log(files_to_transfer);
 
 }
