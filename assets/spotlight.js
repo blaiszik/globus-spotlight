@@ -1,4 +1,5 @@
 result_set = {};
+debug = '';
 default_destination_path = "go#ep1/home/blaiszik"
 default_destination_endpoint = "go#ep1";
 
@@ -190,9 +191,8 @@ function gs_perform_transfer(){
         }
   });
 
-  for(i=0; i<files_to_transfer.length; i++){
-    console.log(files_to_transfer[i]);
-  }
+  debug = files_to_transfer;
+
   //go_transfer_file(ep1, ep2, files, label, callback);
   console.log(files_to_transfer);
 
