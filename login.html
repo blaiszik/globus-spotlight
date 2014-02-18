@@ -27,11 +27,13 @@
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#alert-login-success').hide();
+            $('#alert-login-failure').hide();
+
+
             $('#btn-sign-in').click(function(){
                 username = $('#username').val();
                 password = $('#password').val();
                 if(username && password){
-                    $.cookie(goauth_cookie) = '';
                     req = ds_authenticate(username, password);    
                 }
                 if(req){
