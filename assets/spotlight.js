@@ -193,7 +193,11 @@ function gs_perform_transfer(){
 
   debug = files_to_transfer;
   for(var propt in files_to_transfer){
-    console.log(propt + ': ' + files_to_transfer[propt]);
+        console.log(propt + ': ' + files_to_transfer[propt]);
+
+     for(member in files_to_transfer[propt]){
+      console.log(member);
+     } 
 }
 
   //go_transfer_file(ep1, ep2, files, label, callback);
