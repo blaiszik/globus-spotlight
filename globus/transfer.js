@@ -53,17 +53,25 @@ function go_transfer_file(ep1, ep2, files, label, callback){
 	
 	var result = go_tapi('POST', '/transfer',
 						 submission_data, "submitting transfer", callback);
+	console.log(result);
 	
 }
 
 function go_create_transfer(files){
 	var transfer_files = [];
+
+
 	$.each(files, function(name, value){
+		recursive = false
+		if(value['type'] == 'dir'){
+			recursive = true
+		}
+
 		transfer_files.push({
 		      "source_path": value['source_path'], 
 		      "destination_path": value['destination_path'], 
 		      "verify_size": null, 
-		      "recursive": value['directory'], 
+		      "recursive": recursive, 
 		      "DATA_TYPE": "transfer_item"
 		    })
 	});

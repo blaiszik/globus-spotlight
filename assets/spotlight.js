@@ -1,13 +1,14 @@
 result_set = {};
+default_destination_path = "go#ep1/home/blaiszik"
+default_destination_endpoint = "go#ep1";
+
 function gs_load_events(){
-  console.log('Loading events');    
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     $('#input-search').keyup(function() {
           gs_perform_search();// get the current value of the input field.
     });
 
     $('#btn-start-transfer').click(function(){ 
-        console.log('transferring...');
         gs_perform_transfer();
         //Add transfer logic here
     });       
@@ -36,7 +37,6 @@ function gs_load_events(){
     //and finally perform the update of the item (need to add update permission checking)
     $('#btn-add-tag').click(function(){
       tag_array = $('#input-add-tag').val().trim().split(',');
-      console.log(tag_array);
       len = tag_array.length;      
       for (i = 0; i < len; i++){
           tag_array[i] = tag_array[i].trim();  
@@ -46,10 +46,7 @@ function gs_load_events(){
 
       $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-').slice(3).join('-');
-        console.log(this_id);
-        console.log( "Adding tags to the following records: " + this_id);
         $('#result-set-tag-'+this_id).html(tag_html);
-        console.log(tag_html);
         gs_perform_update(this_id, tag_array);
       });
     });
@@ -65,7 +62,6 @@ function gs_load_events(){
     });
 
     $('#btn-select-inverse').click(function(){
-      console.log($('.result-set-item'));
       $('.result-set-item').toggleClass('result-set-item-selected');
     });
     /////
@@ -78,7 +74,6 @@ function gs_load_events(){
 function gs_load_live_events(){
   $('.result-set-item').click(function(){
         $(this).toggleClass('result-set-item-selected');
-        console.log('clicked result');
       });
 
   $('.label-last-modified').each(function( index ) {
@@ -101,7 +96,6 @@ function gs_perform_update(this_id, tag_list){
      type: 'GET',
      url: es_default_path+this_id,
      success: function(data) {
-        console.log(data);
         the_id = data._id;
         source = data._source;
         source.tags = tag_list;
@@ -151,7 +145,7 @@ function gs_perform_search(){
               }
           }
           new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
-          load_live_events();
+          gs_load_live_events();
           result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
           $('#result-file-size').html(result_file_size_html);
      }
@@ -161,25 +155,38 @@ function gs_perform_search(){
 function gs_perform_transfer(){
   //Scrape the ids that are selected
   files_to_transfer = {};
+  destination_path = '';
+  source_path = '';
+
   $('.result-set-item-selected').each(function(index){
-        this_id = $( this ).attr('id').split('-')[2];
-        console.log(result_set[this_id]._source);
+        this_id = $( this ).attr('id').split('-')[2];        
         if(!files_to_transfer[result_set[this_id]._source.endpoint]){
           files_to_transfer[result_set[this_id]._source.endpoint] = [];
         }
         
-        transfer_object = {};
-        transfer_object.destination_path = 'go#ep1';
-        transfer_object.source_path = result_set[this_id]._source.endpoint;
-        transfer_object.directory = result_set[this_id]._source.type;
-        result_set[this_id]._source.destination_path = 'go#ep1';
-        result_set[this_id]._source.source_path = result_set[this_id]._source.endpoint;
+        if(result_set[this_id]._source.type == 'file'){
+          destination_path = default_destination_path+'/'+result_set[this_id]._source.file_name
+          source_path = result_set[this_id]._source.endpoint+result_set[this_id]._source.path+'/'+result_set[this_id]._source.file_name;
+        }else{
+          destination_path = default_destination_path
+          source_path = result_set[this_id]._source.endpoint+result_set[this_id]._source.path+result_set[this_id]._source.file_name;
 
+        }
 
-        files_to_transfer[result_set[this_id]._source.endpoint].push(result_set[this_id]._source);
-        console.log(files_to_transfer);
+        transfer_object = {
+                            "destination_path":destination_path,
+                            "destination_endpoint":default_destination_endpoint,
+                            "source_path":result_set[this_id]._source.endpoint+result_set[this_id]._source.path+'/'+result_set[this_id]._source.file_name,
+                            "source_endpoint":result_set[this_id]._source.endpoint,
+                            "type":result_set[this_id]._source.type
+        };
+
+        if(!(transfer_object.destination_path == transfer_object.source_path)){
+          files_to_transfer[result_set[this_id]._source.endpoint].push(transfer_object);
+        }
   });
-  console.log(go_create_transfer(files_to_transfer['go#ep2']));
+  console.log(files_to_transfer);
+
 }
 
 
