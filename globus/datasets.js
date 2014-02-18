@@ -51,9 +51,10 @@ function ds_nexus_user_query(query){
 }
 
 function ds_authenticate(username, password){
-    token = $.cookie(goauth_cookie);
-    if (token)
-        return token;
+	ds_logout()
+    // token = $.cookie(goauth_cookie);
+    // if (token)
+    //     return token;
     
 	var result = {};
 	$.ajax({
