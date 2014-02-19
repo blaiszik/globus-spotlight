@@ -216,9 +216,9 @@ function build_transfer_list(){
         if(!(transfer_object.destination_path == transfer_object.source_path)){
           files_to_transfer[result_set[this_id]._source.endpoint].push(transfer_object);
         }
-
-        return files_to_transfer
   });
+  return files_to_transfer
+
 }
 
 function bytesToSize(bytes, precision) {
