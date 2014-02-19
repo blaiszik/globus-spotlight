@@ -158,7 +158,32 @@ function gs_perform_transfer(){
   destination_path = '';
   source_path = '';
 
-  //Scrape the ids of selected search result items
+  files_to_transfer = build_transfer_list();
+  debug = files_to_transfer;
+  for(var ep in files_to_transfer){
+    console.log(ep + ': ' + files_to_transfer[ep]);
+    //go_transfer_file(ep,default_destination_endpoint, files_to_transfer[ep],function(){console.log('testing transfer');});
+    for(trans in files_to_transfer[ep]){
+      console.log(files_to_transfer[ep][trans]);
+    } 
+}
+
+  console.log(files_to_transfer);
+
+}
+
+
+//Helper functions, mainly for formatting
+function fileSizeSI(a,b,c,d,e){
+    return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2)
+     +' '+(e?'kMGTPEZY'[--e]+'B':'B')
+    //kB,MB,GB,TB,PB,EB,ZB,YB
+    }
+
+function build_transfer_list(){
+  var files_to_transfer = {};
+
+    //Scrape the ids of selected search result items
   $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-')[2];        
         //Create transfer arrays
@@ -189,29 +214,10 @@ function gs_perform_transfer(){
         if(!(transfer_object.destination_path == transfer_object.source_path)){
           files_to_transfer[result_set[this_id]._source.endpoint].push(transfer_object);
         }
+
+        return files_to_transfer
   });
-
-  debug = files_to_transfer;
-  for(var ep in files_to_transfer){
-    console.log(ep + ': ' + files_to_transfer[ep]);
-    go_transfer_file(ep,default_destination_endpoint, files_to_transfer[ep],function(){console.log('testing transfer');});
-    for(trans in files_to_transfer[ep]){
-      console.log(files_to_transfer[ep][trans]);
-    } 
 }
-
-  //go_transfer_file(ep1, ep2, files, label, callback);
-  console.log(files_to_transfer);
-
-}
-
-
-//Helper functions, mainly for formatting
-function fileSizeSI(a,b,c,d,e){
-    return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2)
-     +' '+(e?'kMGTPEZY'[--e]+'B':'B')
-    //kB,MB,GB,TB,PB,EB,ZB,YB
-    }
 
 function bytesToSize(bytes, precision) {
       var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
