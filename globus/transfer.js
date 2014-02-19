@@ -80,8 +80,8 @@ function go_create_transfer(files){
 
 }
 
-function go_get_endpoint_names(){
-	var data = go_list_endpoints('canonical_name');
+function go_get_endpoint_names(parameters){
+	var data = go_list_endpoints('canonical_name', parameters);
 	var eps = [];
 	for (var i=0; i < data['DATA'].length; i++) {
 		eps.push(data['DATA'][i]['canonical_name']);
@@ -101,8 +101,9 @@ function go_list_endpoints(fields, parameters){
 	if(fields){
 		optionsArray.push('fields='+fields);
 	}
-
-	var resource = '/endpoint_list?'+optionsArray.join('&')
+	
+	requestOptions = optionsArray.join('&');
+	var resource = '/endpoint_list?'+requestOptions;
 	return go_tapi('GET', resource, null, 'listing endpoints');
 }
 

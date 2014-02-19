@@ -109,8 +109,35 @@ function gs_perform_update(this_id, tag_list){
            url: es_default_path+this_id,
            data: JSON.stringify(source),
            success: function(data){
+              gs_load_tag_list();
            }
          });
+     }
+   });
+}
+
+function gs_load_tag_list(){
+
+  requestData = {
+                    "query" : {
+                        "match_all" : {}
+                    },
+                  "facets" : {
+                        "tag" : {
+                            "terms" : {
+                                "field" : "tags",
+                                "size" : 4
+                            }
+                        }
+                    }
+                };
+
+  $.ajax({
+     type: 'POST',
+     url: es_default_path+this_id,
+     data: requestData
+     success: function(data) {
+      console.log(data);
      }
    });
 }
