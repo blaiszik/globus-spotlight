@@ -131,11 +131,12 @@ function gs_load_tag_list(){
                         }
                     }
                 };
+ requestUrl = es_default_path + '_search';
 
   $.ajax({
      type: 'POST',
-     url: es_default_path+this_id,
-     data: requestData
+     url: requestUrl,
+     data: requestData,
      success: function(data) {
       console.log(data);
      }
