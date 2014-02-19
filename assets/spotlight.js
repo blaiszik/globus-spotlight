@@ -126,7 +126,6 @@ function gs_load_tag_list(){
 
  requestUrl = es_default_path + '_search';
  tagArr = [];
- $('#tag-group-bar').html('<label class="quick-tag font-white" style="color: #fff">Building Tag Group List...</label>');
 
   $.ajax({
      type: 'POST',
@@ -134,15 +133,15 @@ function gs_load_tag_list(){
      data: JSON.stringify(requestData),
      async: false,
      success: function(data) {
+      $('#tag-group-bar').html('');
       debug = data;
-      //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
       tag_groups = data.facets.tag.terms;
 
       for(i=0;i<tag_groups.length; i++){
         console.log(tag_groups[i]);
         tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
       }
-      $('#tag-group-bar').append(tagArr.join(' | '));
+      $('#tag-group-bar').html(tagArr.join(' | '));
       //When a quick-tag is clicked, add the value to the current search
       $('.quick-tag').click(function(){
           val = $('#input-search').val()
