@@ -14,15 +14,6 @@ function gs_load_events(){
         //Add transfer logic here
     });       
 
-    //When a quick-tag is clicked, add the value to the current search
-    $('.quick-tag').click(function(){
-        val = $('#input-search').val()
-        if(val){
-          val = val + ' ' 
-        }
-        $('#input-search').val( val + $(this).text());
-        gs_perform_search();
-    });
 
     //Bind the right click event of #input-search to clear the value
     $('#input-search').mousedown(function(event) {
@@ -147,9 +138,16 @@ function gs_load_tag_list(){
         $('#tag-group-bar').html('');
         tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
       }
-      $('#tag-group-bar').append(tagArr.join('|'));
-
-
+      $('#tag-group-bar').append(tagArr.join(' | '));
+      //When a quick-tag is clicked, add the value to the current search
+      $('.quick-tag').click(function(){
+          val = $('#input-search').val()
+          if(val){
+            val = val + ' ' 
+          }
+          $('#input-search').val( val + $(this).text());
+          gs_perform_search();
+      });
      }
    });
 }
