@@ -228,7 +228,7 @@ function update_transfer_statistics(files_to_transfer){
   $('#transfer-statistics').html('');
   for(var ep in files_to_transfer){
       console.log(ep + ': ' + files_to_transfer[ep].length);
-      $('#transfer-statistics').append('<b>'+ ep + ': ' + files_to_transfer[ep].length + '</b><br>');
+      $('#transfer-statistics').append('<b>'+ ep + ': ' + files_to_transfer[ep].length + '</b> objects<br>');
   }
 }
 
