@@ -79,8 +79,7 @@ function gs_load_live_events(){
   $('.result-set-item').click(function(){
         $(this).toggleClass('result-set-item-selected');
         build_transfer_list();
-
-      });
+  });
 
   $('.label-last-modified').each(function( index ) {
       val = $('.label-last-modified')[index].innerText.trim();
