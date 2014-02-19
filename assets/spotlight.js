@@ -145,7 +145,7 @@ function gs_load_tag_list(){
       for(i=0;i<tag_groups.length; i++){
         console.log(tag_groups[i]);
         $('#tag-group-bar').html('');
-        tagArr.push("<label class='quick-tag font-white' style="color: #fff">"+ tag_groups[i].term +"</label>")
+        tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
       }
       $('#tag-group-bar').append(tagArr.join('|'));
 
