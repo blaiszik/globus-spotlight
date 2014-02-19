@@ -100,7 +100,7 @@ function gs_perform_update(this_id, tag_list){
            async:false,
            url: es_default_path+this_id,
            data: JSON.stringify(source),
-           success: function(data){
+           complete: function(data){
               gs_load_tag_list();
            }
          });
