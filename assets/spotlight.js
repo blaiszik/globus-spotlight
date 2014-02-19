@@ -56,14 +56,17 @@ function gs_load_events(){
     //JQuery logic to support selection of result-set-item(s). Currently support all, none, inverse selections
     $('#btn-select-all').on("click",function(){
       $('.result-set-item').addClass('result-set-item-selected');
+      build_transfer_list();
     });
 
     $('#btn-select-none').click(function(){
       $('.result-set-item').removeClass('result-set-item-selected');
+      build_transfer_list();
     });
 
     $('#btn-select-inverse').click(function(){
       $('.result-set-item').toggleClass('result-set-item-selected');
+      build_transfer_list();
     });
     /////
 
@@ -186,7 +189,6 @@ function build_transfer_list(){
     //Scrape the ids of selected search result items
   $('.result-set-item-selected').each(function(index){
         this_id = $( this ).attr('id').split('-')[2];  
-        console.log(this_id)      
         //Create transfer arrays
         if(!files_to_transfer[result_set[this_id]._source.endpoint]){
           files_to_transfer[result_set[this_id]._source.endpoint] = [];
@@ -210,15 +212,25 @@ function build_transfer_list(){
                             "source_endpoint":result_set[this_id]._source.endpoint,
                             "type":result_set[this_id]._source.type
         };
-        console.log(transfer_object)
 
         //Make sure the transfer isn't from-to the same path. If not, add to the files_to_transfer array
         if(!(transfer_object.destination_path == transfer_object.source_path)){
           files_to_transfer[result_set[this_id]._source.endpoint].push(transfer_object);
         }
   });
-  return files_to_transfer
 
+  update_transfer_statistics(files_to_transfer);
+  return files_to_transfer
+}
+
+function update_transfer_statistics(files_to_transfer){
+  for(var ep in files_to_transfer){
+      console.log(ep + ': ' + files_to_transfer[ep]);
+      //go_transfer_file(ep,default_destination_endpoint, files_to_transfer[ep],function(){console.log('testing transfer');});
+      for(trans in files_to_transfer[ep]){
+        console.log(files_to_transfer[ep][trans]);
+      } 
+  }
 }
 
 function bytesToSize(bytes, precision) {
