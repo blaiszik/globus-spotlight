@@ -132,6 +132,7 @@ function gs_load_tag_list(){
      type: 'POST',
      url: requestUrl,
      data: JSON.stringify(requestData),
+     async: false,
      success: function(data) {
       debug = data;
       //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
