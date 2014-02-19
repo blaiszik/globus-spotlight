@@ -139,6 +139,7 @@ function gs_load_tag_list(){
      url: requestUrl,
      data: JSON.stringify(requestData),
      success: function(data) {
+      debug = data;
       console.log(data);
       console.log(data.facets);
       //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
@@ -199,7 +200,6 @@ function gs_perform_transfer(){
   source_path = '';
 
   files_to_transfer = build_transfer_list();
-  debug = files_to_transfer;
   for(var ep in files_to_transfer){
     console.log(ep + ': ' + files_to_transfer[ep]);
     //go_transfer_file(ep,default_destination_endpoint, files_to_transfer[ep],function(){console.log('testing transfer');});
