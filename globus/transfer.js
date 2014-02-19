@@ -98,13 +98,11 @@ function go_list_endpoints(fields, parameters){
 	if (parameters.limit){
 		optionsArray.push('limit='+parameters.limit)	
 	}
-
 	if(fields){
 		optionsArray.push('fields='+fields);
 	}
-	console.log(optionsArray.join('&'));
 
-	var resource = '/endpoint_list?fields=' + fields;
+	var resource = '/endpoint_list?'+optionsArray.join('&')
 	return go_tapi('GET', resource, null, 'listing endpoints');
 }
 
