@@ -144,10 +144,10 @@ function gs_load_tag_list(){
       tag_groups = data.facets.tags.terms;
       for(i=0;i<tag_groups.length; i++){
         console.log(tag_groups[i]);
-        $('#tag-group-bar').html('');
-        tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
+        //$('#tag-group-bar').html('');
+        //tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
       }
-      $('#tag-group-bar').append(tagArr.join('|'));
+      //$('#tag-group-bar').append(tagArr.join('|'));
 
 
      }
