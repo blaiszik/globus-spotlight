@@ -141,13 +141,13 @@ function gs_load_tag_list(){
      success: function(data) {
       debug = data;
       //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
-      tag_groups = data.facets.tags.terms;
+      tag_groups = data.facets.tag.terms;
       for(i=0;i<tag_groups.length; i++){
         console.log(tag_groups[i]);
-        //$('#tag-group-bar').html('');
-        //tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
+        $('#tag-group-bar').html('');
+        tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
       }
-      //$('#tag-group-bar').append(tagArr.join('|'));
+      $('#tag-group-bar').append(tagArr.join('|'));
 
 
      }
