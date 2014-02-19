@@ -97,6 +97,7 @@ function gs_perform_update(this_id, tag_list){
         source.tags = tag_list;
          $.ajax({
            type: 'PUT',
+           async:false,
            url: es_default_path+this_id,
            data: JSON.stringify(source),
            success: function(data){
