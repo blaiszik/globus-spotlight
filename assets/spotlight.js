@@ -185,7 +185,8 @@ function build_transfer_list(){
 
     //Scrape the ids of selected search result items
   $('.result-set-item-selected').each(function(index){
-        this_id = $( this ).attr('id').split('-')[2];        
+        this_id = $( this ).attr('id').split('-')[2];  
+        console.log(this_id)      
         //Create transfer arrays
         if(!files_to_transfer[result_set[this_id]._source.endpoint]){
           files_to_transfer[result_set[this_id]._source.endpoint] = [];
@@ -209,6 +210,7 @@ function build_transfer_list(){
                             "source_endpoint":result_set[this_id]._source.endpoint,
                             "type":result_set[this_id]._source.type
         };
+        console.log(transfer_object)
 
         //Make sure the transfer isn't from-to the same path. If not, add to the files_to_transfer array
         if(!(transfer_object.destination_path == transfer_object.source_path)){
