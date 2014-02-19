@@ -140,9 +140,8 @@ function gs_load_tag_list(){
      data: JSON.stringify(requestData),
      success: function(data) {
       console.log(data);
-      //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
-      data = JSON.parse(data);
       console.log(data.facets);
+      //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
       tag_groups = data.facets.tags.term;
       for(i=0;i<tag_groups.length; i++){
         console.log(tag_groups[i]);
