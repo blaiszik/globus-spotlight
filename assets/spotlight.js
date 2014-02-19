@@ -126,6 +126,8 @@ function gs_load_tag_list(){
 
  requestUrl = es_default_path + '_search';
  tagArr = [];
+ $('#tag-group-bar').html('<label class="quick-tag font-white" style="color: #fff">Building Tag Group List...</label>');
+
   $.ajax({
      type: 'POST',
      url: requestUrl,
@@ -134,7 +136,6 @@ function gs_load_tag_list(){
       debug = data;
       //<label class='quick-tag font-white' style="color: #fff">Scattering</label> | 
       tag_groups = data.facets.tag.terms;
-      $('#tag-group-bar').html('');
 
       for(i=0;i<tag_groups.length; i++){
         console.log(tag_groups[i]);
