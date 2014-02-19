@@ -23,30 +23,7 @@
     <script src="./globus/transfer.js"></script>
 
     <title>Globus Spotlight</title>
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            gs_reset_panels();
-            gs_load_events();
-            gs_load_tag_list();
 
-             var available_resources = [
-              "Decarlo - Tomography - Orthros",
-              "Osborn - NXS - Mira ",
-              "Sharma - HDF5 - Orthros",
-              "Winarski - Tomography - Carbon"
-            ];
-
-            $( "#input-analyze" ).autocomplete({
-              source: available_resources
-            });
-
-            $('#btn-refine').click(function(){
-                console.log('refining search endpoints');
-                endpoint_list = go_get_endpoint_names();
-            });
-
-        });
-    </script>
 </head>
 <body>
     <!-- Top Navigation -->
@@ -194,4 +171,28 @@
         <!-- END Result Container -->
     </div>
 </body>
+<script type="text/javascript">
+        $( document ).ready(function() {
+            gs_reset_panels();
+            gs_load_events();
+            gs_load_tag_list();
+
+             var available_resources = [
+              "Decarlo - Tomography - Orthros",
+              "Osborn - NXS - Mira ",
+              "Sharma - HDF5 - Orthros",
+              "Winarski - Tomography - Carbon"
+            ];
+
+            $( "#input-analyze" ).autocomplete({
+              source: available_resources
+            });
+
+            $('#btn-refine').click(function(){
+                console.log('refining search endpoints');
+                endpoint_list = go_get_endpoint_names();
+            });
+
+        });
+    </script>
 </html>
