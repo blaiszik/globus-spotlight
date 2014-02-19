@@ -78,6 +78,8 @@ function gs_load_events(){
 function gs_load_live_events(){
   $('.result-set-item').click(function(){
         $(this).toggleClass('result-set-item-selected');
+        build_transfer_list();
+
       });
 
   $('.label-last-modified').each(function( index ) {
@@ -224,6 +226,7 @@ function build_transfer_list(){
 }
 
 function update_transfer_statistics(files_to_transfer){
+  $('#transfer-statistics').html('');
   for(var ep in files_to_transfer){
       console.log(ep + ': ' + files_to_transfer[ep].length);
       $('#transfer-statistics').append('<b>'+ ep + ': ' + files_to_transfer[ep].length + '</b><br>');
