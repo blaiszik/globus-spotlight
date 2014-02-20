@@ -15,7 +15,6 @@ var result_size = 100;
 //Elasticsearch Client
 var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
 
-var es_client = new $.es.Client({
+var es_cclient = new $.es.Client({
   hosts: es_curl
 });
-console.log(es_client);
