@@ -89,34 +89,25 @@ function gs_reset_panels(){
 //Elasticsearch update -- GET the original content and
 function gs_perform_update(this_id, tag_list){
 
-  es_client.search({
-    index: default_client_index,
-    type: default_client_type,
-    q: "_id:"+this_id,
-  }, function (error, data) {
-    console.log(data);
-    gs_load_tag_list();
-  }
-);
 
-  // $.ajax({
-  //    type: 'GET',
-  //    url: es_default_path+this_id,
-  //    success: function(data) {
-  //       the_id = data._id;
-  //       source = data._source;
-  //       source.tags = tag_list;
-  //        $.ajax({
-  //          type: 'PUT',
-  //          async:false,
-  //          url: es_default_path+this_id,
-  //          data: JSON.stringify(source),
-  //          complete: function(data){
-  //             gs_load_tag_list();
-  //          }
-  //        });
-  //    }
-  //  });
+  $.ajax({
+     type: 'GET',
+     url: es_default_path+this_id,
+     success: function(data) {
+        the_id = data._id;
+        source = data._source;
+        source.tags = tag_list;
+         $.ajax({
+           type: 'PUT',
+           async:false,
+           url: es_default_path+this_id,
+           data: JSON.stringify(source),
+           complete: function(data){
+              gs_load_tag_list();
+           }
+         });
+     }
+   });
 }
 
 function gs_load_tag_list(){
