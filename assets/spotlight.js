@@ -110,7 +110,18 @@ function gs_perform_update(this_id, tag_list){
 
 function gs_load_tag_list(){
 
-  console.log(es_client);
+  es_client.ping({
+    requestTimeout: 1000,
+    // undocumented params are appended to the query string
+    hello: "elasticsearch!"
+  }, function (error) {
+    if (error) {
+      console.error('elasticsearch cluster is down!');
+    } else {
+      console.log('All is well');
+    }
+  });
+
   requestData = {
                     "query" : {
                         "match_all" : {}
