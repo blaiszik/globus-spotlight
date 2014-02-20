@@ -184,6 +184,7 @@ function gs_perform_search() {
     es_client.search({
         index: es_client_default_index,
         type: es_client_default_type,
+        size: result_size,
         body: requestData,
     }).then(function(data) {
         result_set = data.hits.hits;
