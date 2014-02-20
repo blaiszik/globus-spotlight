@@ -109,7 +109,6 @@ function gs_perform_update(this_id, tag_list){
 }
 
 function gs_load_tag_list(){
-  console.log(es_client);
   requestData = {
                     "query" : {
                         "match_all" : {}
