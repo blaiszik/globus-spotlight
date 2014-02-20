@@ -5,6 +5,7 @@ default_destination_endpoint = "go#ep1";
 
 function gs_load_events(){
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
+    console.log('loading events');
     $('#input-search').keyup(function() {
           gs_perform_search();// get the current value of the input field.
     });
@@ -99,7 +100,6 @@ function gs_perform_update(this_id, tag_list){
         source.tags = tag_list;
          $.ajax({
            type: 'PUT',
-           async:false,
            url: es_default_path+this_id,
            data: JSON.stringify(source),
            complete: function(data){
@@ -148,7 +148,6 @@ function gs_load_tag_list(){
           $('#input-search').val( val + $(this).text());
           gs_perform_search();
       });
-      console.log('then?');
   }, function (err) {
       console.log('Error loading tag list');
   });
