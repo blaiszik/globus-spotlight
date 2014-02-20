@@ -172,12 +172,7 @@
     <script src="./globus/transfer.js"></script>
 <script type="text/javascript">
         $( document ).ready(function() {
-            var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
-
-            var es_client = new $.es.Client({
-              hosts: es_curl
-            });
-            console.log(es_client);
+            
 
             gs_reset_panels();
             gs_load_tag_list();
