@@ -131,7 +131,7 @@ function gs_load_tag_list(){
     index: es_client_default_index,
     type: es_client_default_type,
     body: requestData,
-  }).then(function (resp) {
+  }).then(function (data) {
       $('#tag-group-bar').html('');
       debug = data;
       tag_groups = data.facets.tag.terms;
