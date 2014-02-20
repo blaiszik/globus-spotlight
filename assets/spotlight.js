@@ -89,6 +89,9 @@ function gs_reset_panels(){
 //Elasticsearch update -- GET the original content and
 function gs_perform_update(this_id, tag_list){
 
+  console.log(es_client)
+  console.log(this_id)
+  console.log(tag_list)
   es_client.update({
     index: default_client_index,
     type: default_client_type,
