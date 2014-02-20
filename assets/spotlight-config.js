@@ -12,11 +12,5 @@ var es_default_path = es_url + es_default_index + es_default_type;
 //Elasticsearch result options
 var result_size = 100;
 
-//Elasticsearch Client
-var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
 
-var es_client = new $.es.Client({
-  hosts: es_curl
-});
 
-var es_cclient = es_client;

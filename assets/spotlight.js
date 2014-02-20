@@ -2,11 +2,6 @@ result_set = {};
 debug = '';
 default_destination_path = "go#ep1/home/blaiszik"
 default_destination_endpoint = "go#ep1";
-var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
-
-var es_client = new $.es.Client({
-  hosts: es_curl
-});
 
 function gs_load_events(){
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
@@ -114,7 +109,7 @@ function gs_perform_update(this_id, tag_list){
 }
 
 function gs_load_tag_list(){
-
+  console.log(es_client);
   requestData = {
                     "query" : {
                         "match_all" : {}
