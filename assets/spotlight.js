@@ -173,7 +173,6 @@ function gs_perform_search() {
     // Here is where the actual search query is built.  Rankings are assigned with tags given the highest 
     // priority, path, name, endpoint, and DATA_TYPE next
     requestData = {
-        "size": result_size,
         "query": {
             "query_string": {
                 "fields": ["tags^3", "path^2", "name^2", "endpoint", "DATA_TYPE"],
@@ -184,7 +183,7 @@ function gs_perform_search() {
     es_client.search({
         index: es_client_default_index,
         type: es_client_default_type,
-        size: result_size,
+        size: 100,
         body: requestData,
     }).then(function(data) {
         result_set = data.hits.hits;
