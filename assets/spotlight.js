@@ -135,7 +135,6 @@ function gs_load_tag_list(){
       tag_groups = data.facets.tag.terms;
 
       for(i=0;i<tag_groups.length; i++){
-        console.log(tag_groups[i]);
         tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
       }
       $('#tag-group-bar').html(tagArr.join(' | '));
@@ -169,30 +168,55 @@ function gs_perform_search(){
                     }
                   }
               };
-  $.ajax({
-     type: 'POST',
-     url: es_default_path + '_search',
-     data: JSON.stringify(requestData),
-     success: function(data) {
-         result_set = data.hits.hits;
-         result_file_size = 0;
+es_client.search({
+    index: es_client_default_index,
+    type: es_client_default_type,
+    body: requestData,
+  }).then(function(data){
+    result_set = data.hits.hits;
+    result_file_size = 0;
 
-         for(i=0; i<result_set.length; i++){
-              if(result_set[i]._source.size){
-                result_file_size = result_file_size + result_set[i]._source.size;
-              }
-              if(result_set[i]._source.size > 0){
-                  result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
-              }else{
-                  result_set[i]._source.size = '';
-              }
-          }
-          new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
-          gs_load_live_events();
-          result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
-          $('#result-file-size').html(result_file_size_html);
-     }
+    for(i=0; i<result_set.length; i++){
+      if(result_set[i]._source.size){
+        result_file_size = result_file_size + result_set[i]._source.size;
+      }
+      if(result_set[i]._source.size > 0){
+          result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
+      }else{
+          result_set[i]._source.size = '';
+      }
+    }
+    new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
+    gs_load_live_events();
+    result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
+    $('#result-file-size').html(result_file_size_html);
   });
+
+
+  // $.ajax({
+  //    type: 'POST',
+  //    url: es_default_path + '_search',
+  //    data: JSON.stringify(requestData),
+  //    success: function(data) {
+  //        result_set = data.hits.hits;
+  //        result_file_size = 0;
+
+  //        for(i=0; i<result_set.length; i++){
+  //             if(result_set[i]._source.size){
+  //               result_file_size = result_file_size + result_set[i]._source.size;
+  //             }
+  //             if(result_set[i]._source.size > 0){
+  //                 result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
+  //             }else{
+  //                 result_set[i]._source.size = '';
+  //             }
+  //         }
+  //         new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
+  //         gs_load_live_events();
+  //         result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
+  //         $('#result-file-size').html(result_file_size_html);
+  //    }
+  // });
 }
 
 function gs_perform_transfer(){
