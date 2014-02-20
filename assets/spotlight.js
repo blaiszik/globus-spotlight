@@ -4,9 +4,8 @@ default_destination_path = "go#ep1/home/blaiszik"
 default_destination_endpoint = "go#ep1";
 var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
 
-var elasticsearch = require('elasticsearch');
-var es_client = new elasticsearch.Client({
-  host: es_curl,
+var es_client = new $.es.Client({
+  hosts: es_curl
 });
 
 function gs_load_events(){
