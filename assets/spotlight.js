@@ -278,6 +278,8 @@ function result_size(result_set, precision) {
         }
     }
 
+    console.log(result_size);
+
     return bytesToSize(result_size, precision);
 }
 
