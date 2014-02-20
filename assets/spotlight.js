@@ -88,28 +88,44 @@ function gs_reset_panels(){
 
 //Elasticsearch update -- GET the original content and
 function gs_perform_update(this_id, tag_list){
-  $.ajax({
-     type: 'GET',
-     url: es_default_path+this_id,
-     success: function(data) {
-        the_id = data._id;
-        source = data._source;
-        source.tags = tag_list;
-         $.ajax({
-           type: 'PUT',
-           async:false,
-           url: es_default_path+this_id,
-           data: JSON.stringify(source),
-           complete: function(data){
-              gs_load_tag_list();
-           }
-         });
-     }
-   });
+
+  client.update({
+    index: default_client_index,
+    type: default_client_type,
+    id: this_id,
+     body: {
+      // put the partial document under the `doc` key
+      doc: {
+        tags: tag_list
+      }
+    }
+  }, function (error, response) {
+    console.log(response);
+    gs_load_tag_list();
+  });
+
+  // $.ajax({
+  //    type: 'GET',
+  //    url: es_default_path+this_id,
+  //    success: function(data) {
+  //       the_id = data._id;
+  //       source = data._source;
+  //       source.tags = tag_list;
+  //        $.ajax({
+  //          type: 'PUT',
+  //          async:false,
+  //          url: es_default_path+this_id,
+  //          data: JSON.stringify(source),
+  //          complete: function(data){
+  //             gs_load_tag_list();
+  //          }
+  //        });
+  //    }
+  //  });
 }
 
 function gs_load_tag_list(){
-
+  tagArr = [];
   requestData = {
                     "query" : {
                         "match_all" : {}
@@ -123,9 +139,6 @@ function gs_load_tag_list(){
                         }
                     }
                 };
-
- requestUrl = es_default_path + '_search';
- tagArr = [];
 
   es_client.search({
     index: es_client_default_index,
@@ -152,35 +165,8 @@ function gs_load_tag_list(){
       });
       console.log('then?');
   }, function (err) {
-      console.log('error');
+      console.log('Error loading tag list');
   });
-
-  // $.ajax({
-  //    type: 'POST',
-  //    url: requestUrl,
-  //    data: JSON.stringify(requestData),
-  //    async: false,
-  //    success: function(data) {
-  //     $('#tag-group-bar').html('');
-  //     debug = data;
-  //     tag_groups = data.facets.tag.terms;
-
-  //     for(i=0;i<tag_groups.length; i++){
-  //       console.log(tag_groups[i]);
-  //       tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
-  //     }
-  //     $('#tag-group-bar').html(tagArr.join(' | '));
-  //     //When a quick-tag is clicked, add the value to the current search
-  //     $('.quick-tag').click(function(){
-  //         val = $('#input-search').val()
-  //         if(val){
-  //           val = val + ' ' 
-  //         }
-  //         $('#input-search').val( val + $(this).text());
-  //         gs_perform_search();
-  //     });
-  //    }
-  //  });
 }
 
 function gs_perform_search(){
