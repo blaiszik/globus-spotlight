@@ -89,21 +89,12 @@ function gs_reset_panels(){
 //Elasticsearch update -- GET the original content and
 function gs_perform_update(this_id, tag_list){
 
-  console.log(es_client)
-  console.log(this_id)
-  console.log(tag_list)
-  es_client.update({
+  es_client.search({
     index: default_client_index,
     type: default_client_type,
-    id: this_id,
-     body: {
-      // put the partial document under the `doc` key
-      doc: {
-        tags: tag_list
-      }
-    }
-  }, function (error, response) {
-    console.log(response);
+    q: this_id,
+  }, function (error, data) {
+    console.log(data);
     gs_load_tag_list();
   });
 
