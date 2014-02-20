@@ -92,11 +92,12 @@ function gs_perform_update(this_id, tag_list){
   es_client.search({
     index: default_client_index,
     type: default_client_type,
-    q: this_id,
+    q: "_id:"+this_id,
   }, function (error, data) {
     console.log(data);
     gs_load_tag_list();
-  });
+  }
+);
 
   // $.ajax({
   //    type: 'GET',
