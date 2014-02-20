@@ -41,6 +41,8 @@ function gs_load_events(){
         $('#result-set-tag-'+this_id).html(tag_html);
         gs_perform_update(this_id, tag_array);
       });
+      gs_load_tag_list();
+
     });
 
     ////
@@ -88,8 +90,6 @@ function gs_reset_panels(){
 
 //Elasticsearch update -- GET the original content and
 function gs_perform_update(this_id, tag_list){
-
-
   $.ajax({
      type: 'GET',
      url: es_default_path+this_id,
@@ -103,7 +103,6 @@ function gs_perform_update(this_id, tag_list){
            url: es_default_path+this_id,
            data: JSON.stringify(source),
            complete: function(data){
-              gs_load_tag_list();
            }
          });
      }
