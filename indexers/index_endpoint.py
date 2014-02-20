@@ -129,14 +129,14 @@ token="un=blaiszik|tokenid=a513c130-61be-11e3-b1f9-1231391ccf32|expiry=141823171
  
 catalog_id = 3
 #endpoint_list = ({"canonical_name":"blaiszik#test_index"})
-endpoint_list = ({"canonical_name":"go#ep1"},{"canonical_name":"go#ep2"})
+endpoint_list = ({"canonical_name":"blaiszik#test_index"},{"canonical_name":"go#ep2"})
 
 
 tagfiler_url="https://localhost/tagfiler"
 
 #List of Elasticsearch Nodes to push data towards
-#es_urls = ["http://localhost:9200/globus_public_index/","http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200/globus_public_index/"]
-es_urls = ["http://localhost:9200/globus_public_index/"]
+es_urls = ["http://localhost:9200/globus_public_index/","http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200/globus_public_index/"]
+#es_urls = ["http://localhost:9200/globus_public_index/"]
 
 #es_url = "http://localhost:9200/globus_public_index/"
 mongo_database = "test"
