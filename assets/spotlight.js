@@ -203,7 +203,7 @@ function gs_perform_transfer(){
   files_to_transfer = build_transfer_list();
   for(var ep in files_to_transfer){
     console.log(ep + ': ' + files_to_transfer[ep]);
-    //go_transfer_file(ep,default_destination_endpoint, files_to_transfer[ep],function(){console.log('testing transfer');});
+    go_transfer_file(ep,default_destination_endpoint, files_to_transfer[ep],function(){console.log('testing transfer');});
     for(trans in files_to_transfer[ep]){
       console.log(files_to_transfer[ep][trans]);
     } 
