@@ -193,7 +193,7 @@ function gs_perform_search() {
             url: './templates/search_result.ejs'
         }).update('ejs-search-result', data);
         gs_load_live_events();
-        result_file_size_html = "<b>" + data.hits.total + ' results found | > ' + result_size(result_set) + "</b>";
+        result_file_size_html = "<b>" + data.hits.total + ' results found | > ' + result_size(result_set, 2) + "</b>";
         $('#result-file-size').html(result_file_size_html);
     });
 }
