@@ -12,5 +12,8 @@ var es_default_path = es_url + es_default_index + es_default_type;
 //Elasticsearch result options
 var result_size = 100;
 
-
-
+var es_client_url = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
+var es_client_default_index = "globus_public_index";
+var es_client_default_type = "file";
+var es_client_default_action = "_search";
+var es_client_default_path = es_client_url + es_client_default_index + es_client_default_type;

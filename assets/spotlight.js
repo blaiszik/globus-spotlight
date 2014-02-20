@@ -110,18 +110,6 @@ function gs_perform_update(this_id, tag_list){
 
 function gs_load_tag_list(){
 
-  es_client.ping({
-    requestTimeout: 1000,
-    // undocumented params are appended to the query string
-    hello: "elasticsearch!"
-  }, function (error) {
-    if (error) {
-      console.error('elasticsearch cluster is down!');
-    } else {
-      console.log('All is well');
-    }
-  });
-
   requestData = {
                     "query" : {
                         "match_all" : {}
@@ -138,6 +126,16 @@ function gs_load_tag_list(){
 
  requestUrl = es_default_path + '_search';
  tagArr = [];
+
+  es_client.search({
+    index: es_client_default_index,
+    type: es_client_default_type,
+    body: requestData,
+  }).then(function (resp) {
+      console.log('then?');
+  }, function (err) {
+      console.log('error');
+  });
 
   $.ajax({
      type: 'POST',
