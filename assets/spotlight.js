@@ -156,9 +156,9 @@ function gs_perform_search(){
   if($('#input-search').val().trim() == ''){
     return;
   }
-
   $('#detail-block').show();
   $('#result-block').show();
+  
   requestData = {
                   "size":result_size,
                   "query": {
@@ -191,32 +191,6 @@ es_client.search({
     result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
     $('#result-file-size').html(result_file_size_html);
   });
-
-
-  // $.ajax({
-  //    type: 'POST',
-  //    url: es_default_path + '_search',
-  //    data: JSON.stringify(requestData),
-  //    success: function(data) {
-  //        result_set = data.hits.hits;
-  //        result_file_size = 0;
-
-  //        for(i=0; i<result_set.length; i++){
-  //             if(result_set[i]._source.size){
-  //               result_file_size = result_file_size + result_set[i]._source.size;
-  //             }
-  //             if(result_set[i]._source.size > 0){
-  //                 result_set[i]._source.size = fileSizeSI(result_set[i]._source.size);
-  //             }else{
-  //                 result_set[i]._source.size = '';
-  //             }
-  //         }
-  //         new EJS({url:'./templates/search_result.ejs'}).update('ejs-search-result',data); 
-  //         gs_load_live_events();
-  //         result_file_size_html = "<b>"+data.hits.total+' results found | > '+fileSizeSI(result_file_size)+"</b>";
-  //         $('#result-file-size').html(result_file_size_html);
-  //    }
-  // });
 }
 
 function gs_perform_transfer(){
