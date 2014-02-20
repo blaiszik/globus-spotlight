@@ -132,17 +132,6 @@ function gs_load_tag_list(){
     type: es_client_default_type,
     body: requestData,
   }).then(function (resp) {
-      console.log('then?');
-  }, function (err) {
-      console.log('error');
-  });
-
-  $.ajax({
-     type: 'POST',
-     url: requestUrl,
-     data: JSON.stringify(requestData),
-     async: false,
-     success: function(data) {
       $('#tag-group-bar').html('');
       debug = data;
       tag_groups = data.facets.tag.terms;
@@ -161,8 +150,37 @@ function gs_load_tag_list(){
           $('#input-search').val( val + $(this).text());
           gs_perform_search();
       });
-     }
-   });
+      console.log('then?');
+  }, function (err) {
+      console.log('error');
+  });
+
+  // $.ajax({
+  //    type: 'POST',
+  //    url: requestUrl,
+  //    data: JSON.stringify(requestData),
+  //    async: false,
+  //    success: function(data) {
+  //     $('#tag-group-bar').html('');
+  //     debug = data;
+  //     tag_groups = data.facets.tag.terms;
+
+  //     for(i=0;i<tag_groups.length; i++){
+  //       console.log(tag_groups[i]);
+  //       tagArr.push("<label class='quick-tag font-white' style='color: #fff'>"+ tag_groups[i].term +"</label>");
+  //     }
+  //     $('#tag-group-bar').html(tagArr.join(' | '));
+  //     //When a quick-tag is clicked, add the value to the current search
+  //     $('.quick-tag').click(function(){
+  //         val = $('#input-search').val()
+  //         if(val){
+  //           val = val + ' ' 
+  //         }
+  //         $('#input-search').val( val + $(this).text());
+  //         gs_perform_search();
+  //     });
+  //    }
+  //  });
 }
 
 function gs_perform_search(){
