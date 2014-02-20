@@ -128,8 +128,8 @@ index_offset = 1                #Offset for endpoint list
 token="un=blaiszik|tokenid=a513c130-61be-11e3-b1f9-1231391ccf32|expiry=1418231719|client_id=blaiszik|token_type=Bearer|SigningSubject=https://nexus.api.globusonline.org/goauth/keys/a54b835e-61be-11e3-b1f9-1231391ccf32|sig=1c317b08ad98818749b4ff06e0f34f09784e4dbb30c3b809f136822651af99b8e77295e820e47384c0c90f12013b9729e3174e5551c7feec6f0ac8a1cb29b08be741fe64c8749c55583f3092b937ebe5eae15968e2613302105b68a00b58d50b023807177df659b1167416efdac32bc2bee146b43531629edd1f8a5b1807e727" 
  
 catalog_id = 3
-#endpoint_list = ({"canonical_name":"blaiszik#test_index"},{"canonical_name":"go#ep2"})
-endpoint_list = ({"canonical_name":"go#ep1"},{"canonical_name":"go#ep2"})
+endpoint_list = ({"canonical_name":"blaiszik#test_index"})
+#endpoint_list = ({"canonical_name":"go#ep1"},{"canonical_name":"go#ep2"})
 
 
 tagfiler_url="https://localhost/tagfiler"
@@ -143,7 +143,7 @@ mongo_database = "test"
 
 m_client = ''
 m_db = ''
-m_default_collection = 'spotlight_ben'
+m_default_collection = 'globus_public_index'
 
 transfer_client = api_client.TransferAPIClient("blaiszik", goauth=token)
 
