@@ -280,7 +280,7 @@ function result_size(result_set, precision) {
 
     console.log(result_size);
 
-    return bytesToSize(result_size, precision);
+    return fileSizeSI(result_size.toPrecision(precision));
 }
 
 //Helper functions, mainly for formatting
@@ -288,18 +288,4 @@ function result_size(result_set, precision) {
 function fileSizeSI(a, b, c, d, e) {
     return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(2) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
     //kB,MB,GB,TB,PB,EB,ZB,YB
-}
-
-function bytesToSize(bytes, precision) {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    var posttxt = 0;
-    if (bytes == 0) return 'n/a';
-    if (bytes < 1000) {
-        return Number(bytes) + " " + sizes[posttxt];
-    }
-    while (bytes >= 1000) {
-        posttxt++;
-        bytes = bytes / 1000;
-    }
-    return bytes.toPrecision(precision) + " " + sizes[posttxt];
 }
