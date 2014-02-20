@@ -187,17 +187,13 @@ function gs_perform_search() {
         body: requestData,
     }).then(function(data) {
         result_set = data.hits.hits;
-        result_file_size = 0;
-
-        //loop through and build the size
-        result_file_size = result_size(result_set);
 
         //Template the results usin EJS templating engine
         new EJS({
             url: './templates/search_result.ejs'
         }).update('ejs-search-result', data);
         gs_load_live_events();
-        result_file_size_html = "<b>" + data.hits.total + ' results found | > ' + fileSizeSI(result_file_size) + "</b>";
+        result_file_size_html = "<b>" + data.hits.total + ' results found | > ' + result_size(result_set) + "</b>";
         $('#result-file-size').html(result_file_size_html);
     });
 }
@@ -224,14 +220,6 @@ function gs_perform_transfer() {
     }
     console.log(files_to_transfer);
 
-}
-
-
-//Helper functions, mainly for formatting
-
-function fileSizeSI(a, b, c, d, e) {
-    return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(2) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
-    //kB,MB,GB,TB,PB,EB,ZB,YB
 }
 
 function build_transfer_list() {
@@ -282,7 +270,7 @@ function update_transfer_statistics(files_to_transfer) {
     }
 }
 
-function result_size(result_set) {
+function result_size(result_set, precision) {
     var result_size = 0;
     for (i = 0; i < result_set.length; i++) {
         if (result_set[i]._source.size) {
@@ -290,7 +278,14 @@ function result_size(result_set) {
         }
     }
 
-    return result_size;
+    return bytesToSize(result_size, precision);
+}
+
+//Helper functions, mainly for formatting
+
+function fileSizeSI(a, b, c, d, e) {
+    return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(2) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
+    //kB,MB,GB,TB,PB,EB,ZB,YB
 }
 
 function bytesToSize(bytes, precision) {
