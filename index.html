@@ -13,6 +13,13 @@
     <script src="./assets/jquery-2.0.3.min.js"></script>
     <script src="./assets/jquery-ui.min.js"></script>
     <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .popover {
+            min-width: 200px;
+            min-height: 200px;
+            height: 200px;
+        }
+    </style>
 
     <title>Globus Spotlight</title>
 
@@ -57,7 +64,7 @@
                 <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
                     <div class="pull-right">
                         <label>Search: Endpoints Shared with Me</label> 
-                        <button id='btn-refine' type="button" class="btn btn-xs btn-primary" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                        <button id='btn-refine' type="button" class="btn btn-xs btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
   Refine
 </button>
 
@@ -203,7 +210,7 @@
             });
 
             $('#btn-refine').attr('data-html', true);
-            $('#btn-refine').attr('data-content', '<select multiple class="form-control" id="select-endpoint"></select>');
+            $('#btn-refine').attr('data-content', '<div class="popover-medium"><select multiple class="form-control" id="select-endpoint"></select></div>');
             $('#btn-refine').popover();
 
             $('#btn-refine').click(function(){
