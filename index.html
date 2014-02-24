@@ -17,7 +17,7 @@
         .popover {
             min-width: 200px;
             min-height: 200px;
-            height: 200px;
+            height: 250px;
         }
     </style>
 
@@ -210,7 +210,7 @@
             });
 
             $('#btn-refine').attr('data-html', true);
-            $('#btn-refine').attr('data-content', '<div class="popover-medium"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select></div>');
+            $('#btn-refine').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select></div>');
             $('#btn-refine').popover();
 
             $('#btn-refine').click(function(){
