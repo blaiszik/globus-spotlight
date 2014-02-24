@@ -29,6 +29,8 @@
             $('#alert-login-success').hide();
             $('#alert-login-failure').hide();
 
+            $('#example').popover();
+
             $('#btn-sign-out').click(function(){
                     $.removeCookie(goauth_cookie);
                     console.log('Logging out...');
@@ -103,8 +105,11 @@
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
         <div class="alert alert-success" id='alert-login-success'>Login Successful, Continue to Globus Spotlight...</div>
         <div class="alert alert-danger" id='alert-login-failure'>Invalid Login</div>
-
     </div>
+
+    <button id='example' type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on right
+    </button>
 
 
 </div>
