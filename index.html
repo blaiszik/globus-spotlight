@@ -187,9 +187,7 @@
         $( document ).ready(function() {
             //Elasticsearch Client
             var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
-            ep_counter = 0;
-            ep_limit = 10;
-
+            
             es_client = new $.es.Client({
               hosts: es_curl
             });
