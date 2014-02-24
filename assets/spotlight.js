@@ -6,6 +6,25 @@ default_destination_endpoint = "go#ep1";
 function gs_load_events() {
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     console.log('loading events');
+    $('#btn-transfer-destination').attr('data-html', true);
+    $('#btn-transfer-destination').attr('data-placement', "right");
+    $('#btn-transfer-destination').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-destination-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
+    $('#btn-transfer-destination').popover();
+
+    $('#btn-transfer-destination').click(function() {
+        ep_destination_counter = 0;
+        console.log('refining search endpoints');
+
+        console.log(ep_counter);
+        update_endpoint_destination_select(ep_destination_counter * ep_destination_limit, ep_destination_limit);
+
+        $("#btn-more-endpoint").click(function() {
+            console.log(ep_counter);
+            update_endpoint_destination_select(ep_destination_counter * ep_destination_limit, ep_destination_limit);
+        })
+    });
+
+
     $('#input-search').keyup(function() {
         gs_perform_search(); // get the current value of the input field.
     });
@@ -113,6 +132,34 @@ function gs_perform_update(this_id, tag_list) {
 }
 
 /////////
+// Load the most endpoints in the index
+////////
+function gs_load_endpoint_list() {
+    endpoint_list = [];
+    requestData = {
+        "query": {
+            "match_all": {}
+        },
+        "facets": {
+            "tag": {
+                "terms": {
+                    "field": "endpoint",
+                    "size": 20
+                }
+            }
+        }
+    };
+
+    es_client.search({
+        index: es_client_default_index,
+        type: es_client_default_type,
+        body: requestData,
+    }).then(function(data) {
+        console.log(data);
+    })
+}
+
+/////////
 // Load the most popular tags for all elements in the index
 // - the results are then used to build the tag-group-bar quick select items
 /////////
@@ -140,7 +187,7 @@ function gs_load_tag_list() {
         $('#tag-group-bar').html('');
         debug = data;
         tag_groups = data.facets.tag.terms;
-
+        console.log(tag_groups);
         for (i = 0; i < tag_groups.length; i++) {
             tagArr.push("<label class='quick-tag font-white' style='color: #fff'>" + tag_groups[i].term + "</label>");
         }
@@ -270,16 +317,26 @@ function update_transfer_statistics(files_to_transfer) {
     }
 }
 
-function update_endpoint_select(ep_offset, ep_limit) {
+function update_endpoint_select(offset, limit) {
     endpoint_list = go_get_endpoint_names({
-        "offset": ep_offset,
-        "limit": ep_limit
+        "offset": offset,
+        "limit": limit
     });
     $.each(endpoint_list, function(val, text) {
         $('#select-endpoint').append($('<option></option>').val(val).html(text))
     });
     ep_counter += 1;
+}
 
+function update_endpoint_destination_select(offset, limit) {
+    endpoint_list = go_get_endpoint_names({
+        "offset": offset,
+        "limit": limit
+    });
+    $.each(endpoint_list, function(val, text) {
+        $('#select-destination-endpoint').append($('<option></option>').val(val).html(text))
+    });
+    ep_destination_counter += 1;
 }
 
 function result_size(result_set, precision) {
