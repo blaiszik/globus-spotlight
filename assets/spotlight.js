@@ -8,7 +8,7 @@ function gs_load_events() {
     console.log('loading events');
     $('#btn-transfer-destination').attr('data-html', true);
     $('#btn-transfer-destination').attr('data-placement', "right");
-    $('#btn-transfer-destination').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-destination-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
+    $('#btn-transfer-destination').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-destination-name" placeholder="Add Destination Name"><select class="form-control" id="select-destination-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
     $('#btn-transfer-destination').popover();
 
     $('#btn-transfer-destination').click(function() {
@@ -21,6 +21,23 @@ function gs_load_events() {
         $("#btn-more-endpoint").click(function() {
             console.log(ep_counter);
             update_endpoint_destination_select(ep_destination_counter * ep_destination_limit, ep_destination_limit);
+        })
+    });
+
+    $('#btn-refine').attr('data-html', true);
+    $('#btn-refine').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
+    $('#btn-refine').popover();
+
+    $('#btn-refine').click(function() {
+        ep_counter = 0;
+        console.log('refining search endpoints');
+
+        console.log(ep_counter);
+        update_endpoint_select(ep_counter * ep_limit, ep_limit);
+
+        $("#btn-more-endpoint").click(function() {
+            console.log(ep_counter);
+            update_endpoint_select(ep_counter * ep_limit, ep_limit);
         })
     });
 
@@ -88,7 +105,6 @@ function gs_load_events() {
 
 //Function to load events for items that may be loaded AFTER the original gs_load_events() is called. 
 //These are generally items created in the templating process which can be dynamic
-
 function gs_load_live_events() {
     $('.result-set-item').click(function() {
         $(this).toggleClass('result-set-item-selected');
@@ -114,6 +130,7 @@ function gs_reset_panels() {
 // This is currently called multiple times, would be nice to switch to a bulk update
 /////////
 function gs_perform_update(this_id, tag_list) {
+    //Convert this to es_client.update()
     $.ajax({
         type: 'GET',
         url: es_default_path + this_id,
@@ -149,7 +166,6 @@ function gs_load_endpoint_list() {
             }
         }
     };
-
     es_client.search({
         index: es_client_default_index,
         type: es_client_default_type,
@@ -245,11 +261,9 @@ function gs_perform_search() {
     });
 }
 
-
 ///////
 // This function is called to perform a transfer based on selected files
 ///////
-
 function gs_perform_transfer() {
     files_to_transfer = {};
     destination_path = '';
@@ -266,7 +280,6 @@ function gs_perform_transfer() {
         }
     }
     console.log(files_to_transfer);
-
 }
 
 function build_transfer_list() {
@@ -298,7 +311,6 @@ function build_transfer_list() {
             "source_endpoint": result_set[this_id]._source.endpoint,
             "type": result_set[this_id]._source.type
         };
-
         //Make sure the transfer isn't from-to the same path. If not, add to the files_to_transfer array
         if (!(transfer_object.destination_path == transfer_object.source_path)) {
             files_to_transfer[result_set[this_id]._source.endpoint].push(transfer_object);
@@ -346,9 +358,7 @@ function result_size(result_set, precision) {
             result_size = result_size + result_set[i]._source.size;
         }
     }
-
     console.log(result_size);
-
     return fileSizeSI(result_size.toPrecision(precision));
 }
 
