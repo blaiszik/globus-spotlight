@@ -212,9 +212,7 @@
                 endpoint_list = go_get_endpoint_names({"offset":0, "limit":10});
                 console.log(endpoint_list);
                 $.each(endpoint_list, function(val, text) {
-                    console.log(val);
-                    console.log(text);
-                    $('#select-endpoint').append( $('<option></option>').val(val).html(text.canonical_name) )
+                    $('#select-endpoint').append( $('<option></option>').val(val).html(text) )
                 });
 
             });
