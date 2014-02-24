@@ -202,13 +202,17 @@
               source: available_resources
             });
 
-            $('#btn-refine').attr('data-content', 'test')
+            $('#btn-refine').attr('data-content', '<select multiple class="form-control" id="select-endpoint"></select>')
             $('#btn-refine').popover();
 
             $('#btn-refine').click(function(){
                 console.log('refining search endpoints');
                 endpoint_list = go_get_endpoint_names({"offset":0, "limit":10});
                 console.log(endpoint_list);
+                $.each(endpoint_list, function(val, text) {
+                    $('#select-endpoint').append( $('<option></option>').val(val).html(text) )
+                }); // there was also a ) missing here
+
             });
 
         });
