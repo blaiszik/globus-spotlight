@@ -209,9 +209,7 @@
             $('#btn-refine').click(function(){
                 console.log('refining search endpoints');
               
-                data = go_get_endpoint_names({"offset":0, "limit":10});
-                console.log(data);
-                endpoint_list = data.DATA;
+                endpoint_list = go_get_endpoint_names({"offset":0, "limit":10});
                 console.log(endpoint_list);
                 $.each(endpoint_list, function(val, text) {
                     console.log(val);
