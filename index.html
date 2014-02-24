@@ -187,7 +187,7 @@
         $( document ).ready(function() {
             //Elasticsearch Client
             var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
-            
+
             es_client = new $.es.Client({
               hosts: es_curl
             });
@@ -214,6 +214,7 @@
             $('#btn-refine').popover();
 
             $('#btn-refine').click(function(){
+                ep_counter = 0;
                 console.log('refining search endpoints');
                 
                 console.log(ep_counter);
