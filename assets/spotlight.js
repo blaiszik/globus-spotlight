@@ -277,8 +277,9 @@ function update_endpoint_select(ep_offset, ep_limit) {
     });
     $.each(endpoint_list, function(val, text) {
         $('#select-endpoint').append($('<option></option>').val(val).html(text))
-        ep_counter += 1;
     });
+    ep_counter += 1;
+
 }
 
 function result_size(result_set, precision) {
