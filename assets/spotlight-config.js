@@ -5,6 +5,7 @@ var GOAuthToken = "un=blaiszik|tokenid=80774510-83ae-11e3-ba6c-1231381a5994|expi
 var ep_counter = 0;
 var ep_limit = 25;
 
+
 //Elasticsearch path options
 //var es_url = "http://localhost:9200/";
 var es_url = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200/";
