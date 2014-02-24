@@ -187,6 +187,8 @@
         $( document ).ready(function() {
             //Elasticsearch Client
             var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
+            ep_counter = 0;
+            ep_limit = 10;
 
             es_client = new $.es.Client({
               hosts: es_curl
@@ -210,18 +212,23 @@
             });
 
             $('#btn-refine').attr('data-html', true);
-            $('#btn-refine').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select></div>');
+            $('#btn-refine').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
             $('#btn-refine').popover();
 
             $('#btn-refine').click(function(){
                 console.log('refining search endpoints');
-              
-                endpoint_list = go_get_endpoint_names({"offset":0, "limit":10});
-                console.log(endpoint_list);
-                $.each(endpoint_list, function(val, text) {
-                    $('#select-endpoint').append( $('<option></option>').val(val).html(text) )
-                });
+                
+                update_endpoint_select(ep_counter*ep_limit, ep_limit);
 
+                $("#btn-more-endpoint").click(function(){
+                    update_endpoint_select(ep_counter*ep_limit, ep_limit);
+                })
+                // endpoint_list = go_get_endpoint_names({"offset":ep_counter*ep_limit, "limit":ep_limit});
+                // $.each(endpoint_list, function(val, text) {
+                //     $('#select-endpoint').append( $('<option></option>').val(val).html(text) )
+                //     ep_counter += 1;
+
+                // });
             });
 
         });

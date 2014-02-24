@@ -270,6 +270,17 @@ function update_transfer_statistics(files_to_transfer) {
     }
 }
 
+function update_endpoint_select(ep_offset, ep_limit) {
+    endpoint_list = go_get_endpoint_names({
+        "offset": ep_offset,
+        "limit": ep_limit
+    });
+    $.each(endpoint_list, function(val, text) {
+        $('#select-endpoint').append($('<option></option>').val(val).html(text))
+        ep_counter += 1;
+    });
+}
+
 function result_size(result_set, precision) {
     var result_size = 0;
     for (i = 0; i < result_set.length; i++) {
