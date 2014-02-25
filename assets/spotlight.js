@@ -1,14 +1,17 @@
 result_set = {};
 debug = '';
-default_destination_path = "go#ep1/home/blaiszik"
+default_destination_path = "/home/blaiszik"
 default_destination_endpoint = "go#ep1";
 
 function gs_load_events() {
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     console.log('loading events');
+
+    //Events for the popover for creating a new destination
+    //**Not operational
     $('#btn-transfer-destination').attr('data-html', true);
     $('#btn-transfer-destination').attr('data-placement', "right");
-    $('#btn-transfer-destination').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-destination-name" placeholder="Add Destination Name"><select class="form-control" id="select-destination-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
+    $('#btn-transfer-destination').attr('data-content', '<div class="popover-medium"><input class="form-control" id="input-destination-name" placeholder="Add Destination Name"><select multiple class="form-control" id="select-destination-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
     $('#btn-transfer-destination').popover();
 
     $('#btn-transfer-destination').click(function() {
@@ -24,6 +27,8 @@ function gs_load_events() {
         })
     });
 
+    //Events for the refine search popover
+    //**Not operational
     $('#btn-refine').attr('data-html', true);
     $('#btn-refine').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
     $('#btn-refine').popover();
@@ -41,16 +46,15 @@ function gs_load_events() {
         })
     });
 
-
+    //Event to listen for each keyup and perform a search for "spotlight-like" behavior
     $('#input-search').keyup(function() {
         gs_perform_search(); // get the current value of the input field.
     });
 
+    //Event to start transfer
     $('#btn-start-transfer').click(function() {
         gs_perform_transfer();
-        //Add transfer logic here
     });
-
 
     //Bind the right click event of #input-search to clear the value
     $('#input-search').mousedown(function(event) {
@@ -99,7 +103,6 @@ function gs_load_events() {
         build_transfer_list();
     });
     /////
-
     //End button click events 
 }
 
@@ -284,6 +287,7 @@ function gs_perform_transfer() {
 
 function build_transfer_list() {
     var files_to_transfer = {};
+    console.log(result_set);
 
     //Scrape the ids of selected search result items
     $('.result-set-item-selected').each(function(index) {
@@ -296,10 +300,12 @@ function build_transfer_list() {
         //Break down transfers into files and directories
         if (result_set[this_id]._source.type == 'file') {
             destination_path = default_destination_path + '/' + result_set[this_id]._source.file_name
-            source_path = result_set[this_id]._source.endpoint + result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name;
+            //source_path = result_set[this_id]._source.endpoint + result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name;
+            source_path = result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name;
         } else {
             destination_path = default_destination_path
-            source_path = result_set[this_id]._source.endpoint + result_set[this_id]._source.path + result_set[this_id]._source.file_name;
+            //source_path = result_set[this_id]._source.endpoint + result_set[this_id]._source.path + result_set[this_id]._source.file_name;
+            source_path = result_set[this_id]._source.path + result_set[this_id]._source.file_name;
 
         }
 
@@ -307,7 +313,7 @@ function build_transfer_list() {
         transfer_object = {
             "destination_path": destination_path,
             "destination_endpoint": default_destination_endpoint,
-            "source_path": result_set[this_id]._source.endpoint + result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name,
+            "source_path": result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name,
             "source_endpoint": result_set[this_id]._source.endpoint,
             "type": result_set[this_id]._source.type
         };
