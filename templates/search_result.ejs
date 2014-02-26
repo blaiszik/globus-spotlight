@@ -1,17 +1,38 @@
  <div class="list-group" id="selectable">
     <% for(var i=0; i<hits.hits.length; i++) {%>
-        <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary">
-            <div class="pull-right">
-                    <span class="badge">Modified: <%= hits.hits[i]._source.last_modified%></span>
+         <% var d = new Date(hits.hits[i]._source.last_modified); 
+            var time_options = {
+                    hour: "2-digit", minute: "2-digit"
+            };
+            var date_options = {
+                   year: "numeric", month: "2-digit",
+                   day: "2-digit"
+                };
+
+            date_string = d.toLocaleDateString("en-US",date_options)
+            time = d.toLocaleTimeString("en-US", time_options);
+         %>
+
+        <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
+            <div class="pull-right search-result">
+                <ul class="meta-search">
+                    <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
+                    <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
+                    <li><i class="glyphicon glyphicon-record"></i> <%= hits.hits[i]._source.endpoint %></li>
+                    <li><i class="glyphicon glyphicon-inbox"></i> <%= fileSizeSI(hits.hits[i]._source.size) %></li>
+                </ul>
             </div>
-            <h4><%= hits.hits[i]._source.name %> - <%= hits.hits[i]._source.size %></h4>
+            <h3><%= hits.hits[i]._source.name %></h3>
+
             <div>
                     <div id="result-set-tag-<%= hits.hits[i]._id %>"'>
                         <% if(tags = hits.hits[i]._source.tags){%>
+                                    <h4>
                                     <% for(var j=0; j<tags.length; j++) { %>
                                             <label class='label label-primary'> <%= tags[j] %>
                                             </label>&nbsp 
                                     <% } %>
+                                    </h4>
                         <%}%>
                     </div>
             </div>

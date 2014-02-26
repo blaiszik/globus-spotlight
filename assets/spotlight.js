@@ -371,6 +371,6 @@ function result_size(result_set, precision) {
 //Helper functions, mainly for formatting
 
 function fileSizeSI(a, b, c, d, e) {
-    return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(2) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
+    return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(1) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
     //kB,MB,GB,TB,PB,EB,ZB,YB
 }
