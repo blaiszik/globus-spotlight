@@ -69,13 +69,11 @@ function gs_load_events() {
     //Create the tag HTML and add it to the result-set-item div.  Get the unique Elasticsearch identifier by splitting the div ids
     //and finally perform the update of the item (need to add update permission checking)
     $('#btn-add-tag').click(function() {
-        tag_array = $('#input-add-tag').val().trim().split(',');
-        len = tag_array.length;
-        for (i = 0; i < len; i++) {
-            tag_array[i] = tag_array[i].trim();
-        }
+    
+        tag_input = $('#input-add-tag').val();
+        tag_array = gs_parse_tags(tag_input);
 
-        tag_html = "<label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label>";
+        tag_html = "<h4><label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label></h4>";
 
         $('.result-set-item-selected').each(function(index) {
             this_id = $(this).attr('id').split('-').slice(3).join('-');
@@ -104,6 +102,18 @@ function gs_load_events() {
     });
     /////
     //End button click events 
+}
+
+function gs_parse_tags(tag_input){
+    tag_array = $('#input-add-tag').val().trim().split(',');
+    len = tag_array.length;
+    for (i = 0; i < len; i++) {
+        tag_array[i] = tag_array[i].trim();
+        key_value = tag_array[i].split(':')
+        
+        console.log(key_value);
+    }
+    return tag_array;
 }
 
 //Function to load events for items that may be loaded AFTER the original gs_load_events() is called. 
@@ -259,8 +269,23 @@ function gs_perform_search() {
             url: './templates/search_result.ejs'
         }).update('ejs-search-result', data);
         gs_load_live_events();
-        result_file_size_html = "<b>" + data.hits.total + ' results found | > ' + result_size(result_set, 2) + "</b>";
+        result_file_size_html = "<h4><strong class='text-info'>" + data.hits.total + "</strong> results found | > <strong class='text-info'>" + result_size(result_set, 2) + "</strong></h4>";
         $('#result-file-size').html(result_file_size_html);
+        
+        //When a quick-tag is clicked, add the value to the current search
+        console.log('.label-tag');
+        $('.label-tag').click(function() {
+            val = $('#input-search').val()
+            if (val) {
+                val = val + ' '
+            }
+            
+            debug = $(this);
+            $('#input-search').val(val + $(this)[0].innerHTML.trim());
+            gs_perform_search();
+        });
+
+        
     });
 }
 
@@ -300,13 +325,10 @@ function build_transfer_list() {
         //Break down transfers into files and directories
         if (result_set[this_id]._source.type == 'file') {
             destination_path = default_destination_path + '/' + result_set[this_id]._source.file_name
-            //source_path = result_set[this_id]._source.endpoint + result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name;
             source_path = result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name;
         } else {
             destination_path = default_destination_path
-            //source_path = result_set[this_id]._source.endpoint + result_set[this_id]._source.path + result_set[this_id]._source.file_name;
             source_path = result_set[this_id]._source.path + result_set[this_id]._source.file_name;
-
         }
 
         //Create the transfer object
@@ -337,9 +359,10 @@ function update_transfer_statistics(files_to_transfer) {
 
 function update_endpoint_select(offset, limit) {
     endpoint_list = go_get_endpoint_names({
-        "offset": offset,
-        "limit": limit
-    });
+                        "offset": offset,
+                        "limit": limit
+                    });
+                    
     $.each(endpoint_list, function(val, text) {
         $('#select-endpoint').append($('<option></option>').val(val).html(text))
     });

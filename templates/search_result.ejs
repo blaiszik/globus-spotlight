@@ -25,16 +25,17 @@
             <h3><%= hits.hits[i]._source.name %></h3>
 
             <div>
+                <h4>
                     <div id="result-set-tag-<%= hits.hits[i]._id %>"'>
                         <% if(tags = hits.hits[i]._source.tags){%>
-                                    <h4>
                                     <% for(var j=0; j<tags.length; j++) { %>
-                                            <label class='label label-primary'> <%= tags[j] %>
+                                            <label class='label label-primary label-tag'> <%= tags[j] %>
                                             </label>&nbsp 
                                     <% } %>
-                                    </h4>
                         <%}%>
                     </div>
+                    </h4>
+
             </div>
         </div>
     <%}%>

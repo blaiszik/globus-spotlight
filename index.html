@@ -68,8 +68,6 @@
                         <button id='btn-refine' type="button" class="btn btn-xs btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
   Refine
 </button>
-
-
                     </div>
                 </div>
             </div>
@@ -92,7 +90,8 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        
+                    
+                        <!-- Transfer pane -->
                         <div class="tab-pane active well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
                           <div class="row">
                                 <div class="col-sm-2">
@@ -108,8 +107,9 @@
                                 <div id="transfer-statistics" class="col-sm-4"></div>
                             </div>
                         </div>
-
-                      <div class="tab-pane" id="tag-pane">
+                        
+                        <!-- Tag pane -->
+                        <div class="tab-pane" id="tag-pane">
                           <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
                                <div class="row">
                                     <div class="col-sm-2">
@@ -118,12 +118,13 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
-                                        <input id='input-add-tag' type="text" class="form-control input-lg" placeholder="Add tags separated by commas">
+                                            <input id='input-add-tag' type="text" class="form-control input-lg" placeholder="Add tags separated by commas">
                                     </div>
-                                </div>
+                                </div>                                
                         </div>
                       </div>
-
+                      
+                      <!-- Analyze pane -->
                       <div class="tab-pane" id="analyze-pane">
                           <div class="tab-pane well well-sm" id="analyze-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
                                 <div class="row">
@@ -160,7 +161,7 @@
                     <a id='btn-select-inverse' class="btn btn-default btn-xs">Inverse</a>
                 </div>
 
-                <div id='result-file-size' class="col-sm-6"><b>Current Selection | Files: 52 | 546 MB</b></div>
+                <div id='result-file-size' class="col-sm-6"></div>
 
                 <div class="col-sm-2">
                     <div class="pull-right">
