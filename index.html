@@ -96,14 +96,13 @@
                           <div class="row">
                                 <div class="col-sm-2">
                                     <div id="action-block">
-                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left">Start</div>
+                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left" data-toggle="modal" data-target="#myModal">Start</div>
                                     </div>
                                 </div>
                                 <div id="transfer-destination" class="col-sm-5">
-                                <b>Destination: <span class="text-primary">Home(go#ep1/home)</span> | SNS(go#ep2/home/SNS)</b>
+                                <b>Destination: <span class="text-primary">Home (go#ep1/home)</span> | SNS (go#ep2/home/SNS)</b>
                                 <b><a id="btn-transfer-destination" class="btn btn-primary btn-xs">New Destination</a></b>
                                 </div>
-                                <div id="transfer-grouping" class="col-sm-1"><b>Details</b></div>
                                 <div id="transfer-statistics" class="col-sm-4"></div>
                             </div>
                         </div>
@@ -144,24 +143,27 @@
 
                     </div>
                     <!-- END Tab panes -->
-
                 </div>
                 <div class="col-xs-1"></div>
                 <div class="col-sm-4"></div>
             </div>
         </div>
         <!-- END Search Container -->
+        <div id='login-alert'></div> 
+
 
         <!-- Result Container -->
         <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <a id='btn-select-all' class="btn btn-default btn-xs">All</a>
                     <a id='btn-select-none' class="btn btn-default btn-xs">None</a>
                     <a id='btn-select-inverse' class="btn btn-default btn-xs">Inverse</a>
                 </div>
 
-                <div id='result-file-size' class="col-sm-6"></div>
+                <div id='result-file-size' class="col-sm-4"></div>
+                <div id='selected-file-size' class="col-sm-3"></div>
+
 
                 <div class="col-sm-2">
                     <div class="pull-right">
@@ -173,7 +175,27 @@
             <div id="ejs-search-result" class="row"></div>
         </div>
         <!-- END Result Container -->
+        
+        <!-- Transfer Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel">Transfer Initiated</h3>
+              </div>
+              <div id="modal-body-transfer" class="modal-body">
+                Transfer Information here...
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END Transfer Modal -->
+
     </div>
+
 </body>
     <script src="./assets/ejs/ejs_production.js"></script>
     <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
@@ -181,17 +203,25 @@
     <script src="./assets/spotlight.js"></script>
     <script src="./assets/elasticsearch-js/elasticsearch.jquery.min.js"></script>
     <script src="./globus/jquery.cookie.js"></script>
+    <script src="./assets/bindWithDelay.js"></script>
 
     <script src="./globus/goauth.js"></script>
     <script src="./globus/datasets.js"></script>
     <script src="./globus/transfer.js"></script>
 <script type="text/javascript">
         $( document ).ready(function() {
+            if(!$.cookie('globusonline-goauth')){
+                console.log('not logged in');
+                $('#login-alert').addClass('alert alert-danger');
+                $('#login-alert').html('<strong>You are not logged in to Globus</strong> <a href="./login.html" class="btn btn-lg btn-default">Login</a>')
+                
+            }
+        
             //Elasticsearch Client
-            var es_curl = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
+            var es_curl = "http://54.186.21.3:9200";
 
             es_client = new $.es.Client({
-              hosts: es_curl
+              hosts: es_url
             });
 
             gs_reset_panels();
@@ -236,4 +266,6 @@
 
         });
     </script>
+    
+    
 </html>

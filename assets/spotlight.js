@@ -2,10 +2,11 @@ result_set = {};
 debug = '';
 default_destination_path = "/home/blaiszik"
 default_destination_endpoint = "go#ep1";
+transfer_statistics = {};
 
 function gs_load_events() {
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
-    console.log('loading events');
+    //console.log('loading events');
 
     //Events for the popover for creating a new destination
     //**Not operational
@@ -16,7 +17,7 @@ function gs_load_events() {
 
     $('#btn-transfer-destination').click(function() {
         ep_destination_counter = 0;
-        console.log('refining search endpoints');
+        //console.log('refining search endpoints');
 
         console.log(ep_counter);
         update_endpoint_destination_select(ep_destination_counter * ep_destination_limit, ep_destination_limit);
@@ -35,21 +36,18 @@ function gs_load_events() {
 
     $('#btn-refine').click(function() {
         ep_counter = 0;
-        console.log('refining search endpoints');
+        //console.log('refining search endpoints');
 
-        console.log(ep_counter);
+        //console.log(ep_counter);
         update_endpoint_select(ep_counter * ep_limit, ep_limit);
 
         $("#btn-more-endpoint").click(function() {
-            console.log(ep_counter);
+            //console.log(ep_counter);
             update_endpoint_select(ep_counter * ep_limit, ep_limit);
         })
     });
 
-    //Event to listen for each keyup and perform a search for "spotlight-like" behavior
-    $('#input-search').keyup(function() {
-        gs_perform_search(); // get the current value of the input field.
-    });
+    $("#input-search").bindWithDelay("keyup", function(){ gs_perform_search()}, 300, true)
 
     //Event to start transfer
     $('#btn-start-transfer').click(function() {
@@ -72,13 +70,14 @@ function gs_load_events() {
     
         tag_input = $('#input-add-tag').val();
         tag_array = gs_parse_tags(tag_input);
+        //console.log(tag_array)
 
         tag_html = "<h4><label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label></h4>";
 
         $('.result-set-item-selected').each(function(index) {
             this_id = $(this).attr('id').split('-').slice(3).join('-');
             $('#result-set-tag-' + this_id).html(tag_html);
-            gs_perform_update(this_id, tag_array);
+            gs_perform_update(this_id, tag_array)
         });
         gs_load_tag_list();
 
@@ -88,17 +87,19 @@ function gs_load_events() {
     //JQuery logic to support selection of result-set-item(s). Currently support all, none, inverse selections
     $('#btn-select-all').on("click", function() {
         $('.result-set-item').addClass('result-set-item-selected');
-        build_transfer_list();
+        build_transfer_list()
     });
 
     $('#btn-select-none').click(function() {
         $('.result-set-item').removeClass('result-set-item-selected');
-        build_transfer_list();
+        build_transfer_list()
+
     });
 
     $('#btn-select-inverse').click(function() {
         $('.result-set-item').toggleClass('result-set-item-selected');
-        build_transfer_list();
+        build_transfer_list()
+
     });
     /////
     //End button click events 
@@ -106,12 +107,17 @@ function gs_load_events() {
 
 function gs_parse_tags(tag_input){
     tag_array = $('#input-add-tag').val().trim().split(',');
+    tags = []; //label-only tags
+    kv = {}; //key-value tags
     len = tag_array.length;
     for (i = 0; i < len; i++) {
         tag_array[i] = tag_array[i].trim();
-        key_value = tag_array[i].split(':')
-        
-        console.log(key_value);
+        pairs = tag_array[i].split(':');
+        if(pairs.length){ 
+            kv[pairs[0]] = pairs[1];
+            //console.log(kv)
+        }
+       
     }
     return tag_array;
 }
@@ -143,22 +149,18 @@ function gs_reset_panels() {
 // This is currently called multiple times, would be nice to switch to a bulk update
 /////////
 function gs_perform_update(this_id, tag_list) {
-    //Convert this to es_client.update()
-    $.ajax({
-        type: 'GET',
-        url: es_default_path + this_id,
-        success: function(data) {
-            the_id = data._id;
-            source = data._source;
-            source.tags = tag_list;
-            $.ajax({
-                type: 'PUT',
-                url: es_default_path + this_id,
-                data: JSON.stringify(source),
-                complete: function(data) {}
-            });
-        }
-    });
+    es_client.update({
+          index: 'globus_public_index',
+          type: 'file',
+          id: this_id,
+          body: {
+            // put the partial document under the `doc` key
+            doc: {
+              tags: tag_list
+            }
+          }
+        }, function (error, response) {
+    }); 
 }
 
 /////////
@@ -184,7 +186,7 @@ function gs_load_endpoint_list() {
         type: es_client_default_type,
         body: requestData,
     }).then(function(data) {
-        console.log(data);
+        //console.log(data);
     })
 }
 
@@ -202,7 +204,7 @@ function gs_load_tag_list() {
             "tag": {
                 "terms": {
                     "field": "tags",
-                    "size": 4
+                    "size": 6
                 }
             }
         }
@@ -214,9 +216,8 @@ function gs_load_tag_list() {
         body: requestData,
     }).then(function(data) {
         $('#tag-group-bar').html('');
-        debug = data;
         tag_groups = data.facets.tag.terms;
-        console.log(tag_groups);
+        //console.log(tag_groups);
         for (i = 0; i < tag_groups.length; i++) {
             tagArr.push("<label class='quick-tag font-white' style='color: #fff'>" + tag_groups[i].term + "</label>");
         }
@@ -231,7 +232,7 @@ function gs_load_tag_list() {
             gs_perform_search();
         });
     }, function(err) {
-        console.log('Error loading tag list');
+        //console.log('Error loading tag list');
     });
 }
 
@@ -264,29 +265,32 @@ function gs_perform_search() {
     }).then(function(data) {
         result_set = data.hits.hits;
 
-        //Template the results usin EJS templating engine
+        //Template the results using EJS templating engine
         new EJS({
             url: './templates/search_result.ejs'
         }).update('ejs-search-result', data);
+        
         gs_load_live_events();
         result_file_size_html = "<h4><strong class='text-info'>" + data.hits.total + "</strong> results found | > <strong class='text-info'>" + result_size(result_set, 2) + "</strong></h4>";
         $('#result-file-size').html(result_file_size_html);
         
         //When a quick-tag is clicked, add the value to the current search
-        console.log('.label-tag');
+        //console.log('.label-tag');
+        /*
         $('.label-tag').click(function() {
-            val = $('#input-search').val()
-            if (val) {
-                val = val + ' '
-            }
-            
-            debug = $(this);
-            $('#input-search').val(val + $(this)[0].innerHTML.trim());
-            gs_perform_search();
-        });
+                    val = $('#input-search').val()
+                    if (val) {
+                        val = val + ' '
+                    }
+                    
+                    $('#input-search').val(val + $(this)[0].innerHTML.trim());
+                    gs_perform_search();
+                });
+        */
 
         
     });
+    build_transfer_list();
 }
 
 ///////
@@ -299,20 +303,20 @@ function gs_perform_transfer() {
 
     files_to_transfer = build_transfer_list();
     for (var ep in files_to_transfer) {
-        console.log(ep + ': ' + files_to_transfer[ep]);
+        //console.log(ep + ': ' + files_to_transfer[ep]);
         go_transfer_file(ep, default_destination_endpoint, files_to_transfer[ep], function() {
             console.log('testing transfer');
         });
-        for (trans in files_to_transfer[ep]) {
-            console.log(files_to_transfer[ep][trans]);
-        }
     }
-    console.log(files_to_transfer);
+    
+    transfer_html = "<h4> Transferring: <strong class='text-danger'>"+transfer_statistics.num_transfers+"</strong> objects | <strong class='text-danger'>"+fileSizeSI(transfer_statistics.size.toPrecision(2)) +  "</strong> to <strong>" + default_destination_endpoint + default_destination_path+"</strong></h4><a class='btn btn-default pull-right'>Add Notification</a><a class='btn btn-default pull-right'>Transfer Details</a>";
+    $('#modal-body-transfer').html(transfer_html);
+    //console.log(files_to_transfer);
 }
 
 function build_transfer_list() {
     var files_to_transfer = {};
-    console.log(result_set);
+    //console.log(result_set);
 
     //Scrape the ids of selected search result items
     $('.result-set-item-selected').each(function(index) {
@@ -337,7 +341,8 @@ function build_transfer_list() {
             "destination_endpoint": default_destination_endpoint,
             "source_path": result_set[this_id]._source.path + '/' + result_set[this_id]._source.file_name,
             "source_endpoint": result_set[this_id]._source.endpoint,
-            "type": result_set[this_id]._source.type
+            "type": result_set[this_id]._source.type,
+            "size": result_set[this_id]._source.size
         };
         //Make sure the transfer isn't from-to the same path. If not, add to the files_to_transfer array
         if (!(transfer_object.destination_path == transfer_object.source_path)) {
@@ -350,11 +355,27 @@ function build_transfer_list() {
 }
 
 function update_transfer_statistics(files_to_transfer) {
-    $('#transfer-statistics').html('');
+    transfer_statistics.size = 0;
+    transfer_statistics.num_transfers = 0;
+        
+    debug = files_to_transfer
     for (var ep in files_to_transfer) {
-        console.log(ep + ': ' + files_to_transfer[ep].length);
-        $('#transfer-statistics').append('<b>' + ep + ': ' + files_to_transfer[ep].length + '</b> objects<br>');
+        for(i=0; i<files_to_transfer[ep].length; i++){        
+            if(files_to_transfer[ep][i].size){
+                transfer_statistics.size += files_to_transfer[ep][i].size;
+
+            }
+            transfer_statistics.num_transfers++; 
+
+        }
+
     }
+    console.log(transfer_statistics.num_transfers);
+    console.log(transfer_statistics.size);
+    
+    
+     select_file_size_html = "<h4><strong class='text-danger'>" + transfer_statistics.num_transfers + "</strong> selected | > <strong class='text-danger'>" + fileSizeSI(transfer_statistics.size.toPrecision(2)) + "</strong></h4>";
+        $('#selected-file-size').html(select_file_size_html);
 }
 
 function update_endpoint_select(offset, limit) {
@@ -387,7 +408,7 @@ function result_size(result_set, precision) {
             result_size = result_size + result_set[i]._source.size;
         }
     }
-    console.log(result_size);
+    //console.log(result_size);
     return fileSizeSI(result_size.toPrecision(precision));
 }
 
@@ -397,3 +418,11 @@ function fileSizeSI(a, b, c, d, e) {
     return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(1) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
     //kB,MB,GB,TB,PB,EB,ZB,YB
 }
+
+var search_delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();

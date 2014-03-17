@@ -32,7 +32,7 @@
             $('#example').popover();
 
             $('#btn-sign-out').click(function(){
-                    $.removeCookie(goauth_cookie);
+                    $.removeCookie('globusonline-goauth');
                     console.log('Logging out...');
                 }
             );
@@ -47,7 +47,7 @@
                 if(req){
                     $('#alert-login-success').show();
                     $('#alert-login-failure').hide()
-                    window.location = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com/globus-spotlight/index.html";
+                    window.location = "http://54.186.21.3/globus-spotlight/index.html";
                 }else{
                     $('#alert-login-failure').show();
                     $('#alert-login-success').hide();
@@ -106,10 +106,6 @@
         <div class="alert alert-success" id='alert-login-success'>Login Successful, Continue to Globus Spotlight...</div>
         <div class="alert alert-danger" id='alert-login-failure'>Invalid Login</div>
     </div>
-
-    <button id='example' type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on right
-    </button>
 
 
 </div>

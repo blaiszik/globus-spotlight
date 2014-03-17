@@ -14,7 +14,7 @@
          %>
 
         <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
-            <div class="pull-right search-result">
+            <div class="pull-right search-result col-sm-3 col-xs-3">
                 <ul class="meta-search">
                     <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
                     <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
@@ -25,17 +25,16 @@
             <h3><%= hits.hits[i]._source.name %></h3>
 
             <div>
-                <h4>
-                    <div id="result-set-tag-<%= hits.hits[i]._id %>"'>
+                    <div id="result-set-tag-<%= hits.hits[i]._id %>"'><h4>
                         <% if(tags = hits.hits[i]._source.tags){%>
+                                    <h4>
                                     <% for(var j=0; j<tags.length; j++) { %>
                                             <label class='label label-primary label-tag'> <%= tags[j] %>
                                             </label>&nbsp 
                                     <% } %>
+                                    </h4>
                         <%}%>
                     </div>
-                    </h4>
-
             </div>
         </div>
     <%}%>
