@@ -69,15 +69,16 @@ function gs_load_events() {
     $('#btn-add-tag').click(function() {
     
         tag_input = $('#input-add-tag').val();
-        tag_array = gs_parse_tags(tag_input);
-        //console.log(tag_array)
+        tags = gs_parse_tags(tag_input);
+        console.log('Add Tags');
+        console.log(tags)
 
-        tag_html = "<h4><label class='label label-primary'>" + tag_array.join("</label> <label class='label label-primary'>") + "</label></h4>";
+        tag_html = "<h4><label class='label label-primary'>" + tags.tags.join("</label> <label class='label label-primary'>") + "</label></h4>";
 
         $('.result-set-item-selected').each(function(index) {
             this_id = $(this).attr('id').split('-').slice(3).join('-');
             $('#result-set-tag-' + this_id).html(tag_html);
-            gs_perform_update(this_id, tag_array)
+            gs_perform_update(this_id, tags)
         });
         gs_load_tag_list();
 
@@ -106,20 +107,45 @@ function gs_load_events() {
 }
 
 function gs_parse_tags(tag_input){
-    tag_array = $('#input-add-tag').val().trim().split(',');
-    tags = []; //label-only tags
+    tag_obj = {};
+    tag_obj.tags = [];
+    tag_obj.kv = [];
     kv = {}; //key-value tags
-    len = tag_array.length;
+
+    tags = $('#input-add-tag').val().trim().split(',');
+    len = tags.length;
+    
     for (i = 0; i < len; i++) {
-        tag_array[i] = tag_array[i].trim();
-        pairs = tag_array[i].split(':');
-        if(pairs.length){ 
-            kv[pairs[0]] = pairs[1];
-            //console.log(kv)
+        tags[i] = tags[i].trim();
+        tag_obj.tags = tags;
+        
+        //Check for any key-value pairs which are separated by :
+        pairs = tags[i].split(':');
+        if(pairs.length > 1){ 
+            tmp_key = pairs[0].trim();
+            tmp_value = {}
+            tmp_value.value = pairs[1].trim();
+            tmp_value.unit = '';
+            
+            //Check if there are units associated with the value
+            value_unit = tmp_value.value.split('#'); //Using # for now, can change later
+            console.log(value_unit);
+            if(value_unit.length > 1 ){
+                tmp_value.value = value_unit[0];
+                tmp_value.unit = value_unit[1];
+            }
+            
+            //If the value is numeric, parse it into a numeric form
+            if(!isNaN(tmp_value.value)){
+                tmp_value.value = parseFloat(tmp_value.value);
+            }
+            
+            kv[tmp_key] = tmp_value;
+            tag_obj.kv = kv;
         }
-       
     }
-    return tag_array;
+    console.log(tag_obj);
+    return tag_obj;
 }
 
 //Function to load events for items that may be loaded AFTER the original gs_load_events() is called. 
@@ -149,6 +175,8 @@ function gs_reset_panels() {
 // This is currently called multiple times, would be nice to switch to a bulk update
 /////////
 function gs_perform_update(this_id, tag_list) {
+    console.log('perform_update');
+    console.log(tag_list);
     es_client.update({
           index: 'globus_public_index',
           type: 'file',
@@ -156,7 +184,9 @@ function gs_perform_update(this_id, tag_list) {
           body: {
             // put the partial document under the `doc` key
             doc: {
-              tags: tag_list
+              tags: tag_list.tags,
+              kv: tag_list.kv
+              
             }
           }
         }, function (error, response) {
@@ -252,11 +282,13 @@ function gs_perform_search() {
     requestData = {
         "query": {
             "query_string": {
-                "fields": ["tags^3", "path^2", "name^2", "endpoint", "DATA_TYPE"],
+                "fields": ["tags^3", "path^2", "name^2", "title^2", "endpoint", "DATA_TYPE", "username^2"],
                 "query": $('#input-search').val() ? $('#input-search').val() : '*'
             }
         }
     };
+    console.log(requestData);
+    
     es_client.search({
         index: es_client_default_index,
         type: es_client_default_type,

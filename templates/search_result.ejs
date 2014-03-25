@@ -1,41 +1,91 @@
+
  <div class="list-group" id="selectable">
     <% for(var i=0; i<hits.hits.length; i++) {%>
-         <% var d = new Date(hits.hits[i]._source.last_modified); 
-            var time_options = {
-                    hour: "2-digit", minute: "2-digit"
-            };
-            var date_options = {
-                   year: "numeric", month: "2-digit",
-                   day: "2-digit"
+        <!-- Endpoint Result Template -->
+        <% if(hits.hits[i]._source.DATA_TYPE == 'file' || hits.hits[i]._source.DATA_TYPE == 'dir') {%>
+             <% var d = new Date(hits.hits[i]._source.last_modified); 
+                var time_options = {
+                        hour: "2-digit", minute: "2-digit"
                 };
-
-            date_string = d.toLocaleDateString("en-US",date_options)
-            time = d.toLocaleTimeString("en-US", time_options);
-         %>
-
-        <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
-            <div class="pull-right search-result col-sm-3 col-xs-3">
-                <ul class="meta-search">
-                    <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
-                    <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
-                    <li><i class="glyphicon glyphicon-record"></i> <%= hits.hits[i]._source.endpoint %></li>
-                    <li><i class="glyphicon glyphicon-inbox"></i> <%= fileSizeSI(hits.hits[i]._source.size) %></li>
-                </ul>
+                var date_options = {
+                       year: "numeric", month: "2-digit",
+                       day: "2-digit"
+                    };
+    
+                date_string = d.toLocaleDateString("en-US",date_options)
+                time = d.toLocaleTimeString("en-US", time_options);
+             %>
+    
+            <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
+                <div class="pull-right search-result col-sm-3 col-xs-3">
+                    <ul class="meta-search">
+                        <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
+                        <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
+                        <li><i class="glyphicon glyphicon-record"></i> <%= hits.hits[i]._source.endpoint %></li>
+                        <li><i class="glyphicon glyphicon-inbox"></i> <%= fileSizeSI(hits.hits[i]._source.size) %></li>
+                    </ul>
+                </div>
+                <h3><%= hits.hits[i]._source.name %></h3>
+    
+                <div>
+                        <div id="result-set-tag-<%= hits.hits[i]._id %>"><h4>
+                            <% if(tags = hits.hits[i]._source.tags){%>
+                                        <h4>
+                                        <% for(var j=0; j<tags.length; j++) { %>
+                                                <label class='label label-primary label-tag'> <%= tags[j] %>
+                                                </label>&nbsp 
+                                        <% } %>
+                                        </h4>
+                            <%}%>
+                        </div>
+                </div>
             </div>
-            <h3><%= hits.hits[i]._source.name %></h3>
-
-            <div>
-                    <div id="result-set-tag-<%= hits.hits[i]._id %>"'><h4>
-                        <% if(tags = hits.hits[i]._source.tags){%>
-                                    <h4>
-                                    <% for(var j=0; j<tags.length; j++) { %>
-                                            <label class='label label-primary label-tag'> <%= tags[j] %>
-                                            </label>&nbsp 
-                                    <% } %>
-                                    </h4>
-                        <%}%>
-                    </div>
+        <%}%>
+        <!--END Endpoint Result Template -->
+        
+        <!--Publish Result Template -->
+        <% if(hits.hits[i]._source.DATA_TYPE == 'publish') {%>
+            <% var d = new Date(hits.hits[i]._source.accessioned); 
+                var time_options = {
+                        hour: "2-digit", minute: "2-digit"
+                };
+                var date_options = {
+                       year: "numeric", month: "2-digit",
+                       day: "2-digit"
+                    };
+    
+                date_string = d.toLocaleDateString("en-US",date_options)
+                time = d.toLocaleTimeString("en-US", time_options);
+             %>
+    
+            <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
+                <div class="pull-right search-result col-sm-3 col-xs-3">
+                    <ul class="meta-search">
+                        <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
+                        <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
+                        <li><i class="glyphicon glyphicon-record"></i> <%= hits.hits[i]._source.collection %></li>
+                        <li><i class="glyphicon glyphicon-inbox"></i> <%= hits.hits[i]._source.files.length %> files</li>
+                    </ul>
+                </div>
+                <h3><%= hits.hits[i]._source.title %> [DSpace]</h3>
+                <p> <%=  hits.hits[i]._source.abstract %> </p>
+    
+                <div>
+                        <div id="result-set-tag-<%= hits.hits[i]._id %>"><h4>
+                            <% if(subjects = hits.hits[i]._source.subject){%>
+                                        <h4>
+                                        <% for(var j=0; j<subjects.length; j++) { %>
+                                                <label class='label label-default label-tag'> <%= subjects[j] %>
+                                                </label>&nbsp 
+                                        <% } %>
+                                        </h4>
+                            <%}%>
+                        </div>
+                </div>
             </div>
-        </div>
+        <%}%>
+        <!--END Publish Result Template -->
+
+
     <%}%>
 </div>
