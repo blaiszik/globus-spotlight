@@ -80,6 +80,15 @@
                                         <% } %>
                                         </h4>
                             <%}%>
+                            
+                             <% if(tags = hits.hits[i]._source.tags){%>
+                                        <h4>
+                                        <% for(var j=0; j<tags.length; j++) { %>
+                                                <label class='label label-primary label-tag'> <%= tags[j] %>
+                                                </label>&nbsp 
+                                        <% } %>
+                                        </h4>
+                            <%}%>
                         </div>
                 </div>
             </div>

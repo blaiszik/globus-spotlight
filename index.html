@@ -72,13 +72,13 @@
 -->
 Refine Search
 <div class="btn-group" data-toggle="buttons">
-  <label id="btn-refine-all" class="btn btn-default btn-refine btn-s">
+  <label id="btn-refine-all" class="btn btn-default btn-refine btn-xs">
     <input type="radio" name="refine" id="input-refine-all" value="refine-all"> All
   </label>
-  <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-s">
+  <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-xs">
     <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
   </label>
-  <label id="btn-refine-publish" class="btn btn-default btn-refine btn-s">
+  <label id="btn-refine-publish" class="btn btn-default btn-refine btn-xs">
     <input type="radio" name="refine" id="input-refine-publish" value="refine-publish"> Publish
   </label>
 </div>
@@ -97,7 +97,7 @@ Refine Search
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-justified">
-                      <li class='font-white active'> <a href="#transfer-pane" data-toggle="tab">Transfer</a></li>
+                      <li class='font-white active'> <a href="#replicate-pane" data-toggle="tab">Replicate</a></li>
                       <li><a href="#tag-pane" data-toggle="tab">Tag</a></li>
                       <li><a href="#analyze-pane" data-toggle="tab">Analyze</a></li>
                     </ul>
@@ -105,25 +105,25 @@ Refine Search
                     <!-- Tab panes -->
                     <div class="tab-content">
                     
-                        <!-- Transfer pane -->
-                        <div class="tab-pane active well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                        <!-- Replicate pane -->
+                        <div class="tab-pane active well well-sm" id="replicate-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
                           <div class="row">
                                 <div class="col-sm-2">
                                     <div id="action-block">
-                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left" data-toggle="modal" data-target="#myModal">Start</div>
+                                        <div id="btn-start-replicate" class="btn btn-primary btn-lg pull-left" data-toggle="modal" data-target="#myModal">Start</div>
                                     </div>
                                 </div>
-                                <div id="transfer-destination" class="col-sm-5">
+                                <div id="replicate-destination" class="col-sm-5">
                                 <b>Destination: <span class="text-primary">Home (go#ep1/home)</span> | SNS (go#ep2/home/SNS)</b>
-                                <b><a id="btn-transfer-destination" class="btn btn-primary btn-xs">New Destination</a></b>
+                                <b><a id="btn-replicate-destination" class="btn btn-primary btn-xs">New Destination</a></b>
                                 </div>
-                                <div id="transfer-statistics" class="col-sm-4"></div>
+                                <div id="replicate-statistics" class="col-sm-4"></div>
                             </div>
                         </div>
                         
                         <!-- Tag pane -->
                         <div class="tab-pane" id="tag-pane">
-                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                          <div class="tab-pane well well-sm" id="replicate-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
                                <div class="row">
                                     <div class="col-sm-2">
                                         <div id="action-block">
@@ -192,23 +192,23 @@ Refine Search
         </div>
         <!-- END Result Container -->
         
-        <!-- Transfer Modal -->
+        <!-- Replicate Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel">Transfer Initiated</h3>
+                <h3 class="modal-title" id="myModalLabel">Replicate Initiated</h3>
               </div>
-              <div id="modal-body-transfer" class="modal-body">
-                Transfer Information here...
+              <div id="modal-body-replicate" class="modal-body">
+                Replicate Information here...
               </div>
               <div class="modal-footer">
               </div>
             </div>
           </div>
         </div>
-        <!-- END Transfer Modal -->
+        <!-- END Replicate Modal -->
 
     </div>
 
@@ -223,7 +223,7 @@ Refine Search
 
     <script src="./globus/goauth.js"></script>
     <script src="./globus/datasets.js"></script>
-    <script src="./globus/transfer.js"></script>
+    <script src="./globus/replicate.js"></script>
 <script type="text/javascript">
         $( document ).ready(function() {
             if(!$.cookie('globusonline-goauth')){

@@ -29,6 +29,7 @@ function gs_load_events() {
                     es_client_current_type = 'publish';
                 break;
             }
+            gs_load_tag_list()
             
          }, 0);
     });
@@ -204,7 +205,7 @@ function gs_perform_update(this_id, tag_list) {
     console.log(tag_list);
     es_client.update({
           index: 'globus_public_index',
-          type: 'file',
+          type: es_client_current_type,
           id: this_id,
           body: {
             // put the partial document under the `doc` key
@@ -267,7 +268,7 @@ function gs_load_tag_list() {
 
     es_client.search({
         index: es_client_default_index,
-        type: es_client_default_type,
+        type: es_client_current_type,
         body: requestData,
     }).then(function(data) {
         $('#tag-group-bar').html('');
