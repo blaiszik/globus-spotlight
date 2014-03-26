@@ -64,10 +64,24 @@
                 
                 <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
                     <div class="pull-right">
-                        <label>Search: Endpoints Shared with Me</label> 
+                        <!--
+<label>Search: Endpoints Shared with Me</label> 
                         <button id='btn-refine' type="button" class="btn btn-xs btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
   Refine
 </button>
+-->
+Refine Search
+<div class="btn-group" data-toggle="buttons">
+  <label id="btn-refine-all" class="btn btn-default btn-refine btn-s">
+    <input type="radio" name="refine" id="input-refine-all" value="refine-all"> All
+  </label>
+  <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-s">
+    <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
+  </label>
+  <label id="btn-refine-publish" class="btn btn-default btn-refine btn-s">
+    <input type="radio" name="refine" id="input-refine-publish" value="refine-publish"> Publish
+  </label>
+</div>
                     </div>
                 </div>
             </div>

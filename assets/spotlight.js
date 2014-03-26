@@ -8,6 +8,31 @@ function gs_load_events() {
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     //console.log('loading events');
 
+    $('#btn-refine-all').addClass('active');
+    $('#input-refine-all').attr('checked', true);
+    
+    
+    $('.btn-refine').click(function() {
+        setTimeout(function (){
+            var refine_type = $('input:radio[name=refine]:checked').val();
+            console.log(refine_type);
+            switch(refine_type){
+                case 'refine-all':
+                    es_client_current_type = 'file,publish';
+                break;
+                
+                case 'refine-endpoints':
+                    es_client_current_type = 'file';
+                break;
+                
+                case 'refine-publish':
+                    es_client_current_type = 'publish';
+                break;
+            }
+            
+         }, 0);
+    });
+
     //Events for the popover for creating a new destination
     //**Not operational
     $('#btn-transfer-destination').attr('data-html', true);
@@ -291,7 +316,7 @@ function gs_perform_search() {
     
     es_client.search({
         index: es_client_default_index,
-        type: es_client_default_type,
+        type: es_client_current_type,
         size: 100,
         body: requestData,
     }).then(function(data) {

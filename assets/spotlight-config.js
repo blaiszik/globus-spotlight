@@ -27,3 +27,6 @@ var es_client_default_index = "globus_public_index";
 var es_client_default_type = "file,publish";
 var es_client_default_action = "_search";
 var es_client_default_path = es_client_url + es_client_default_index + es_client_default_type;
+
+var es_client_current_index = es_client_default_index;
+var es_client_current_type = es_client_default_type
