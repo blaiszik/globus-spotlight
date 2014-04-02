@@ -8,6 +8,8 @@ function gs_load_events() {
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     //console.log('loading events');
 
+    gs_load_facets();
+
     $('#btn-refine-all').addClass('active');
     $('#input-refine-all').attr('checked', true);
     
@@ -19,14 +21,19 @@ function gs_load_events() {
             switch(refine_type){
                 case 'refine-all':
                     es_client_current_type = 'file,publish';
+                    es_client_current_alias = 'endpoints,datasets';
                 break;
                 
                 case 'refine-endpoints':
                     es_client_current_type = 'file';
+                    es_client_current_alias = 'endpoints';
+
                 break;
                 
                 case 'refine-publish':
                     es_client_current_type = 'publish';
+                    es_client_current_alias = 'datasets';
+
                 break;
             }
             gs_load_tag_list()
@@ -102,8 +109,9 @@ function gs_load_events() {
         tag_html = "<h4><label class='label label-primary'>" + tags.tags.join("</label> <label class='label label-primary'>") + "</label></h4>";
 
         $('.result-set-item-selected').each(function(index) {
-            this_id = $(this).attr('id').split('-').slice(3).join('-');
-            $('#result-set-tag-' + this_id).html(tag_html);
+            //***Should change the way this is done eventually
+            this_id = $(this).attr('id').split('-');
+            $('#result-set-tag-' + this_id[3]).html(tag_html);
             gs_perform_update(this_id, tags)
         });
         gs_load_tag_list();
@@ -203,10 +211,12 @@ function gs_reset_panels() {
 function gs_perform_update(this_id, tag_list) {
     console.log('perform_update');
     console.log(tag_list);
+    console.log(this_id);
+    console.log(result_set[this_id[2]]);
     es_client.update({
-          index: 'globus_public_index',
-          type: es_client_current_type,
-          id: this_id,
+          index: es_client_default_index,
+          type: result_set[this_id[2]]._type,
+          id: this_id[3],
           body: {
             // put the partial document under the `doc` key
             doc: {
@@ -216,6 +226,8 @@ function gs_perform_update(this_id, tag_list) {
             }
           }
         }, function (error, response) {
+        console.log(error);
+        console.log(response);
     }); 
 }
 
@@ -238,12 +250,57 @@ function gs_load_endpoint_list() {
         }
     };
     es_client.search({
-        index: es_client_default_index,
-        type: es_client_default_type,
+        index: es_client_current_alias,
         body: requestData,
     }).then(function(data) {
         //console.log(data);
     })
+}
+
+function gs_load_facets() {
+    requestData = {
+        "facets": {
+            "tag": {
+                "terms": {
+                    "field": "tags",
+                    "size": 10
+                }
+            },
+            "endpoint": {
+                "terms": {
+                    "field": "endpoint",
+                    "size": 10
+                }
+            },
+             "type": {
+                "terms": {
+                    "field": "DATA_TYPE",
+                    "size": 10
+                }
+            },
+             "collection": {
+                "terms": {
+                    "field": "collection",
+                    "size": 10
+                }
+            },"subject": {
+                "terms": {
+                    "field": "subject",
+                    "size": 10
+                }
+            }
+            
+        }
+    };
+
+    es_client.search({
+        index: es_client_current_alias,
+        body: requestData,
+    }).then(function(data){
+        console.log(data);
+    });
+    
+    
 }
 
 /////////
@@ -252,23 +309,27 @@ function gs_load_endpoint_list() {
 /////////
 function gs_load_tag_list() {
     tagArr = [];
+    console.log('load_tag_list');
     requestData = {
-        "query": {
-            "match_all": {}
-        },
         "facets": {
             "tag": {
                 "terms": {
                     "field": "tags",
                     "size": 6
                 }
+            },
+            "endpoint": {
+                "terms": {
+                    "field": "endpoint",
+                    "size": 6
+                }
             }
+            
         }
     };
 
     es_client.search({
-        index: es_client_default_index,
-        type: es_client_current_type,
+        index: es_client_current_alias,
         body: requestData,
     }).then(function(data) {
         $('#tag-group-bar').html('');
@@ -302,6 +363,22 @@ function gs_perform_search() {
     }
     $('#detail-block').show();
     $('#result-block').show();
+    
+    var myRe =  /([^<!>= ]+)([>!<]=?|=)([^<!>= ]+)/g;
+    var str = $('#input-search').val();
+    var match;
+    var matches = [];
+    i = 1;
+    while ((match = myRe.exec(str))){
+        matches.push(match);
+    }
+    console.log('regex matches');
+    console.log(matches)
+    
+
+
+    
+
 
     // Here is where the actual search query is built.  Rankings are assigned with tags given the highest 
     // priority, path, name, endpoint, and DATA_TYPE next
@@ -314,10 +391,9 @@ function gs_perform_search() {
         }
     };
     console.log(requestData);
-    
+    console.log('here');
     es_client.search({
-        index: es_client_default_index,
-        type: es_client_current_type,
+        index: es_client_current_alias,
         size: 100,
         body: requestData,
     }).then(function(data) {
@@ -331,21 +407,6 @@ function gs_perform_search() {
         gs_load_live_events();
         result_file_size_html = "<h4><strong class='text-info'>" + data.hits.total + "</strong> results found | > <strong class='text-info'>" + result_size(result_set, 2) + "</strong></h4>";
         $('#result-file-size').html(result_file_size_html);
-        
-        //When a quick-tag is clicked, add the value to the current search
-        //console.log('.label-tag');
-        /*
-        $('.label-tag').click(function() {
-                    val = $('#input-search').val()
-                    if (val) {
-                        val = val + ' '
-                    }
-                    
-                    $('#input-search').val(val + $(this)[0].innerHTML.trim());
-                    gs_perform_search();
-                });
-        */
-
         
     });
     build_transfer_list();
@@ -379,6 +440,7 @@ function build_transfer_list() {
     //Scrape the ids of selected search result items
     $('.result-set-item-selected').each(function(index) {
         this_id = $(this).attr('id').split('-')[2];
+        console.log(this_id);
         //Create transfer arrays
         if (!files_to_transfer[result_set[this_id]._source.endpoint]) {
             files_to_transfer[result_set[this_id]._source.endpoint] = [];
@@ -421,10 +483,8 @@ function update_transfer_statistics(files_to_transfer) {
         for(i=0; i<files_to_transfer[ep].length; i++){        
             if(files_to_transfer[ep][i].size){
                 transfer_statistics.size += files_to_transfer[ep][i].size;
-
             }
             transfer_statistics.num_transfers++; 
-
         }
 
     }

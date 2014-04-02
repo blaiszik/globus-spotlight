@@ -26,22 +26,6 @@
 
 </head>
 <body>
-    <!-- Top Navigation -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span></button> <a class="navbar-brand" href="#">Globus Spotlight</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <!-- End Top Navigation -->
  
     <!-- Search Container -->
@@ -64,24 +48,20 @@
                 
                 <div class="col-sm-4" style="padding-top:50px; padding-bottom:10px;">
                     <div class="pull-right">
-                        <!--
-<label>Search: Endpoints Shared with Me</label> 
-                        <button id='btn-refine' type="button" class="btn btn-xs btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Refine
-</button>
--->
-Refine Search
-<div class="btn-group" data-toggle="buttons">
-  <label id="btn-refine-all" class="btn btn-default btn-refine btn-xs">
-    <input type="radio" name="refine" id="input-refine-all" value="refine-all"> All
-  </label>
-  <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-xs">
-    <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
-  </label>
-  <label id="btn-refine-publish" class="btn btn-default btn-refine btn-xs">
-    <input type="radio" name="refine" id="input-refine-publish" value="refine-publish"> Publish
-  </label>
-</div>
+
+                Refine Search
+                <div class="btn-group" data-toggle="buttons">
+                  <label id="btn-refine-all" class="btn btn-default btn-refine btn-xs">
+                    <input type="radio" name="refine" id="input-refine-all" value="refine-all"> All
+                  </label>
+                  <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-xs">
+                    <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
+                  </label>
+                  <label id="btn-refine-publish" class="btn btn-default btn-refine btn-xs">
+                    <input type="radio" name="refine" id="input-refine-publish" value="refine-publish"> Publish
+                  </label>
+                </div>
+
                     </div>
                 </div>
             </div>
@@ -165,7 +145,6 @@ Refine Search
         <!-- END Search Container -->
         <div id='login-alert'></div> 
 
-
         <!-- Result Container -->
         <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
             <div class="row">
@@ -226,6 +205,19 @@ Refine Search
     <script src="./globus/replicate.js"></script>
 <script type="text/javascript">
         $( document ).ready(function() {
+            var myRe = /(\S+)([>!<]=?|=)(\S+)/g;
+            var str = "test abc<123 hij<90";
+            var myArray;
+            i = 1;
+            while ((myArray = myRe.exec(str)) && i < 10)
+            {
+              var msg = "Found " + myArray[0] + ".  ";
+              msg += "Next match starts at " + myRe.lastIndex;
+              console.log(msg);
+              i++;
+            }
+
+        
             if(!$.cookie('globusonline-goauth')){
                 console.log('not logged in');
                 $('#login-alert').addClass('alert alert-danger');
