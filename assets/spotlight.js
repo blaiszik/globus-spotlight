@@ -364,20 +364,20 @@ function gs_perform_search() {
     $('#detail-block').show();
     $('#result-block').show();
     
-    var myRe =  /([^<!>= ]+)([>!<]=?|=)([^<!>= ]+)/g;
+    
+    //RegEx match for range queries -- turn this into a function
+    var symbols = {'<':'lt', '>':'gt', '<=':'lte', '>=':'gte'};
+    var myRe =  /([^<!>=: ]+)([>!<]=?|=)([^<!>= ]+)/g;
     var str = $('#input-search').val();
     var match;
     var matches = [];
-    i = 1;
     while ((match = myRe.exec(str))){
         matches.push(match);
     }
     console.log('regex matches');
     console.log(matches)
-    
+    /////
 
-
-    
 
 
     // Here is where the actual search query is built.  Rankings are assigned with tags given the highest 
