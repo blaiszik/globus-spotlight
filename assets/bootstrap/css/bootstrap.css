@@ -63,6 +63,7 @@ hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
   background-image:linear-gradient(#3560A0 0%, #27518F 42%, #27518F 100%);
   background-position:initial initial;
   background-repeat:initial initial;
+  padding: 10px;
   margin-bottom:20px;
   color:white;
   font-family: museosans;
