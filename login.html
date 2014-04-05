@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="./assets/jquery-ui.min.css"><!-- Latest compiled and minified JavaScript -->
 
-    <script src="./assets/jquery-2.0.3.min.js"></script>
+    <script src="./assets/jquery-2.1.0.min.js"></script>
     <script src="./assets/jquery-ui.min.js"></script>
     <script src="./assets/ejs/ejs_production.js"></script>
     <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="./assets/bootstrap/js/holder.js"></script>
     <script src="./assets/spotlight-config.js"></script>
     <script src="./assets/spotlight.js"></script>
     <script src="./assets/typeahead.min.js"></script>
@@ -69,3 +68,35 @@
     </div>
 </body>
 </html>
+
+<script type="text/javascript">
+        $( document ).ready(function() {
+            $('#alert-login-success').hide();
+            $('#alert-login-failure').hide();
+
+            $('#example').popover();
+
+            $('#btn-sign-out').click(function(){
+                    $.removeCookie('globusonline-goauth');
+                    console.log('Logging out...');
+                }
+            );
+
+
+            $('#btn-sign-in').click(function(){
+                username = $('#username').val();
+                password = $('#password').val();
+                if(username && password){
+                    req = ds_authenticate(username, password);    
+                }
+                if(req){
+                    $('#alert-login-success').show();
+                    $('#alert-login-failure').hide()
+                    window.location = "http://54.186.21.3/globus-spotlight/index.html";
+                }else{
+                    $('#alert-login-failure').show();
+                    $('#alert-login-success').hide();
+                }
+            });
+        });
+</script>

@@ -1,0 +1,89 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    // Latest compiled and minified CSS
+    link(rel='stylesheet', href='./assets/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet', href='./assets/jquery-ui.min.css')
+    // Latest compiled and minified JavaScript
+    script(src='./assets/jquery-2.0.3.min.js')
+    script(src='./assets/jquery-ui.min.js')
+    script(src='./assets/ejs/ejs_production.js')
+    script(src='./assets/bootstrap/js/bootstrap.min.js')
+    script(src='./assets/bootstrap/js/holder.js')
+    script(src='./assets/spotlight-config.js')
+    script(src='./assets/spotlight.js')
+    script(src='./assets/typeahead.min.js')
+    script(src='./globus/jquery.cookie.js')
+    script(src='./globus/goauth.js')
+    script(src='./globus/datasets.js')
+    title Globus Spotlight
+    script(type='text/javascript')
+      $( document ).ready(function() {
+      $('#alert-login-success').hide();
+      $('#alert-login-failure').hide();
+      $('#example').popover();
+      $('#btn-sign-out').click(function(){
+      $.removeCookie('globusonline-goauth');
+      console.log('Logging out...');
+      }
+      );
+      $('#btn-sign-in').click(function(){
+      username = $('#username').val();
+      password = $('#password').val();
+      if(username && password){
+      req = ds_authenticate(username, password);
+      }
+      if(req){
+      $('#alert-login-success').show();
+      $('#alert-login-failure').hide()
+      window.location = "http://54.186.21.3/globus-spotlight/index.html";
+      }else{
+      $('#alert-login-failure').show();
+      $('#alert-login-success').hide();
+      }
+      });
+      });
+  body
+    // Top Navigation
+    .navbar.navbar-default.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+          a.navbar-brand(href='#') Globus Spotlight
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='#') Home
+            li
+              a(href='#about') About
+            li
+              a(href='#contact') Contact
+            li
+              a#btn-sign-out Sign Out
+    // End Top Navigation
+    .container
+      .row(style='margin-top:100px')
+        .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+          form(role='form')
+            fieldset
+              h2 Sign In to Globus Spotlight
+              hr.colorgraph
+              .form-group
+                input#username.form-control.input-lg(type='text', name='username', placeholder='Username')
+              .form-group
+                input#password.form-control.input-lg(type='password', name='password', placeholder='Password')
+              hr.colorgraph
+              .row
+                .col-xs-6.col-sm-6.col-md-6
+                  #btn-sign-in.btn.btn-lg.btn-success.btn-block Sign In
+                .col-xs-6.col-sm-6.col-md-6
+                  a.btn.btn-lg.btn-primary.btn-block(href='https://test.globuscs.info/SignUp') Register
+      .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+        #alert-login-success.alert.alert-success Login Successful&comma; Continue to Globus Spotlight&period;&period;&period;
+        #alert-login-failure.alert.alert-danger Invalid Login

@@ -1,0 +1,111 @@
+@font-face {
+	font-family: 'museosans';
+	src: url('../fonts/221E91_4_0.woff') format('woff');
+	font-weight: 100 ;
+}
+@font-face {
+	font-family: 'museosans';
+	src: url('../fonts/221E91_3_0.woff') format('woff');
+	font-weight: 500 ;
+}
+@font-face {
+	font-family: 'museosans';
+	src: url('../fonts/221E91_1_0.woff') format('woff');
+	font-weight: 300 ;
+}
+@font-face {
+	font-family: 'museosans';
+	src: url('../fonts/221E91_0_0.woff') format('woff');
+	font-weight: 700 ;
+}
+
+body {
+    font-family: museosans,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 300;
+    padding-top: 0px;
+    font-size: 16px;
+}
+
+.logo {
+    padding-left:20px;
+    padding-right 10px;
+}
+
+.font-light {
+    font-weight: 100;
+}
+
+.font-medium {
+    font-weight: 300;
+}
+
+.font-heavy {
+    font-weight: 500;
+}
+
+/* CUSTOM */
+.quick-tag{
+    color: #71C1F2;
+    font-weight: 300;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.quick-tag:hover{
+    color: #fff;
+}
+
+.font-white {
+    color: #fff;
+     font-family: museosans,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 300;
+}
+
+.result-set-item-selected{
+  background-color: rgba(50, 118, 177, 0.3) !important;
+}
+
+.resultset-item{
+  margin-top: 5 px;
+  margin-bottom: 0 px;
+}
+
+.result-set-item:hover{
+  background-color: rgba(146, 184, 216, 0.3) !important;
+}
+.result-set-item-selected:hover{
+  background-color: rgba(50, 118, 177, 0.3) !important;
+}
+
+
+.container { margin-top: 0px; }
+.mb20 { margin-bottom: 20px; } 
+
+hgroup { padding-left: 15px; border-bottom: 1px solid #ccc; }
+hgroup h1 { font: 500 normal 1.625em "Roboto",Arial,Verdana,sans-serif; color: #2a3644; margin-top: 0; line-height: 1.15; }
+hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; color: #2a3644; margin: 0; padding-bottom: 10px; }
+
+
+.search-result ul { list-style: none;  }
+
+.masthead {
+  background-image:linear-gradient(#3560A0 0%, #27518F 42%, #27518F 100%);
+  background-position:initial initial;
+  background-repeat:initial initial;
+  padding: 10px;
+  margin-bottom:0px;
+  color:white;
+  font-family: museosans;
+}
+
+.input-magnify{
+    background-image: url(../../i_mag_glass32.png);
+    background-position: 99% 50%;
+    background-repeat: no-repeat;
+}
+
+.gray-icon{
+    color:#808080;
+}
+
+/* END CUSTOM */

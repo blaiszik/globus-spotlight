@@ -19,10 +19,10 @@
             <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
                 <div class="pull-right search-result col-sm-3 col-xs-3">
                     <ul class="meta-search">
-                        <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
-                        <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
-                        <li><i class="glyphicon glyphicon-record"></i> <%= hits.hits[i]._source.endpoint %></li>
-                        <li><i class="glyphicon glyphicon-inbox"></i> <%= fileSizeSI(hits.hits[i]._source.size) %></li>
+                        <li><i class="glyphicon glyphicon-calendar gray-icon"></i> <%= date_string %></li>
+                        <li><i class="glyphicon glyphicon-time gray-icon"></i> <%= time %></li>
+                        <li><i class="glyphicon glyphicon-record gray-icon"></i> <%= hits.hits[i]._source.endpoint %></li>
+                        <li><i class="glyphicon glyphicon-inbox gray-icon"></i> <%= fileSizeSI(hits.hits[i]._source.size) %></li>
                     </ul>
                 </div>
                 <h3><%= hits.hits[i]._source.name %></h3>
@@ -61,14 +61,14 @@
             <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
                 <div class="pull-right search-result col-sm-3 col-xs-3">
                     <ul class="meta-search">
-                        <li><i class="glyphicon glyphicon-calendar"></i> <%= date_string %></li>
-                        <li><i class="glyphicon glyphicon-time"></i> <%= time %></li>
-                        <li><i class="glyphicon glyphicon-record"></i> <%= hits.hits[i]._source.collection %></li>
-                        <li><i class="glyphicon glyphicon-inbox"></i> <%= hits.hits[i]._source.files.length %> files</li>
+                        <li><i class="glyphicon glyphicon-calendar gray-icon"></i> <%= date_string %></li>
+                        <li><i class="glyphicon glyphicon-time gray-icon"></i> <%= time %></li>
+                        <li><i class="glyphicon glyphicon-record gray-icon"></i> <%= hits.hits[i]._source.collection %></li>
+                        <li><i class="glyphicon glyphicon-inbox gray-icon"></i> <%= hits.hits[i]._source.files.length %> files</li>
                         <li><a class="btn btn-default btn-xs">View Publisher</a></li>
                     </ul>
                 </div>
-                <h3><%= hits.hits[i]._source.title %> [DSpace]</h3>
+                <h3><%= hits.hits[i]._source.title %></h3>
                 <p> <%=  hits.hits[i]._source.abstract %> </p>
     
                 <div>

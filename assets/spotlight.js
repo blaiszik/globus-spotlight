@@ -15,6 +15,7 @@ function gs_load_events() {
     
     
     $('.btn-refine').click(function() {
+        console.log('refining');
         setTimeout(function (){
             var refine_type = $('input:radio[name=refine]:checked').val();
             console.log(refine_type);
@@ -30,13 +31,14 @@ function gs_load_events() {
 
                 break;
                 
-                case 'refine-publish':
+                case 'refine-publisher':
                     es_client_current_type = 'publish';
                     es_client_current_alias = 'datasets';
 
                 break;
             }
-            gs_load_tag_list()
+            gs_load_tag_list();
+            gs_perform_search();
             
          }, 0);
     });
@@ -334,9 +336,9 @@ function gs_load_tag_list() {
     }).then(function(data) {
         $('#tag-group-bar').html('');
         tag_groups = data.facets.tag.terms;
-        //console.log(tag_groups);
+        console.log(tag_groups);
         for (i = 0; i < tag_groups.length; i++) {
-            tagArr.push("<label class='quick-tag font-white' style='color: #fff'>" + tag_groups[i].term + "</label>");
+            tagArr.push("<label class='quick-tag'>" + tag_groups[i].term + "</label>");
         }
         $('#tag-group-bar').html(tagArr.join(' | '));
         //When a quick-tag is clicked, add the value to the current search
