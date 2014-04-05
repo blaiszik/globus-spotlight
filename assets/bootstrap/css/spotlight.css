@@ -1,21 +1,21 @@
 @font-face {
 	font-family: 'museosans';
-	src: url('../fonts/221E91_4_0.woff') format('woff');
+	src: url('../../fonts/221E91_4_0.woff') format('woff');
 	font-weight: 100 ;
 }
 @font-face {
 	font-family: 'museosans';
-	src: url('../fonts/221E91_3_0.woff') format('woff');
+	src: url('../../fonts/221E91_3_0.woff') format('woff');
 	font-weight: 500 ;
 }
 @font-face {
 	font-family: 'museosans';
-	src: url('../fonts/221E91_1_0.woff') format('woff');
+	src: url('../../fonts/221E91_1_0.woff') format('woff');
 	font-weight: 300 ;
 }
 @font-face {
 	font-family: 'museosans';
-	src: url('../fonts/221E91_0_0.woff') format('woff');
+	src: url('../../fonts/221E91_0_0.woff') format('woff');
 	font-weight: 700 ;
 }
 

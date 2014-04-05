@@ -364,8 +364,8 @@ function gs_perform_search() {
         return;
     }
     $('#detail-block').show();
+   
     $('#result-block').show();
-    
     
     //RegEx match for range queries -- turn this into a function
     var symbols = {'<':'lt', '>':'gt', '<=':'lte', '>=':'gte'};
