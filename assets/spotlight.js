@@ -15,27 +15,46 @@ function gs_load_events() {
     
     
     $('.btn-refine').click(function() {
-        console.log('refining');
         setTimeout(function (){
             var refine_type = $('input:radio[name=refine]:checked').val();
-            console.log(refine_type);
+            //console.log(refine_type);
             switch(refine_type){
                 case 'refine-all':
                     es_client_current_type = 'file,publish';
                     es_client_current_alias = 'endpoints,datasets';
+                    es_client_current_endpoint_filter = '';
+                    es_client_current_collection_filter = ""
+
                 break;
                 
                 case 'refine-endpoints':
                     es_client_current_type = 'file';
                     es_client_current_alias = 'endpoints';
-
+                    es_client_current_endpoint_filter = '';
+                    es_client_current_collection_filter = ""
                 break;
                 
                 case 'refine-publisher':
                     es_client_current_type = 'publish';
                     es_client_current_alias = 'datasets';
-
+                    es_client_current_endpoint_filter = '';
+                    es_client_current_collection_filter = ""
                 break;
+                
+                case 'refine-test':
+                    es_client_current_type = 'file,publish';
+                    es_client_current_alias = 'endpoints,datasets';
+                    es_client_current_endpoint_filter = ['blaiszik','test_index'];
+                    es_client_current_collection_filter = "";
+                break;
+                
+                case 'refine-test2':
+                    es_client_current_type = 'file,publish';
+                    es_client_current_alias = 'endpoints,datasets';
+                    es_client_current_endpoint_filter = '';
+                    es_client_current_collection_filter = ["center", "nanoscale", "materials"];
+                break;
+                     
             }
             gs_load_tag_list();
             gs_perform_search();
@@ -54,11 +73,11 @@ function gs_load_events() {
         ep_destination_counter = 0;
         //console.log('refining search endpoints');
 
-        console.log(ep_counter);
+        //console.log(ep_counter);
         update_endpoint_destination_select(ep_destination_counter * ep_destination_limit, ep_destination_limit);
 
         $("#btn-more-endpoint").click(function() {
-            console.log(ep_counter);
+            //console.log(ep_counter);
             update_endpoint_destination_select(ep_destination_counter * ep_destination_limit, ep_destination_limit);
         })
     });
@@ -102,22 +121,22 @@ function gs_load_events() {
     //Create the tag HTML and add it to the result-set-item div.  Get the unique Elasticsearch identifier by splitting the div ids
     //and finally perform the update of the item (need to add update permission checking)
     $('#btn-add-tag').click(function() {
-    
         tag_input = $('#input-add-tag').val();
         tags = gs_parse_tags(tag_input);
-        console.log('Add Tags');
-        console.log(tags)
+        //console.log('Add Tags');
+        //console.log(tags)
 
         tag_html = "<h4><label class='label label-primary'>" + tags.tags.join("</label> <label class='label label-primary'>") + "</label></h4>";
 
         $('.result-set-item-selected').each(function(index) {
             //***Should change the way this is done eventually
             this_id = $(this).attr('id').split('-');
+            this_id[3] = this_id.slice(3).join('-');
+            //console.log(this_id);
             $('#result-set-tag-' + this_id[3]).html(tag_html);
             gs_perform_update(this_id, tags)
         });
         gs_load_tag_list();
-
     });
 
     ////
@@ -130,13 +149,11 @@ function gs_load_events() {
     $('#btn-select-none').click(function() {
         $('.result-set-item').removeClass('result-set-item-selected');
         build_transfer_list()
-
     });
 
     $('#btn-select-inverse').click(function() {
         $('.result-set-item').toggleClass('result-set-item-selected');
         build_transfer_list()
-
     });
     /////
     //End button click events 
@@ -165,7 +182,7 @@ function gs_parse_tags(tag_input){
             
             //Check if there are units associated with the value
             value_unit = tmp_value.value.split('#'); //Using # for now, can change later
-            console.log(value_unit);
+            //console.log(value_unit);
             if(value_unit.length > 1 ){
                 tmp_value.value = value_unit[0];
                 tmp_value.unit = value_unit[1];
@@ -180,7 +197,6 @@ function gs_parse_tags(tag_input){
             tag_obj.kv = kv;
         }
     }
-    console.log(tag_obj);
     return tag_obj;
 }
 
@@ -211,10 +227,6 @@ function gs_reset_panels() {
 // This is currently called multiple times, would be nice to switch to a bulk update
 /////////
 function gs_perform_update(this_id, tag_list) {
-    console.log('perform_update');
-    console.log(tag_list);
-    console.log(this_id);
-    console.log(result_set[this_id[2]]);
     es_client.update({
           index: es_client_default_index,
           type: result_set[this_id[2]]._type,
@@ -299,7 +311,7 @@ function gs_load_facets() {
         index: es_client_current_alias,
         body: requestData,
     }).then(function(data){
-        console.log(data);
+        //console.log('Loaded facets');
     });
     
     
@@ -311,19 +323,21 @@ function gs_load_facets() {
 /////////
 function gs_load_tag_list() {
     tagArr = [];
-    console.log('load_tag_list');
+    //console.log('load_tag_list');
     requestData = {
         "facets": {
             "tag": {
                 "terms": {
                     "field": "tags",
-                    "size": 6
+                    "size": 6,
+                    "order":"count"
                 }
             },
             "endpoint": {
                 "terms": {
                     "field": "endpoint",
-                    "size": 6
+                    "size": 6,
+                    "order":"count"
                 }
             }
             
@@ -336,18 +350,20 @@ function gs_load_tag_list() {
     }).then(function(data) {
         $('#tag-group-bar').html('');
         tag_groups = data.facets.tag.terms;
-        console.log(tag_groups);
         for (i = 0; i < tag_groups.length; i++) {
             tagArr.push("<label class='quick-tag'>" + tag_groups[i].term + "</label>");
         }
         $('#tag-group-bar').html(tagArr.join(' | '));
         //When a quick-tag is clicked, add the value to the current search
         $('.quick-tag').click(function() {
-            val = $('#input-search').val()
+           /*
+ val = $('#input-search').val()
             if (val) {
                 val = val + ' '
             }
             $('#input-search').val(val + $(this).text());
+*/
+            $('#input-search').val($(this).text());
             gs_perform_search();
         });
     }, function(err) {
@@ -363,9 +379,13 @@ function gs_perform_search() {
     if ($('#input-search').val().trim() == '') {
         return;
     }
+    
     $('#detail-block').show();
-   
     $('#result-block').show();
+    
+    test_filter = {
+           "and":[]
+    }
     
     //RegEx match for range queries -- turn this into a function
     var symbols = {'<':'lt', '>':'gt', '<=':'lte', '>=':'gte'};
@@ -376,10 +396,25 @@ function gs_perform_search() {
     while ((match = myRe.exec(str))){
         matches.push(match);
     }
-    console.log('regex matches');
-    console.log(matches)
+    
+    kv_filter = '';
+    if(matches.length){
+        kv_filter = gs_parse_search_filter(matches);
+        test_filter.and.push(kv_filter);
+    }
+   
     /////
 
+    //es_client_current_endpoint_filter = ['blaiszik','test_index'];
+    if(es_client_current_endpoint_filter){
+        ep_filter = {"terms":{"endpoint":es_client_current_endpoint_filter}};
+        test_filter.and.push(ep_filter);
+    }
+    
+    if(es_client_current_collection_filter){
+        collection_filter = {"terms":{"collection":es_client_current_collection_filter}};
+        test_filter.and.push(collection_filter);
+    }
 
 
     // Here is where the actual search query is built.  Rankings are assigned with tags given the highest 
@@ -387,13 +422,16 @@ function gs_perform_search() {
     requestData = {
         "query": {
             "query_string": {
-                "fields": ["tags^3", "path^2", "name^2", "title^2", "endpoint", "DATA_TYPE", "username^2"],
-                "query": $('#input-search').val() ? $('#input-search').val() : '*'
+                "fields": ["tags^5", "path^3", "name^3", "author", "username^3", "description", "title^2", "endpoint", "DATA_TYPE"],
+                "query": $('#input-search').val() ? $('#input-search').val() : '*',
+                "default_operator" : "OR"
             }
         }
     };
-    console.log(requestData);
-    console.log('here');
+    if(test_filter.and.length){
+        requestData.filter = test_filter;
+    }
+    
     es_client.search({
         index: es_client_current_alias,
         size: 100,
@@ -412,6 +450,33 @@ function gs_perform_search() {
         
     });
     build_transfer_list();
+}
+
+function gs_parse_search_filter(matches){
+    filter = '';
+    if(matches == []){
+        return null;
+    }
+    
+    var parser = {
+                        "<":"lt",
+                        "<=":"lte",
+                        ">":"gt",
+                        ">=":"gte",
+                        "=":"eq"
+                    };
+
+    kv = "kv."+matches[0][1]+".value";                
+
+    filter = {
+           "range" : {}
+        }
+    inner = {}
+    inner[parser[matches[0][2]]] = matches[0][3]
+       
+    filter.range[kv] = inner;    
+      
+    return filter  
 }
 
 ///////
@@ -442,7 +507,7 @@ function build_transfer_list() {
     //Scrape the ids of selected search result items
     $('.result-set-item-selected').each(function(index) {
         this_id = $(this).attr('id').split('-')[2];
-        console.log(this_id);
+        //console.log(this_id);
         //Create transfer arrays
         if (!files_to_transfer[result_set[this_id]._source.endpoint]) {
             files_to_transfer[result_set[this_id]._source.endpoint] = [];
@@ -490,8 +555,8 @@ function update_transfer_statistics(files_to_transfer) {
         }
 
     }
-    console.log(transfer_statistics.num_transfers);
-    console.log(transfer_statistics.size);
+    //console.log(transfer_statistics.num_transfers);
+    //console.log(transfer_statistics.size);
     
     
      select_file_size_html = "<h4><strong class='text-danger'>" + transfer_statistics.num_transfers + "</strong> selected | > <strong class='text-danger'>" + fileSizeSI(transfer_statistics.size.toPrecision(2)) + "</strong></h4>";
@@ -535,7 +600,11 @@ function result_size(result_set, precision) {
 //Helper functions, mainly for formatting
 
 function fileSizeSI(a, b, c, d, e) {
-    return (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(1) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
+    size =  (b = Math, c = b.log, d = 1e3, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(1) + ' ' + (e ? 'kMGTPEZY' [--e] + 'B' : 'B')
+    if(size == 'NaN B'){
+        return 'directory';
+    }
+    return size;
     //kB,MB,GB,TB,PB,EB,ZB,YB
 }
 

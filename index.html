@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="shortcut icon" href="https://www.globus.org/sites/all/themes/globus_bootstrap_theme/favicon.ico" type="image/vnd.microsoft.icon" />
+
+    
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="./assets/jquery-ui.min.css">
@@ -26,21 +29,29 @@
         }
     </style>
 
-    <title>Globus Spotlight</title>
+    <title>Globus Seach</title>
 
 </head>
 <body>
     <!-- Search Container -->
     <div class="masthead">
-        <div class="row">
+        <div class="row" style='width: 95%;'>
            <div class="col-sm-1 absolute-center logo"><img src="./assets/logo.png"></div>
-           <div class="col-sm-5 absolute-center" style="line-height:59px;"> <span class='font-light' style=" font-size:32px; padding-left:10px;">globus</span>  &nbsp<span class='font-heavy' style="font-size:32px;">spotlight</span></div>           
+           <div class="col-sm-4 absolute-center" style="line-height:59px;"> <span class='font-light' style=" font-size:32px; padding-left:10px;">globus</span>  &nbsp<span class='font-heavy' style="font-size:32px;">search</span></div>
+           <div class="nav navbar-nav navbar-right" style="">
+               <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a href="https://search.globuscs.info">Search</a></li>
+                    <li class="dropdown"><a href="http://dspace.globuscs.info:8080/jspui/mydspace">Publish</a></li>
+                	<li class="dropdown"><a href="https://www.globus.org/xfer/StartTransfer">Manage Data</a></li>
+                	<li class="dropdown"><a href="https://www.globus.org/Groups">Groups</a></li>
+                	<li class="dropdown"><a href="https://support.globus.org/forums">Support</a></li>
+                </ul>
+            </div>           
         </div>
-        
         <div class="container">
         <div class="" style="padding-top: 10px; margin-bottom: 5px; font-family:'museosans', 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff;">
         <div class="row">
-           <div class="col-sm-2" > <span style="font-weight:500;font-size:36px;"> Find Data </span>  </div>      
+           <div class="col-sm-5" > <span style="font-weight:500;font-size:36px;"> Find Data </span>  </div>      
         </div>
         
         
@@ -67,7 +78,13 @@
                             <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
                           </label>
                           <label id="btn-refine-publisher" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-publisher" value="refine-publisher"> Publisher
+                            <input type="radio" name="refine" id="input-refine-publisher" value="refine-publisher"> Publish
+                          </label>
+                          <label id="btn-refine-test" class="btn btn-default btn-refine btn-xs">
+                            <input type="radio" name="refine" id="input-refine-test" value="refine-test"> x
+                          </label>
+                          <label id="btn-refine-test2" class="btn btn-default btn-refine btn-xs">
+                            <input type="radio" name="refine" id="input-refine-test" value="refine-test2"> y
                           </label>
                         </div>
                     </div>
@@ -101,7 +118,7 @@
                     <div class="tab-content">
                     
                         <!-- Replicate pane -->
-                        <div class="tab-pane active well well-sm" id="copy-data-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                        <div class="tab-pane active well well-sm" id="copy-data-pane" style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 2px; color: #000">
                           <div class="row">
                                 <div class="col-sm-2">
                                     <div id="action-block">
@@ -165,15 +182,15 @@
 
         <!-- Result Container -->
         <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
-            <div class="row">
+            <div class="row" ">
                 <div class="col-sm-3">
                     <a id='btn-select-all' class="btn btn-default btn-xs">All</a>
                     <a id='btn-select-none' class="btn btn-default btn-xs">None</a>
                     <a id='btn-select-inverse' class="btn btn-default btn-xs">Inverse</a>
                 </div>
 
-                <div id='result-file-size' class="col-sm-4"></div>
-                <div id='selected-file-size' class="col-sm-5"></div>
+                <div id='result-file-size' class="col-sm-4" ></div>
+                <div id='selected-file-size' class="col-sm-5" ></div>
 
             </div>
             <!-- EJS results are rendered here -->
