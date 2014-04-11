@@ -125,17 +125,17 @@ index_limit = 2                 #Endpoint number to index
 index_offset = 1                #Offset for endpoint list
 
 #Transfer API token
-token="un=blaiszik|tokenid=a513c130-61be-11e3-b1f9-1231391ccf32|expiry=1418231719|client_id=blaiszik|token_type=Bearer|SigningSubject=https://nexus.api.globusonline.org/goauth/keys/a54b835e-61be-11e3-b1f9-1231391ccf32|sig=1c317b08ad98818749b4ff06e0f34f09784e4dbb30c3b809f136822651af99b8e77295e820e47384c0c90f12013b9729e3174e5551c7feec6f0ac8a1cb29b08be741fe64c8749c55583f3092b937ebe5eae15968e2613302105b68a00b58d50b023807177df659b1167416efdac32bc2bee146b43531629edd1f8a5b1807e727" 
+token="un=blaiszik|tokenid=68d71a20-c1ac-11e3-8845-12313809f035|expiry=1428779198|client_id=blaiszik|token_type=Bearer|SigningSubject=https://nexus.api.globusonline.org/goauth/keys/84233ad4-c19d-11e3-be84-12313d2d6e7f|sig=34d1b997368681e2ddb7b64e0d984b39ef58e53f954b8b094cb4c88897d2e5943dbb27fa9923730ab2d82a52bbbc376ec2ac5b3b9267fbfc11f0249ee79fd70492a39ff12ff618db1ab04da8a4035d42f0139d958d48cc1836bc5f13ce3c43b54805a6f4cd7ae9688cedf36d100238c31f1f0bac54cd5ffbb3e5f2e133bae0e4" 
  
 catalog_id = 3
 #endpoint_list = ({"canonical_name":"blaiszik#test_index"})
-endpoint_list = ({"canonical_name":"blaiszik#test_index"},{"canonical_name":"go#ep2"})
+endpoint_list = ({"canonical_name":"blaiszik#laptop"},{"canonical_name":"go#ep2"})
 
 
 tagfiler_url="https://localhost/tagfiler"
 
 #List of Elasticsearch Nodes to push data towards
-es_urls = ["http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200/globus_public_index/"]
+es_urls = ["http://search.globuscs.info:9200/globus_public_index/"]
 #es_urls = ["http://localhost:9200/globus_public_index/"]
 
 #es_url = "http://localhost:9200/globus_public_index/"

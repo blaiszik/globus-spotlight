@@ -1,7 +1,6 @@
 result_set = {};
 debug = '';
-default_destination_path = "/home/blaiszik"
-default_destination_endpoint = "go#ep1";
+
 transfer_statistics = {};
 
 function gs_load_events() {
@@ -49,8 +48,8 @@ function gs_load_events() {
                 break;
                 
                 case 'refine-test2':
-                    es_client_current_type = 'file,publish';
-                    es_client_current_alias = 'endpoints,datasets';
+                    es_client_current_type = 'publish';
+                    es_client_current_alias = 'datasets';
                     es_client_current_endpoint_filter = '';
                     es_client_current_collection_filter = ["center", "nanoscale", "materials"];
                 break;
@@ -340,7 +339,6 @@ function gs_load_tag_list() {
                     "order":"count"
                 }
             }
-            
         }
     };
 
@@ -422,7 +420,7 @@ function gs_perform_search() {
     requestData = {
         "query": {
             "query_string": {
-                "fields": ["tags^5", "path^3", "name^3", "author", "username^3", "description", "title^2", "endpoint", "DATA_TYPE"],
+                "fields": ["tags^5","keywords^5", "path^3",  "name^3", "author", "username^3", "description", "title^2", "endpoint", "DATA_TYPE"],
                 "query": $('#input-search').val() ? $('#input-search').val() : '*',
                 "default_operator" : "OR"
             }
@@ -488,6 +486,7 @@ function gs_perform_transfer() {
     source_path = '';
 
     files_to_transfer = build_transfer_list();
+    console.log(files_to_transfer);
     for (var ep in files_to_transfer) {
         //console.log(ep + ': ' + files_to_transfer[ep]);
         go_transfer_file(ep, default_destination_endpoint, files_to_transfer[ep], function() {
@@ -537,6 +536,7 @@ function build_transfer_list() {
         }
     });
 
+    console.log(files_to_transfer);
     update_transfer_statistics(files_to_transfer);
     return files_to_transfer
 }
@@ -573,6 +573,15 @@ function update_endpoint_select(offset, limit) {
         $('#select-endpoint').append($('<option></option>').val(val).html(text))
     });
     ep_counter += 1;
+}
+
+function update_collection_select() {
+    collection_list = ["Accelerator Systems","Advanced Photon Source", "Biosciences", "Center for Nanoscale Materials","Chemical Science and Engineering","Energy Systems","High Energy Physics", "Materials Science","X-Ray Sciences"];
+    console.log(collection_list);
+    
+    $.each(collection_list, function(val, text) {
+        $('#select-endpoint').append($('<option></option>').val(val).html(text))
+    });
 }
 
 function update_endpoint_destination_select(offset, limit) {

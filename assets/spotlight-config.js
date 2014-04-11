@@ -1,9 +1,12 @@
 //GoAuth token -- replace this with actual authentication step/storage as a cookie
-var GOAuthToken = "un=blaiszik|tokenid=80774510-83ae-11e3-ba6c-1231381a5994|expiry=1421963125|client_id=blaiszik|token_type=Bearer|SigningSubject=https://graph.api.test.globuscs.info/goauth/keys/81598e2a-83ae-11e3-ba6c-1231381a5994|sig=8a765f4eb44dd0417262ab6a96f7d331e6355ef2517702990a87c4456646f98ed09a382b65295cb6007edc1d4469ec533b0d925f974b31e169b64221d410e18886940dc9c2355557bf37f86dc73cea3de26e4528485d230d0d6948969a385ca134af311100793590b82727d09449813578b7ed6d623f45067e4dca64895a3637"
+var GOAuthToken = "un=blaiszik|tokenid=68d71a20-c1ac-11e3-8845-12313809f035|expiry=1428779198|client_id=blaiszik|token_type=Bearer|SigningSubject=https://nexus.api.globusonline.org/goauth/keys/84233ad4-c19d-11e3-be84-12313d2d6e7f|sig=34d1b997368681e2ddb7b64e0d984b39ef58e53f954b8b094cb4c88897d2e5943dbb27fa9923730ab2d82a52bbbc376ec2ac5b3b9267fbfc11f0249ee79fd70492a39ff12ff618db1ab04da8a4035d42f0139d958d48cc1836bc5f13ce3c43b54805a6f4cd7ae9688cedf36d100238c31f1f0bac54cd5ffbb3e5f2e133bae0e4" 
 
 //Settings for transfer
-transfer_endpoint = 'go#ep2';
-transfer_path = '/home';
+transfer_endpoint = 'blaiszik#laptop';
+transfer_path = '/';
+
+default_destination_path = "/Users/argonne/Desktop/Experiment Data"
+default_destination_endpoint = "blaiszik#laptop";
 
 //Settings for endpoint listing
 var ep_counter = 0;

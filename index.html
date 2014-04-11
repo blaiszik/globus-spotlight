@@ -41,7 +41,7 @@
            <div class="nav navbar-nav navbar-right" style="">
                <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown"><a href="https://search.globuscs.info">Search</a></li>
-                    <li class="dropdown"><a href="http://dspace.globuscs.info:8080/jspui/mydspace">Publish</a></li>
+                    <li class="dropdown"><a href="http://publish.globuscs.info:8080/jspui/mydspace">Publish</a></li>
                 	<li class="dropdown"><a href="https://www.globus.org/xfer/StartTransfer">Manage Data</a></li>
                 	<li class="dropdown"><a href="https://www.globus.org/Groups">Groups</a></li>
                 	<li class="dropdown"><a href="https://support.globus.org/forums">Support</a></li>
@@ -51,7 +51,7 @@
         <div class="container">
         <div class="" style="padding-top: 10px; margin-bottom: 5px; font-family:'museosans', 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff;">
         <div class="row">
-           <div class="col-sm-5" > <span style="font-weight:500;font-size:36px;"> Find Data </span>  </div>      
+           <div class="col-sm-5" > <span style="font-weight:500;font-size:36px;"> Discover Data </span>  </div>      
         </div>
         
         
@@ -78,13 +78,16 @@
                             <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
                           </label>
                           <label id="btn-refine-publisher" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-publisher" value="refine-publisher"> Publish
+                            <input type="radio" name="refine" id="input-refine-publisher" value="refine-publisher"> Collections
                           </label>
-                          <label id="btn-refine-test" class="btn btn-default btn-refine btn-xs">
+                          <!--
+<label id="btn-refine-test" class="btn btn-default btn-refine btn-xs">
                             <input type="radio" name="refine" id="input-refine-test" value="refine-test"> x
                           </label>
-                          <label id="btn-refine-test2" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-test" value="refine-test2"> y
+-->
+                          <label id="btn-refine-collections" class="btn btn-default btn-refine btn-xs">
+                            <input type="radio" name="refine" id="input-refine-test" value="refine-test2"> <span class="caret"/>
+
                           </label>
                         </div>
                     </div>
@@ -109,7 +112,7 @@
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-justified">
-                      <li class='font-white active'> <a href="#copy-data-pane" data-toggle="tab">Copy Data</a></li>
+                      <li class='font-white active'> <a href="#transfer-data-pane" data-toggle="tab">Copy Data</a></li>
                       <li><a href="#tag-pane" data-toggle="tab">Tag</a></li>
                       <li><a href="#analyze-pane" data-toggle="tab">Analyze</a></li>
                     </ul>
@@ -118,24 +121,24 @@
                     <div class="tab-content">
                     
                         <!-- Replicate pane -->
-                        <div class="tab-pane active well well-sm" id="copy-data-pane" style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 2px; color: #000">
+                        <div class="tab-pane active well well-sm" id="transfer-data-pane" style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 2px; color: #000">
                           <div class="row">
                                 <div class="col-sm-2">
                                     <div id="action-block">
-                                        <div id="btn-start-replicate" class="btn btn-primary btn-lg pull-left" data-toggle="modal" data-target="#myModal">Start</div>
+                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left" data-toggle="modal" data-target="#myModal">Start</div>
                                     </div>
                                 </div>
-                                <div id="replicate-destination" class="col-sm-5">
+                                <div id="transfer-destination" class="col-sm-5">
                                 <b>Destination: <span class="text-primary">Home (go#ep1/home)</span> | SNS (go#ep2/home/SNS)</b>
-                                <b><a id="btn-replicate-destination" class="btn btn-primary btn-xs">New Destination</a></b>
+                                <b><a id="btn-transfer-destination" class="btn btn-primary btn-xs">New Destination</a></b>
                                 </div>
-                                <div id="replicate-statistics" class="col-sm-4"></div>
+                                <div id="transfer-statistics" class="col-sm-4"></div>
                             </div>
                         </div>
                         
                         <!-- Tag pane -->
                         <div class="tab-pane" id="tag-pane">
-                          <div class="tab-pane well well-sm" id="replicate-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
+                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
                                <div class="row">
                                     <div class="col-sm-2">
                                         <div id="action-block">
@@ -198,16 +201,16 @@
         </div>
         <!-- END Result Container -->
         
-        <!-- Replicate Modal -->
+        <!-- Transfer Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel">Replicate Initiated</h3>
+                <h3 class="modal-title" id="myModalLabel">Transfer Initiated</h3>
               </div>
-              <div id="modal-body-replicate" class="modal-body">
-                Replicate Information here...
+              <div id="modal-body-transfer" class="modal-body">
+                Transfer Information here...
               </div>
               <div class="modal-footer">
               </div>
@@ -229,7 +232,7 @@
 
     <script src="./globus/goauth.js"></script>
     <script src="./globus/datasets.js"></script>
-    <script src="./globus/replicate.js"></script>
+    <script src="./globus/transfer.js"></script>
 <script type="text/javascript">
         $( document ).ready(function() {
            
@@ -241,7 +244,7 @@
             }
         
             //Elasticsearch Client
-            var es_curl = "http://54.186.21.3:9200";
+            var es_curl = "http://search.globuscs.info:9200";
 
             es_client = new $.es.Client({
               hosts: es_url
@@ -262,27 +265,51 @@
               source: available_resources
             });
 
-            $('#btn-refine').attr('data-html', true);
-            $('#btn-refine').attr('data-content', '<div class="popover-medium"> <input class="form-control" id="input-endpoint-refine" placeholder="Find endpoint"><select multiple class="form-control" id="select-endpoint" style="height:175px;"></select><a id="btn-more-endpoint" class="btn btn-xs btn-primary">More</a></div>');
-            $('#btn-refine').popover();
+            $('#btn-refine-collections').click(function(){
+                console.log('test2');
+            
+            })
 
-            $('#btn-refine').click(function(){
-                ep_counter = 0;
+            popover_content = '<div class="popover-medium" style="padding:5px"> <select multiple class="form-control" id="select-endpoint" style="width:235px; height:150px; font-size: 9.5pt; margin-bottom:5px;"></select><a id="btn-refinement-clear" class="btn btn-xs btn-default" >Hide</a></div>';
+            
+            $('#btn-refine-collections').attr('data-html', true);
+            $('#btn-refine-collections').attr('data-content', popover_content);
+            $('#btn-refine-collections').attr('data-placement', "bottom");
+
+            $('#btn-refine-collections').popover();
+
+          
+           
+
+            $('#btn-refine-collections').click(function(){
                 console.log('refining search endpoints');
                 
                 console.log(ep_counter);
-                update_endpoint_select(ep_counter*ep_limit, ep_limit);
-
+                
+                update_collection_select();
+                $('#select-endpoint').change( function() {    
+                    es_client_current_type = 'publish';
+                    es_client_current_alias = 'datasets';
+                    es_client_current_endpoint_filter = '';
+                    es_client_current_collection_filter = $( "#select-endpoint option:selected" ).text().toLowerCase().split(' ');
+                    gs_load_tag_list();
+                    gs_perform_search();
+                });
+                
                 $("#btn-more-endpoint").click(function(){
                     console.log(ep_counter);
-                    update_endpoint_select(ep_counter*ep_limit, ep_limit);
+                    //update_endpoint_select(ep_counter*ep_limit, ep_limit);
                 })
-                // endpoint_list = go_get_endpoint_names({"offset":ep_counter*ep_limit, "limit":ep_limit});
-                // $.each(endpoint_list, function(val, text) {
-                //     $('#select-endpoint').append( $('<option></option>').val(val).html(text) )
-                //     ep_counter += 1;
+                
+                $("#btn-refinement-clear").click(function(){
+                    $('#btn-refine-collections').popover('hide');
+                   
+                    gs_load_tag_list();
+                    gs_perform_search();
 
-                // });
+                    console.log('test')
+                });
+                
             });
 
         });
