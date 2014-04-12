@@ -129,7 +129,7 @@ token="un=blaiszik|tokenid=68d71a20-c1ac-11e3-8845-12313809f035|expiry=142877919
  
 catalog_id = 3
 #endpoint_list = ({"canonical_name":"blaiszik#test_index"})
-endpoint_list = ({"canonical_name":"blaiszik#laptop"},{"canonical_name":"go#ep2"})
+endpoint_list = ({"canonical_name":"go#ep1"},{"canonical_name":"go#ep3"})
 
 
 tagfiler_url="https://localhost/tagfiler"
