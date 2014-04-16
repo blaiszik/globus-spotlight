@@ -64,7 +64,7 @@
                         <li><i class="glyphicon glyphicon-time gray-icon"></i> <%= time %></li>
                         <li><i class="glyphicon glyphicon-inbox gray-icon"></i> <%= hits.hits[i]._source.files.length %> files</li>
                         <li><i class="glyphicon glyphicon-record gray-icon"></i> <%= hits.hits[i]._source.collection %></li>
-                        <li><a href="<%= hits.hits[i]._source.publish_uri %>" class="btn btn-default btn-xs">View Dataset</a></li>
+                        <li><a href="<%= hits.hits[i]._source.publish_url %>" class="btn btn-default btn-xs">View Dataset</a></li>
                     </ul>
                 </div>
                 

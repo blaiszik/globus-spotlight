@@ -12,7 +12,7 @@ function gs_load_events() {
     $('#btn-refine-all').addClass('active');
     $('#input-refine-all').attr('checked', true);
     
-    
+
     $('.btn-refine').click(function() {
         setTimeout(function (){
             var refine_type = $('input:radio[name=refine]:checked').val();
@@ -328,14 +328,14 @@ function gs_load_tag_list() {
             "tag": {
                 "terms": {
                     "field": "tags",
-                    "size": 6,
+                    "size": 4,
                     "order":"count"
                 }
             },
             "endpoint": {
                 "terms": {
                     "field": "endpoint",
-                    "size": 6,
+                    "size": 4,
                     "order":"count"
                 }
             }
