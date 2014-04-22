@@ -39,8 +39,8 @@
            <div class="col-sm-4 absolute-center" style="line-height:59px;"> <span class='font-light' style=" font-size:32px; padding-left:10px;">globus</span></div>
            <div class="nav navbar-nav navbar-right" style="">
                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown"><a href="https://search.globuscs.info">Search</a></li>
-                    <li class="dropdown"><a href="http://publish.globuscs.info:8080/jspui/mydspace">Publish</a></li>
+                    <li class="dropdown"><a href="">Search</a></li>
+                    <li class="dropdown"><a href="">Publish</a></li>
                 	<li class="dropdown"><a href="https://www.globus.org/xfer/StartTransfer">Manage Data</a></li>
                 	<li class="dropdown"><a href="https://www.globus.org/Groups">Groups</a></li>
                 	<li class="dropdown"><a href="https://support.globus.org/forums">Support</a></li>
@@ -49,272 +49,21 @@
         </div>
         <div class="container">
         <div class="" style="padding-top: 10px; margin-bottom: 5px; font-family:'museosans', 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#fff;">
-        <div class="row">
-           <div class="col-sm-5" > <span style="font-weight:500;font-size:36px;"> Discover Data </span>  </div>      
-        </div>
         
         
-            <div class="row"> <!-- Start Row Above Search Bar -->
-                <span style="color: #fff">
-                    <div id='tag-group-bar' class="col-sm-6" style="padding-top:5px; padding-bottom:5px;">
-                        <label class='quick-tag' style="color: #71C1F2">Building Tag Group List...</label>
-                    </div>
-                </span>
-
-
-                <div class="col-sm-2">
-                </div>
-                
-                <div class="col-sm-4" style="padding-top:5px; padding-bottom:5px;">
-                    <div class="pull-right">
-                        Refine Search &nbsp
-                        <div class="btn-group" data-toggle="buttons">
-                          <label id="btn-refine-all" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-all" value="refine-all"> All
-                          </label>
-                          <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
-                          </label>
-                          <label id="btn-refine-publisher" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-publisher" value="refine-publisher"> Collections
-                          </label>
-                          <!--
-<label id="btn-refine-test" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-test" value="refine-test"> x
-                          </label>
--->
-                          <label id="btn-refine-collections" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-test" value="refine-test2"> <span class="caret"/>
-
-                          </label>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- END row above search bar -->
-
-            <div class="row"> <!-- Start search bar row -->
-
-                <div class="col-sm-12">
-                                                        
-                    <input id='input-search' type="text" class="form-control input-lg input-magnify" placeholder="Start your search here" >
-                </div><!-- /.col-lg-6 -->
-            </div><!-- / search bar row -->
-
-                    </div>
-        <!-- END Search Container -->        </div>
-    </div>
-    <div class="container">
+    </div>         
+            
         
-        <div id="detail-block" class="row" style="padding-left: 0px; padding-bottom: 5px; padding-top: 5px; margin-top:-21px">
-                <div class="col-sm-12">
-
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs nav-justified">
-                      <li class='font-white active'> <a href="#transfer-data-pane" data-toggle="tab">Transfer</a></li>
-                      <li><a href="#tag-pane" data-toggle="tab">Tag</a></li>
-                      <li><a href="#analyze-pane" data-toggle="tab">Analyze</a></li>
-                    </ul>
-
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                    
-                        <!-- Replicate pane -->
-                        <div class="tab-pane active well well-sm" id="transfer-data-pane" style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 2px; color: #000">
-                          <div class="row">
-                                <div class="col-sm-2">
-                                    <div id="action-block">
-                                        <div id="btn-start-transfer" class="btn btn-primary btn-lg pull-left" data-toggle="modal" data-target="#myModal">Start</div>
-                                    </div>
-                                </div>
-                                <div id="transfer-destination" class="col-sm-7">
-                                <b>Destination: <span class="text-primary">Home (blaiszik#laptop/)</span> | SNS (go#ep2/home/SNS)</b>
-                                <b>
-                                <div>
-                                    <a id="btn-transfer-destination" class="btn btn-primary btn-xs">New Destination</a>
-                                </div></b>
-                                </div>
-                                <div id="transfer-statistics" class="col-sm-2"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- Tag pane -->
-                        <div class="tab-pane" id="tag-pane">
-                          <div class="tab-pane well well-sm" id="transfer-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
-                               <div class="row">
-                                    <div class="col-sm-2">
-                                        <div id="action-block">
-                                            <div id="btn-add-tag" class="btn btn-primary btn-lg pull-left">Add Tag</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                            <input id='input-add-tag' type="text" class="form-control input-lg" placeholder="Add tags separated by commas">
-                                    </div>
-                                </div>                                
-                        </div>
-                      </div>
-                      
-                      <!-- Analyze pane -->
-                      <div class="tab-pane" id="analyze-pane">
-                          <div class="tab-pane well well-sm" id="analyze-pane" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 2px; color: #000">
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <div id="action-block">
-                                            <div id="btn-add-tag" class="btn btn-primary btn-lg pull-left">Analyze</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <div class="ui-widget">
-                                            <input id='input-analyze' type="text" class="form-control input-lg typeahead" placeholder="Find analysis and compute resources">
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                      </div>
-
-                    </div>
-                    <!-- END Tab panes -->
-                </div>
-                <div class="col-xs-1"></div>
-                <div class="col-sm-4"></div>
-            </div>
-
-        
-        
-        
-        <!-- END Search Container -->
-        <div id='login-alert'></div> 
-
-        <!-- Result Container -->
-        <div id="result-block" class="well" style="padding-top: 5px; background-color:#fff;">
-            <div class="row" ">
-                <div class="col-sm-3">
-                    <a id='btn-select-all' class="btn btn-default btn-xs">All</a>
-                    <a id='btn-select-none' class="btn btn-default btn-xs">None</a>
-                    <a id='btn-select-inverse' class="btn btn-default btn-xs">Inverse</a>
-                </div>
-
-                <div id='result-file-size' class="col-sm-4" ></div>
-                <div id='selected-file-size' class="col-sm-5" ></div>
-
-            </div>
-            <!-- EJS results are rendered here -->
-            <div id="ejs-search-result" class="row"></div>
-        </div>
-        <!-- END Result Container -->
-        
-        <!-- Transfer Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel">Transfer Initiated</h3>
-              </div>
-              <div id="modal-body-transfer" class="modal-body">
-                Transfer Information here...
-              </div>
-              <div class="modal-footer">
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- END Replicate Modal -->
 
     </div>
-
-</body>
-    <script src="./assets/ejs/ejs_production.js"></script>
-    <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="./assets/spotlight-config.js"></script>
-    <script src="./assets/spotlight.js"></script>
-    <script src="./assets/elasticsearch-js/elasticsearch.jquery.min.js"></script>
-    <script src="./globus/jquery.cookie.js"></script>
-    <script src="./assets/bindWithDelay.js"></script>
-
-    <script src="./globus/goauth.js"></script>
-    <script src="./globus/datasets.js"></script>
-    <script src="./globus/transfer.js"></script>
-<script type="text/javascript">
-        $( document ).ready(function() {
-           
-            if(!$.cookie('globusonline-goauth')){
-                console.log('not logged in');
-                $('#login-alert').addClass('alert alert-danger');
-                $('#login-alert').html('<strong>You are not logged in to Globus</strong> <a href="./login.html" class="btn btn-lg btn-default">Log In</a>')
-                
-            }
-        
-            //Elasticsearch Client
-            var es_curl = "http://search.globuscs.info:9200";
-
-            es_client = new $.es.Client({
-              hosts: es_url
-            });
-
-            gs_reset_panels();
-            gs_load_tag_list();
-            gs_load_events();
-
-             var available_resources = [
-              "Decarlo - Tomography - Orthros",
-              "Osborn - NXS - Mira ",
-              "Sharma - HDF5 - Orthros",
-              "Winarski - Tomography - Carbon"
-            ];
-
-            $( "#input-analyze" ).autocomplete({
-              source: available_resources
-            });
-
-            $('#btn-refine-collections').click(function(){
-                console.log('test2');
-            
-            })
-
-            popover_content = '<div class="popover-medium" style="padding:5px"> <select multiple class="form-control" id="select-endpoint" style="width:235px; height:150px; font-size: 9.5pt; margin-bottom:5px;"></select><a id="btn-refinement-clear" class="btn btn-xs btn-default" >Hide</a></div>';
-            
-            $('#btn-refine-collections').attr('data-html', true);
-            $('#btn-refine-collections').attr('data-content', popover_content);
-            $('#btn-refine-collections').attr('data-placement', "bottom");
-
-            $('#btn-refine-collections').popover();
-
-          
-           
-
-            $('#btn-refine-collections').click(function(){
-                console.log('refining search endpoints');
-                
-                console.log(ep_counter);
-                
-                update_collection_select();
-                $('#select-endpoint').change( function() {    
-                    es_client_current_type = 'publish';
-                    es_client_current_alias = 'datasets';
-                    es_client_current_endpoint_filter = '';
-                    es_client_current_collection_filter = $( "#select-endpoint option:selected" ).text().toLowerCase().split(' ');
-                    gs_load_tag_list();
-                    gs_perform_search();
-                });
-                
-                $("#btn-more-endpoint").click(function(){
-                    console.log(ep_counter);
-                    //update_endpoint_select(ep_counter*ep_limit, ep_limit);
-                })
-                
-                $("#btn-refinement-clear").click(function(){
-                    $('#btn-refine-collections').popover('hide');
-                   
-                    gs_load_tag_list();
-                    gs_perform_search();
-
-                    console.log('test')
-                });
-                
-            });
-
-        });
-    </script>
-    
+    </div>
+    <div class="container" style="padding-top:20px;" > 
+    <hr>
+        <h3>Globus is looking for early adopters to test dataset publish and dataset discovery platforms.</h3> <h4>For more information, contact outreach@globus.org</h4> <hr>
+        <div style="padding-top:40px;">
+            <img class="screenshot" src='./screenshot.png' width="500px">
+        </div>
+    </div>
+</body>    
     
 </html>

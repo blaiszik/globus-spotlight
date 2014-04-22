@@ -400,6 +400,8 @@ function gs_perform_search() {
         kv_filter = gs_parse_search_filter(matches);
         test_filter.and.push(kv_filter);
     }
+    
+    console.log(test_filter)
    
     /////
 
@@ -451,7 +453,12 @@ function gs_perform_search() {
 }
 
 function gs_parse_search_filter(matches){
-    filter = '';
+
+
+	
+    console.log(matches);
+    filter = {"range" : {}}
+
     if(matches == []){
         return null;
     }
@@ -463,16 +470,40 @@ function gs_parse_search_filter(matches){
                         ">=":"gte",
                         "=":"eq"
                     };
+    
+    matches.forEach(function(element, index, array){
+        var tmp_kv, tmp_range;
+        
+        tmp_kv = "kv."+element[1]+".value";   
+        console.log(tmp_kv);
+             
+        var tmp_filter = {
+               "range" : {}
+        };
+        
+        tmp_range = {}
+		tmp_range[parser[element[2]]] = element[3]     
 
-    kv = "kv."+matches[0][1]+".value";                
+		if(filter.range[tmp_kv]){
+			filter.range[tmp_kv][parser[element[2]]] = element[3];
+			console.log('range exists')
+		}else{
+			filter.range[tmp_kv] = tmp_range;
+			console.log('range does not exist')
 
-    filter = {
-           "range" : {}
-        }
-    inner = {}
+		}
+        console.log(filter)       
+    })
+        
+    //kv = "kv."+matches[0][1]+".value";                
+
+    //ßconsole.log(filter);
+    /*
+inner = {}
     inner[parser[matches[0][2]]] = matches[0][3]
        
     filter.range[kv] = inner;    
+*/
       
     return filter  
 }
