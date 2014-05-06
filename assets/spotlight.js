@@ -607,7 +607,7 @@ function update_endpoint_select(offset, limit) {
 }
 
 function update_collection_select() {
-    collection_list = ["Accelerator Systems","Advanced Photon Source", "Biosciences", "Center for Nanoscale Materials","Chemical Science and Engineering","Energy Systems","High Energy Physics", "Materials Science","X-Ray Sciences"];
+    collection_list = ["Accelerator Systems","Advanced Photon Source", "Biosciences", "Center for Nanoscale Materials","Chemical Science and Engineering","Energy Systems", "Globus Demo", "High Energy Physics", "Materials Science","X-Ray Sciences"];
     console.log(collection_list);
     
     $.each(collection_list, function(val, text) {
