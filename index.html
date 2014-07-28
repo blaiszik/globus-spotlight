@@ -75,17 +75,14 @@
                           <label id="btn-refine-endpoints" class="btn btn-default btn-refine btn-xs">
                             <input type="radio" name="refine" id="input-refine-endpoints" value="refine-endpoints"> Endpoints
                           </label>
+                          <label id="btn-refine-catalogs" class="btn btn-default btn-refine btn-xs">
+                            <input type="radio" name="refine" id="input-refine-catalogs" value="refine-catalogs"> Catalogs
+                          </label>
                           <label id="btn-refine-publisher" class="btn btn-default btn-refine btn-xs">
                             <input type="radio" name="refine" id="input-refine-publisher" value="refine-publisher"> Collections
                           </label>
-                          <!--
-<label id="btn-refine-test" class="btn btn-default btn-refine btn-xs">
-                            <input type="radio" name="refine" id="input-refine-test" value="refine-test"> x
-                          </label>
--->
                           <label id="btn-refine-collections" class="btn btn-default btn-refine btn-xs">
                             <input type="radio" name="refine" id="input-refine-test" value="refine-test2"> <span class="caret"/>
-
                           </label>
                         </div>
                     </div>
@@ -245,7 +242,7 @@
             }
         
             //Elasticsearch Client
-            var es_curl = "http://search.globuscs.info:9200";
+            //var es_curl = "http://search.globuscs.info/es";
 
             es_client = new $.es.Client({
               hosts: es_url

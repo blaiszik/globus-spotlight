@@ -116,5 +116,63 @@
             </div>
         <%}%>
         <!--END Publish Result Template -->
+       
+         <!--Catalog Result Template -->
+        <% if(hits.hits[i]._source.DATA_TYPE == 'catalog') {%>
+            <% var d = new Date(hits.hits[i]._source.created); 
+                var time_options = {
+                        hour: "2-digit", minute: "2-digit"
+                };
+                var date_options = {
+                       year: "numeric", month: "2-digit",
+                       day: "2-digit"
+                    };
+    
+                date_string = d.toLocaleDateString("en-US",date_options)
+                time = d.toLocaleTimeString("en-US", time_options);
+             %>
+    
+            <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
+                <div class="pull-right search-result col-sm-3 col-xs-3">
+                    <ul class="meta-search">
+                        <li><i class="glyphicon glyphicon-calendar gray-icon"></i> </li>
+                        <li><i class="glyphicon glyphicon-time gray-icon"></i> </li>
+                        <li><a href="<%= hits.hits[i]._source.publish_url %>" class="btn btn-default btn-xs">View in Catalog</a></li>
+                    </ul>
+                </div>
+                
+                   
+                <h3>
+                    <%= hits.hits[i]._source.title %>
+                </h3>
+                <hr>
+               		 <%= hits.hits[i]._source.DATA_SUB_TYPE%>
+
+                 	<div id="result-set-authors-<%= hits.hits[i]._id %>" style="padding-top:5px; padding-bottom:5px">
+                        <h6>Owner: <%= hits.hits[i]._source.author %></h6>
+                    </div>
+                    <div id="result-set-tag-<%= hits.hits[i]._id %>" style="padding-top:5px; padding-bottom:5px">
+                        <% if(tags = hits.hits[i]._source.tags){%>
+                            <h4>
+                                <% for(var j=0; j<tags.length; j++) { %>
+                                    <label class='label label-primary label-tag'>
+                                        <%= tags[j] %>
+                                    </label>&nbsp 
+                                <% } %>
+                            </h4>
+                        <%}%>
+                    </div>
+                <p>
+                </p>
+                <hr>
+                <div>
+                                       
+                                       
+                    
+                </div>
+            </div>
+        <%}%>
+        <!--END Catalog Result Template -->
+        
     <%}%>
 </div>

@@ -17,12 +17,13 @@ var ep_destination_limit = 25;
 
 
 //Elasticsearch path options
-//var es_url = "http://localhost:9200/";
-//var es_url = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200/";
-//var es_url = "http://54.186.21.3:9200/";
-var es_url = "http://search.globuscs.info:9200/";
+//var es_url = "http://localhost/es";
+//var es_url = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com/es";
+//var es_url = "http://54.186.21.3/es";
+// var es_url = "http://search.globuscs.info/es";
+var es_url = "http://search.globuscs.info/es";
 var es_default_index = "globus_public_index/";
-var es_default_type = "file,publish/";
+var es_default_type = "file,publish,catalog/";
 var es_default_action = "_search";
 var es_default_path = es_url + es_default_index + es_default_type;
 
@@ -30,10 +31,10 @@ var es_default_path = es_url + es_default_index + es_default_type;
 var result_size = 100;
 
 //var es_client_url = "http://ec2-54-201-187-254.us-west-2.compute.amazonaws.com:9200";
-//var es_client_url = "http://54.186.21.3:9200/"
-var es_client_url = "http://search.globuscs.info:9200/"
+//var es_client_url = "http://54.186.21.3/es"
+var es_client_url = "http://search.globuscs.info/es"
 var es_client_default_index = "globus_public_index";
-var es_client_default_type = "file,publish";
+var es_client_default_type = "file,publish,catalog";
 var es_client_default_action = "_search";
 var es_client_default_path = es_client_url + es_client_default_index + es_client_default_type;
 

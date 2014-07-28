@@ -47,11 +47,11 @@ function gs_load_events() {
                     es_client_current_collection_filter = "";
                 break;
                 
-                case 'refine-test2':
-                    es_client_current_type = 'publish';
-                    es_client_current_alias = 'datasets';
+                case 'refine-catalogs':
+                    es_client_current_type = 'catalog';
+                    es_client_current_alias = 'catalog';
                     es_client_current_endpoint_filter = '';
-                    es_client_current_collection_filter = ["center", "nanoscale", "materials"];
+                    es_client_current_collection_filter = '';
                 break;
                      
             }
