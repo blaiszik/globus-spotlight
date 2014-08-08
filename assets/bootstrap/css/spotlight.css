@@ -181,5 +181,14 @@ hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
     margin-right: auto
 }
 
+/*
+.label-tag:hover {
+    color:black;
+}
+
+.label-member:hover{
+    color: black;
+}
+*/
 
 /* END CUSTOM */

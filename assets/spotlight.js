@@ -7,11 +7,17 @@ function gs_load_events() {
     //Perform elasticsearch query for every keyup in the #input-search to give spotlight-style feel
     //console.log('loading events');
 
-    gs_load_facets();
 
     $('#btn-refine-all').addClass('active');
     $('#input-refine-all').attr('checked', true);
     
+    //Set elasticsearch initial config
+    es_client_current_type = 'file,publish,catalog';
+    es_client_current_alias = 'endpoints,datasets,catalog';
+    es_client_current_endpoint_filter = '';
+    es_client_current_collection_filter = ""
+
+
 
     $('.btn-refine').click(function() {
         setTimeout(function (){
@@ -19,8 +25,8 @@ function gs_load_events() {
             //console.log(refine_type);
             switch(refine_type){
                 case 'refine-all':
-                    es_client_current_type = 'file,publish';
-                    es_client_current_alias = 'endpoints,datasets';
+                    es_client_current_type = 'file,publish,catalog';
+                    es_client_current_alias = 'endpoints,datasets,catalog';
                     es_client_current_endpoint_filter = '';
                     es_client_current_collection_filter = ""
 
@@ -55,11 +61,16 @@ function gs_load_events() {
                 break;
                      
             }
+
             gs_load_tag_list();
             gs_perform_search();
             
          }, 0);
     });
+        
+    gs_load_facets();
+
+        
 
     //Events for the popover for creating a new destination
     //**Not operational
@@ -395,6 +406,7 @@ function gs_perform_search() {
         matches.push(match);
     }
     
+    console.log(matches);
     kv_filter = '';
     if(matches.length){
         kv_filter = gs_parse_search_filter(matches);
@@ -422,7 +434,7 @@ function gs_perform_search() {
     requestData = {
         "query": {
             "query_string": {
-                "fields": ["tags^5","keywords^5", "path^3",  "name^3", "author", "username^3", "description", "title^2", "endpoint", "DATA_TYPE"],
+                "fields": ["tags^5","keywords^5", "path^3",  "name^3","catalog_name^3", "author", "username^3", "description", "title^2", "endpoint", "DATA_TYPE"],
                 "query": $('#input-search').val() ? $('#input-search').val() : '*',
                 "default_operator" : "OR"
             }

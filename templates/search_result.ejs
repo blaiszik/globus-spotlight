@@ -15,12 +15,12 @@
                 time = d.toLocaleTimeString("en-US", time_options);
              %>
     
-            <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
+            <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:110px;">
                 <div class="pull-right search-result col-sm-3 col-xs-3">
-                    <ul class="meta-search">
+                    <ul class="meta-search" style="overflow: scroll; max-height: 100px;">
+                        <li><i class="glyphicon glyphicon-record gray-icon"></i> <%= hits.hits[i]._source.endpoint %></li>
                         <li><i class="glyphicon glyphicon-calendar gray-icon"></i> <%= date_string %></li>
                         <li><i class="glyphicon glyphicon-time gray-icon"></i> <%= time %></li>
-                        <li><i class="glyphicon glyphicon-record gray-icon"></i> <%= hits.hits[i]._source.endpoint %></li>
                         <li><i class="glyphicon glyphicon-inbox gray-icon"></i> <%= fileSizeSI(hits.hits[i]._source.size) %></li>
                     </ul>
                 </div>
@@ -133,13 +133,14 @@
              %>
     
             <div id="result-set-<%=i%>-<%= hits.hits[i]._id %>" class="list-group-item result-set-item primary" style="min-height:100px;">
+               <% uri_string = str =encodeURIComponent(hits.hits[i]._source.data_uri) %>
                 <div class="pull-right search-result col-sm-3 col-xs-3">
                     <ul class="meta-search">
-                        <li><i class="glyphicon glyphicon-book gray-icon"></i> Nexus Workflows </li>
+                        <li><i class="glyphicon glyphicon-book gray-icon"></i> <%= hits.hits[i]._source.catalog_name %> </li>
                         <li><i class="glyphicon glyphicon-user gray-icon"></i> <%= hits.hits[i]._source.author %> </li>
                         <li><i class="glyphicon glyphicon-calendar gray-icon"></i> <%= date_string %> </li>
                         <li><i class="glyphicon glyphicon-time gray-icon"></i> <%= time %> </li>
-                        <li><a href="<%= hits.hits[i]._source.publish_url %>" class="btn btn-default btn-xs">View in Catalog</a></li>
+                        <li><a href="https://www.globus.org/xfer/StartTransfer#origin=<%= uri_string %>" class="btn btn-default btn-xs">View Data</a></li>
                     </ul>
                 </div>
                 
@@ -148,15 +149,11 @@
                     <%= hits.hits[i]._source.title %>
                 </h3>
                 <hr>
-               		 <% if(hits.hits[i]._source.DATA_SUB_TYPE=='catalog_dataset') {%>
-               		 	<h3>[Dataset]</h3>
-               		 <%}%>
-
-                 	
-                    <div id="result-set-tag-<%= hits.hits[i]._id %>" style="padding-top:5px; padding-bottom:5px">
-                        <% if(tags = hits.hits[i]._source.tags){%>
-                            <h6>Tags</h6>
-                            <h4>
+               		
+                <div id="result-set-tag-<%= hits.hits[i]._id %>" style="padding-top:5px; padding-bottom:5px">
+                    <% if(tags = hits.hits[i]._source.tags){%>
+                        <h6>Tags</h6>
+                            <h6>
                                 <% for(var j=0; j<(tags.length < 15 ? tags.length : 15); j++) { %>
                                     <%if(!(j%6) && j>0){%>
                                     	<br><br>
@@ -165,22 +162,10 @@
                                         <%= tags[j] %>
                                     </label>&nbsp
                                 <% } %>
-                            </h4>
-                        <%}%>
-                    </div>
-                    <div id="result-set-members-<%= hits.hits[i]._id %>" style="padding-top:5px; padding-bottom:5px">
-                        <% if(dataset_members = hits.hits[i]._source.dataset_members){%>
-                            <h6>Members</h6>
-                            <h4>  
-                                <% for(var k=0; k< (dataset_members.length < 10 ? dataset_members.length : 10); k++) { %>
-                                    <label class='label label-success label-tag'>
-                                        <%= dataset_members[k].title %>
-                                    </label>&nbsp 
-                                <% } %>
-                            </h4>
-                        <%}%>
-                    </div>
-                    
+                            </h6>
+                    <%}%>
+                </div>
+                                      
                 <p>
                 </p>
                 <hr>
